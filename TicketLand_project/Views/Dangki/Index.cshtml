@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+
+    <link href="~/Assets/Dangki_css/Register.css" rel="stylesheet" />
+
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Smooch Sans:wght@700&display=swap" />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" />
+</head>
+
+
+<body>
+
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+            <!-- Tabs Titles -->
+            <ul>
+                <li style="display: inline;"><a href="#"><h2 class="inactive underlineHover">SIGN IN</h2></a></li>
+                <li style="display: inline;"><a href="#"><h2 class="active">SIGN UP</h2></a></li>
+            </ul>
+      
+
+            @*<h2 class="inactive underlineHover"> SIGN IN </h2>
+            <h2 class="active">SIGN UP </h2>*@
+            <!-- Icon -->
+            <div class="fadeIn first">
+                <img src="https://cdn-icons-png.flaticon.com/512/1517/1517690.png" id="icon" alt="User Icon" />
+            </div>
+
+            <!-- Register Form -->
+            <form>
+                <input type="text" class="fadeIn second" name="login" placeholder="Full Name">
+                <input type="email" class="fadeIn third" name="email" placeholder="Email">
+                <input type="tel" class="fadeIn second" name="phone" placeholder="Phone">
+                <input type="password" class="fadeIn second" name="pass" placeholder="Password">
+                <input type="password" class="fadeIn second" name="confirmPass" placeholder="Confirm Password">
+                <input type="submit" class="fadeIn third" value="Sign up">
+            </form>
+
+        </div>
+    </div>
+
+</body>
+</html>
+
