@@ -3,7 +3,7 @@
 /* BASIC */
 
 html {
-    background-image: url('https://png.pngtree.com/background/20231020/original/pngtree-vibrant-cinema-scene-clapperboard-3d-glasses-and-popcorn-bucket-picture-image_5637018.jpg');
+    background-image: url('https://www.pcworld.com/wp-content/uploads/2023/11/Netflix-Hintergrund.jpg?quality=50&strip=all&w=1024');
 }
 
 body {
@@ -67,7 +67,9 @@ img {
     border-radius: 0 0 10px 10px;
 }
 
-
+ul{
+    padding-inline-start: 0px;
+}
 
 /* TABS */
 
@@ -84,7 +86,7 @@ h2.active {
 
 /* FORM TYPOGRAPHY*/
 input[type=button], input[type=submit], input[type=reset] {
-    background-color: #56baed;
+    background-color: black;
     border: none;
     color: white;
     padding: 15px 80px;

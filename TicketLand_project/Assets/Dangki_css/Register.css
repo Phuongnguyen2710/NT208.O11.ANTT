@@ -3,10 +3,10 @@
 /* BASIC */
 
 html {
-    background-image: url('https://www.pcworld.com/wp-content/uploads/2023/11/Netflix-Hintergrund.jpg?quality=50&strip=all&w=1024');
 }
 
 body {
+    background-image: url('https://www.pcworld.com/wp-content/uploads/2023/11/Netflix-Hintergrund.jpg?quality=50&strip=all&w=1024') !important;
     font-family: "Poppins", sans-serif;
     height: 100vh;
 }
@@ -32,6 +32,10 @@ img {
     object-fit: contain;
 }
 
+ul {
+    padding-inline-start: 0px;
+}
+
 /* STRUCTURE */
 
 .wrapper {
@@ -45,8 +49,8 @@ img {
 }
 
 #formContent {
-    -webkit-border-radius: 10px 10px 10px 10px;
-    border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius: 30px 30px 30px 30px;
+    border-radius: 30px 30px 30px 30px;
     background: #fff;
     padding: 30px;
     width: 90%;
@@ -58,16 +62,10 @@ img {
     text-align: center;
 }
 
-#formFooter {
-    background-color: #f6f6f6;
-    border-top: 1px solid #dce8f1;
-    padding: 25px;
-    text-align: center;
-    -webkit-border-radius: 0 0 10px 10px;
-    border-radius: 0 0 10px 10px;
+.custom-validation-message {
+    color: red; 
+    font-size: 12px;
 }
-
-
 
 /* TABS */
 
@@ -84,7 +82,7 @@ h2.active {
 
 /* FORM TYPOGRAPHY*/
 input[type=button], input[type=submit], input[type=reset] {
-    background-color: #56baed;
+    background-color: black;
     border: none;
     color: white;
     padding: 15px 80px;
@@ -96,7 +94,7 @@ input[type=button], input[type=submit], input[type=reset] {
     -webkit-box-shadow: 0 10px 30px 0 rgba(95,186,233,0.4);
     box-shadow: 0 10px 30px 0 rgba(95,186,233,0.4);
     -webkit-border-radius: 5px 5px 5px 5px;
-    border-radius: 5px 5px 5px 5px;
+    border-radius: 30px 30px 30px 30px;
     margin: 5px 20px 40px 20px;
     -webkit-transition: all 0.3s ease-in-out;
     -moz-transition: all 0.3s ease-in-out;
@@ -119,8 +117,7 @@ input[type=button], input[type=submit], input[type=reset] {
 input[type=text],
 input[type=password],
 input[type=tel],
-input[type=email]
-{
+input[type=email] {
     background-color: #f6f6f6;
     border: none;
     color: #0d0d0d;
@@ -137,7 +134,7 @@ input[type=email]
     -o-transition: all 0.5s ease-in-out;
     transition: all 0.5s ease-in-out;
     -webkit-border-radius: 5px 5px 5px 5px;
-    border-radius: 5px 5px 5px 5px;
+    border-radius: 30px 30px 30px 30px;
 }
 
     input[type=text]:focus,
@@ -145,16 +142,55 @@ input[type=email]
     input[type=tel]:focus,
     input[type=email]:focus {
         background-color: #fff;
-        border-bottom: 2px solid #5fbae9;
+        border: 3px solid #5fbae9;
     }
 
     input[type=text]::placeholder,
     input[type=password]::placeholder,
     input[type=tel]::placeholder,
-    input[type=email]::placeholder{
+    input[type=email]::placeholder {
         color: #cccccc;
     }
 
+
+/* CSS for custom file input */
+.custom-file-input {
+    color: transparent;
+}
+
+    .custom-file-input::-webkit-file-upload-button {
+        visibility: hidden;
+    }
+
+    .custom-file-input::before {
+        content: 'Chọn hình ảnh';
+        color: black;
+        display: inline-block;
+        background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
+        border: 1px solid #999;
+        border-radius: 3px;
+        padding: 5px 8px;
+        outline: none;
+        white-space: nowrap;
+        -webkit-user-select: none;
+        cursor: pointer;
+        text-shadow: 1px 1px #fff;
+        font-weight: 700;
+        font-size: 10pt;
+        margin: 0px 8px 10px 65px;
+    }
+
+    .custom-file-input:hover::before {
+        border-color: black;
+    }
+
+    .custom-file-input:active {
+        outline: 0;
+    }
+
+        .custom-file-input:active::before {
+            background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+        }
 
 
 /* ANIMATIONS */
