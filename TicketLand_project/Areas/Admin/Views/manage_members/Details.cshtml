@@ -1,0 +1,138 @@
+﻿@model TicketLand_project.Models.member
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+}
+
+
+
+<div class="container_custom">
+    <h1 class="custom_h1"><b> CHI TIẾT THÔNG TIN TÀI KHOẢN </b></h1>
+    <hr />
+    <div class="row border-4">
+        <div class="col-md-6">
+            <!--Hiển thị giá trị member_name-->
+            <div class="form-group">
+                <b>Tên thành viên</b>
+                <div class="col-md-9">
+                    @Html.DisplayFor(model => model.member_name, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <br />
+
+            <!--Hiển thị giá trị user_name-->
+            <div class="form-group">
+                <b>Tên tài khoản</b>
+                <div class="col-md-9">
+                    @Html.DisplayFor(model => model.username, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+            </div>
+            <br />
+
+            <!--Hiển thị giá trị password-->
+            <div class="form-group">
+                <b>Mật khẩu (Hash)</b>
+                <div class="col-md-9">
+                    @Html.DisplayFor(model => model.password, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+
+            </div>
+            <br />
+
+            <!--Hiển thị giá trị giới tính-->
+            <div class="form-group">
+                <b>Giới tính</b>
+                <div class="col-md-9">
+                    <label class="form-check-label">
+                        @if (Model.gender == false)
+                        {
+                            <span>Nữ</span>
+                        }
+                        else if (Model.gender == true)
+                        {
+                            <span>Nam</span>
+                        }
+                    </label>
+                </div>
+
+            </div>
+            <br />
+
+            <!--Hiển thị giá trị ngày sinh-->
+            <div class="form-group">
+                <b>Ngày sinh</b>
+                <div class="col-md-9">
+                    @Html.DisplayFor(model => model.date_of_birth, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <br />
+
+            <!--Hiển thị giá trị email-->
+            <div class="form-group">
+                <b>Email</b>
+                <div class="col-md-9">
+                    @Html.DisplayFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <br />
+
+        </div>
+
+        <div class="col-md-6">
+
+            <!--Hiển thị giá trị thành phố-->
+            <div class="form-group">
+                <b>Thành phố</b>
+                <div class="col-md-9">
+                    @Html.DisplayFor(model => model.city, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <br />
+
+            <!--Hiển thị giá trị số điện thoại-->
+            <div class="form-group">
+                <b>Số điện thoại</b>
+                <div class="col-md-9">
+                    @Html.DisplayFor(model => model.phone, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <br />
+
+            <!--Hiển thị giá trị Role-->
+            <div class="form-group">
+                <b>Vai trò</b>
+                <div class="col-md-9">
+                    @Html.DisplayFor(modelItem => Model.ROLE.role_name)
+                </div>
+            </div>
+            <br />
+
+            <!--Hiển thị giá trị avatar-->
+            <div class="form-group">
+                <b>Avatar</b>
+                <div class="col-md-9">
+                    <img src="data:image/png;base64,@Model.member_avatar" alt="Member Avatar" style="width: 100px; height: 100px;" />
+                </div>
+            </div>
+            <br />
+
+            <!--Hiển thị giá trị điểm thành viên-->
+            <div class="form-group">
+                <b>Điểm thành viên</b>
+                <div class="col-md-9">
+                    @Html.DisplayFor(model => model.member_point, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <br />
+
+        </div>
+        <p>
+            <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Edit", new { id = Model.member_id })'">Edit</button>
+            <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Index")'">Back to List</button>
+        </p>
+
+    </div>
+</div>

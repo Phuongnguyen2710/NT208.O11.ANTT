@@ -1,0 +1,314 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QUANLYXEMPHIMModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="booking">
+    <Key>
+      <PropertyRef Name="booking_id" />
+    </Key>
+    <Property Name="booking_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="member_id" Type="Int32" />
+    <Property Name="schedule_id" Type="Int32" />
+    <Property Name="booking_date" Type="DateTime" Precision="0" />
+    <Property Name="total_price" Type="Int32" />
+    <Property Name="booking_status" Type="Int32" />
+    <NavigationProperty Name="member" Relationship="Self.FK__booking__member___3A81B327" FromRole="booking" ToRole="members" />
+    <NavigationProperty Name="schedule" Relationship="Self.FK__booking__schedul__3B75D760" FromRole="booking" ToRole="schedule" />
+  </EntityType>
+  <EntityType Name="comment">
+    <Key>
+      <PropertyRef Name="comment_id" />
+    </Key>
+    <Property Name="comment_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="member_id" Type="Int32" />
+    <Property Name="movie_id" Type="Int32" />
+    <Property Name="content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="comment_date" Type="DateTime" Precision="0" />
+    <Property Name="comment_star" Type="Double" />
+    <NavigationProperty Name="member" Relationship="Self.FK__comment__member___3E52440B" FromRole="comment" ToRole="members" />
+    <NavigationProperty Name="movy" Relationship="Self.FK__comment__movie_i__3F466844" FromRole="comment" ToRole="movies" />
+  </EntityType>
+  <EntityType Name="event">
+    <Key>
+      <PropertyRef Name="event_id" />
+    </Key>
+    <Property Name="event_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="movie_id" Type="Int32" />
+    <Property Name="event_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="event_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="event_date_start" Type="DateTime" Precision="0" />
+    <Property Name="event_time_end" Type="DateTime" Precision="0" />
+    <Property Name="event_image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="movy" Relationship="Self.FK__event__movie_id__403A8C7D" FromRole="event" ToRole="movies" />
+  </EntityType>
+  <EntityType Name="member">
+    <Key>
+      <PropertyRef Name="member_id" />
+    </Key>
+    <Property Name="member_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="member_name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="gender" Type="Boolean" />
+    <Property Name="date_of_birth" Type="DateTime" Precision="0" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="city" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="role_id" Type="Int32" />
+    <Property Name="member_avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="member_point" Type="Int32" />
+    <NavigationProperty Name="bookings" Relationship="Self.FK__booking__member___3A81B327" FromRole="members" ToRole="booking" />
+    <NavigationProperty Name="comments" Relationship="Self.FK__comment__member___3E52440B" FromRole="members" ToRole="comment" />
+    <NavigationProperty Name="ROLE" Relationship="Self.FK__members__role_id__36B12243" FromRole="members" ToRole="ROLE" />
+  </EntityType>
+  <EntityType Name="movy">
+    <Key>
+      <PropertyRef Name="movie_id" />
+    </Key>
+    <Property Name="movie_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="movie_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="movie_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="movie_trailer" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="movie_cens" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+    <Property Name="movie_genres" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="movie_release" Type="DateTime" Precision="0" />
+    <Property Name="movie_duration" Type="Time" Precision="7" />
+    <Property Name="movie_format" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="movie_poster" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="movie_actor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="movie_director" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="rate" Type="Double" />
+    <NavigationProperty Name="comments" Relationship="Self.FK__comment__movie_i__3F466844" FromRole="movies" ToRole="comment" />
+    <NavigationProperty Name="events" Relationship="Self.FK__event__movie_id__403A8C7D" FromRole="movies" ToRole="event" />
+    <NavigationProperty Name="news" Relationship="Self.FK__news__movie_id__412EB0B6" FromRole="movies" ToRole="news" />
+    <NavigationProperty Name="schedules" Relationship="Self.FK__schedule__movie___38996AB5" FromRole="movies" ToRole="schedule" />
+  </EntityType>
+  <EntityType Name="news">
+    <Key>
+      <PropertyRef Name="news_id" />
+    </Key>
+    <Property Name="news_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="movie_id" Type="Int32" />
+    <Property Name="news_title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="news_content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="news_img" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="news_release" Type="Time" Precision="7" />
+    <NavigationProperty Name="movy" Relationship="Self.FK__news__movie_id__412EB0B6" FromRole="news" ToRole="movies" />
+  </EntityType>
+  <EntityType Name="ROLE">
+    <Key>
+      <PropertyRef Name="role_id" />
+    </Key>
+    <Property Name="role_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="role_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="members" Relationship="Self.FK__members__role_id__36B12243" FromRole="ROLE" ToRole="members" />
+  </EntityType>
+  <EntityType Name="room">
+    <Key>
+      <PropertyRef Name="room_id" />
+    </Key>
+    <Property Name="room_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="room_name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="capacity" Type="Int32" />
+    <NavigationProperty Name="schedules" Relationship="Self.FK__schedule__room_i__398D8EEE" FromRole="rooms" ToRole="schedule" />
+    <NavigationProperty Name="seats" Relationship="Self.FK__seats__room_id__37A5467C" FromRole="rooms" ToRole="seats" />
+  </EntityType>
+  <EntityType Name="schedule">
+    <Key>
+      <PropertyRef Name="schedule_id" />
+    </Key>
+    <Property Name="schedule_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="movie_id" Type="Int32" />
+    <Property Name="room_id" Type="Int32" />
+    <Property Name="schedule_date" Type="DateTime" Precision="0" />
+    <Property Name="schedule_date_start" Type="Time" Precision="7" />
+    <Property Name="schedule_date_end" Type="Time" Precision="7" />
+    <Property Name="time_start" Type="Time" Precision="7" />
+    <Property Name="time_end" Type="Time" Precision="7" />
+    <NavigationProperty Name="bookings" Relationship="Self.FK__booking__schedul__3B75D760" FromRole="schedule" ToRole="booking" />
+    <NavigationProperty Name="movy" Relationship="Self.FK__schedule__movie___38996AB5" FromRole="schedule" ToRole="movies" />
+    <NavigationProperty Name="room" Relationship="Self.FK__schedule__room_i__398D8EEE" FromRole="schedule" ToRole="rooms" />
+  </EntityType>
+  <EntityType Name="seat">
+    <Key>
+      <PropertyRef Name="seat_id" />
+    </Key>
+    <Property Name="seat_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="seat_type" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="room_id" Type="Int32" />
+    <Property Name="row" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="number" Type="Int32" />
+    <Property Name="seats_status" Type="Boolean" />
+    <NavigationProperty Name="room" Relationship="Self.FK__seats__room_id__37A5467C" FromRole="seats" ToRole="rooms" />
+  </EntityType>
+  <Association Name="FK__booking__member___3A81B327">
+    <End Role="members" Type="Self.member" Multiplicity="0..1" />
+    <End Role="booking" Type="Self.booking" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="members">
+        <PropertyRef Name="member_id" />
+      </Principal>
+      <Dependent Role="booking">
+        <PropertyRef Name="member_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__booking__schedul__3B75D760">
+    <End Role="schedule" Type="Self.schedule" Multiplicity="0..1" />
+    <End Role="booking" Type="Self.booking" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="schedule">
+        <PropertyRef Name="schedule_id" />
+      </Principal>
+      <Dependent Role="booking">
+        <PropertyRef Name="schedule_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__comment__member___3E52440B">
+    <End Role="members" Type="Self.member" Multiplicity="0..1" />
+    <End Role="comment" Type="Self.comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="members">
+        <PropertyRef Name="member_id" />
+      </Principal>
+      <Dependent Role="comment">
+        <PropertyRef Name="member_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__comment__movie_i__3F466844">
+    <End Role="movies" Type="Self.movy" Multiplicity="0..1" />
+    <End Role="comment" Type="Self.comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="movies">
+        <PropertyRef Name="movie_id" />
+      </Principal>
+      <Dependent Role="comment">
+        <PropertyRef Name="movie_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__event__movie_id__403A8C7D">
+    <End Role="movies" Type="Self.movy" Multiplicity="0..1" />
+    <End Role="event" Type="Self.event" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="movies">
+        <PropertyRef Name="movie_id" />
+      </Principal>
+      <Dependent Role="event">
+        <PropertyRef Name="movie_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__members__role_id__36B12243">
+    <End Role="ROLE" Type="Self.ROLE" Multiplicity="0..1" />
+    <End Role="members" Type="Self.member" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ROLE">
+        <PropertyRef Name="role_id" />
+      </Principal>
+      <Dependent Role="members">
+        <PropertyRef Name="role_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__news__movie_id__412EB0B6">
+    <End Role="movies" Type="Self.movy" Multiplicity="0..1" />
+    <End Role="news" Type="Self.news" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="movies">
+        <PropertyRef Name="movie_id" />
+      </Principal>
+      <Dependent Role="news">
+        <PropertyRef Name="movie_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__schedule__movie___38996AB5">
+    <End Role="movies" Type="Self.movy" Multiplicity="0..1" />
+    <End Role="schedule" Type="Self.schedule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="movies">
+        <PropertyRef Name="movie_id" />
+      </Principal>
+      <Dependent Role="schedule">
+        <PropertyRef Name="movie_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__schedule__room_i__398D8EEE">
+    <End Role="rooms" Type="Self.room" Multiplicity="0..1" />
+    <End Role="schedule" Type="Self.schedule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="rooms">
+        <PropertyRef Name="room_id" />
+      </Principal>
+      <Dependent Role="schedule">
+        <PropertyRef Name="room_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__seats__room_id__37A5467C">
+    <End Role="rooms" Type="Self.room" Multiplicity="0..1" />
+    <End Role="seats" Type="Self.seat" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="rooms">
+        <PropertyRef Name="room_id" />
+      </Principal>
+      <Dependent Role="seats">
+        <PropertyRef Name="room_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="QUANLYXEMPHIMEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="bookings" EntityType="Self.booking" />
+    <EntitySet Name="comments" EntityType="Self.comment" />
+    <EntitySet Name="events" EntityType="Self.event" />
+    <EntitySet Name="members" EntityType="Self.member" />
+    <EntitySet Name="movies" EntityType="Self.movy" />
+    <EntitySet Name="news" EntityType="Self.news" />
+    <EntitySet Name="ROLEs" EntityType="Self.ROLE" />
+    <EntitySet Name="rooms" EntityType="Self.room" />
+    <EntitySet Name="schedules" EntityType="Self.schedule" />
+    <EntitySet Name="seats" EntityType="Self.seat" />
+    <AssociationSet Name="FK__booking__member___3A81B327" Association="Self.FK__booking__member___3A81B327">
+      <End Role="members" EntitySet="members" />
+      <End Role="booking" EntitySet="bookings" />
+    </AssociationSet>
+    <AssociationSet Name="FK__booking__schedul__3B75D760" Association="Self.FK__booking__schedul__3B75D760">
+      <End Role="schedule" EntitySet="schedules" />
+      <End Role="booking" EntitySet="bookings" />
+    </AssociationSet>
+    <AssociationSet Name="FK__comment__member___3E52440B" Association="Self.FK__comment__member___3E52440B">
+      <End Role="members" EntitySet="members" />
+      <End Role="comment" EntitySet="comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__comment__movie_i__3F466844" Association="Self.FK__comment__movie_i__3F466844">
+      <End Role="movies" EntitySet="movies" />
+      <End Role="comment" EntitySet="comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__event__movie_id__403A8C7D" Association="Self.FK__event__movie_id__403A8C7D">
+      <End Role="movies" EntitySet="movies" />
+      <End Role="event" EntitySet="events" />
+    </AssociationSet>
+    <AssociationSet Name="FK__members__role_id__36B12243" Association="Self.FK__members__role_id__36B12243">
+      <End Role="ROLE" EntitySet="ROLEs" />
+      <End Role="members" EntitySet="members" />
+    </AssociationSet>
+    <AssociationSet Name="FK__news__movie_id__412EB0B6" Association="Self.FK__news__movie_id__412EB0B6">
+      <End Role="movies" EntitySet="movies" />
+      <End Role="news" EntitySet="news" />
+    </AssociationSet>
+    <AssociationSet Name="FK__schedule__movie___38996AB5" Association="Self.FK__schedule__movie___38996AB5">
+      <End Role="movies" EntitySet="movies" />
+      <End Role="schedule" EntitySet="schedules" />
+    </AssociationSet>
+    <AssociationSet Name="FK__schedule__room_i__398D8EEE" Association="Self.FK__schedule__room_i__398D8EEE">
+      <End Role="rooms" EntitySet="rooms" />
+      <End Role="schedule" EntitySet="schedules" />
+    </AssociationSet>
+    <AssociationSet Name="FK__seats__room_id__37A5467C" Association="Self.FK__seats__room_id__37A5467C">
+      <End Role="rooms" EntitySet="rooms" />
+      <End Role="seats" EntitySet="seats" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

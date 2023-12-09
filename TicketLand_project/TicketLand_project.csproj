@@ -129,6 +129,9 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\HomeAdminController.cs" />
+    <Compile Include="Areas\Admin\Controllers\manage_membersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -181,8 +184,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Dangki_css\Register.css" />
-    <Content Include="Assets\Dangnhap_css\Login.css" />
+    <Content Include="Areas\Assets\Edit.css" />
+    <Content Include="Assets\Register_css\Register.css" />
+    <Content Include="Areas\Assets\Admin.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -225,6 +229,13 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout_admin.cshtml" />
+    <Content Include="Areas\Admin\Views\manage_members\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\manage_members\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\manage_members\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\manage_members\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\manage_members\Create.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -250,11 +261,13 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Dangnhap.cshtml" />
-    <Content Include="Views\Home\Dangki.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Home\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Assets\Dangnhap_css\" />
     <Folder Include="Assets\Public_img\Dangki_img\" />
     <Folder Include="Assets\Public_img\Dangnhap_img\" />
     <Folder Include="Views\Default\" />

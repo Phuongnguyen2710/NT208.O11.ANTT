@@ -1,0 +1,194 @@
+﻿/*Link font-face*/
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+
+* {
+    padding: 0;
+    margin: 0;
+    outline: none;
+    border: none;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    text-decoration: none;
+}
+
+body {
+    background: #f0e8e8;
+}
+
+nav {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    background: white;
+    width: 70px;
+    overflow: hidden;
+    transition: width 0.2s linear;
+    box-shadow: 0 20px 30px rgba(0,0,0,0.1);
+    z-index: 2;
+}
+
+
+.custom_h1 {
+    text-align: center;
+    padding: 10px 10px 10px 10px;
+    background: powderblue;
+}
+
+.logo {
+    text-align: center;
+    display: flex;
+    transition: all 0.5s ease;
+    margin: 10px 0 0 10px;
+}
+
+    .logo img {
+        width: 45px;
+        height: 45px;
+        border-radius: 50px;
+    }
+
+    .logo span {
+        font-weight: bold;
+        padding-left: 15px;
+        font-size: 15px;
+        text-transform: uppercase;
+    }
+
+a {
+    position: relative;
+    color: rgb(85, 85, 83);
+    font-size: 15px;
+    display: table;
+    width: 300px;
+    padding: 10px;
+    text-decoration: none;
+}
+
+
+.nav-item {
+    position: relative;
+    top: 12px;
+    margin-left: 10px;
+}
+
+i {
+    position: relative;
+    width: 70px;
+    height: 40px;
+    top: 14px;
+    font-size: 20px;
+    text-align: center;
+}
+
+
+a:hover {
+    background: #eee;
+    color: blue;
+}
+
+nav:hover {
+    width: 250px;
+    transition: all 0.5s ease;
+}
+
+.keluar {
+    position: absolute;
+    bottom: 0;
+}
+
+
+
+
+/* Container chung */
+.container_custom {
+    box-shadow: 0 0 7px rgba(15, 35, 21, 11.1);
+    padding: 6px; /* Thêm khoảng cách bên trong container */
+    margin: 0px auto; /* Tự căn giữa */
+    max-width: 100%; /* Điều chỉnh giới hạn độ rộng theo nhu cầu */
+    padding-left: 100px;
+    background-color: white;
+}
+
+
+
+/* Bảng Style */
+/* Bảng Style */
+.tableStyle {
+    border-collapse: collapse;
+    width: 100%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    border: double;
+    border-collapse: collapse;
+}
+
+    .tableStyle tr:nth-child(odd) {
+        background-color: #eee;
+    }
+
+    .tableStyle tr:nth-child(even) {
+        background-color: white;
+    }
+
+    .tableStyle tr:nth-child(1) {
+        background-color: skyblue;
+    }
+
+    .tableStyle th,
+    .tableStyle td {
+        max-width: 30%; /* Đặt kích thước tối đa */
+        overflow: hidden; /* Ẩn nội dung vượt quá kích thước */
+        white-space: nowrap; /* Ngăn chặn xuống dòng */
+        text-align: center;
+        padding: 2px 2px 2px 2px; /* Thêm khoảng cách bên trong ô */
+        border: 1px solid black;
+    }
+
+    .tableStyle tr.tHead th {
+        border-bottom: 3px solid #fcd5d5;
+        border-top: none;
+    }
+
+    /* Hình ảnh Style */
+    .tableStyle img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 50%; /* Bo tròn hình ảnh */
+    }
+
+
+/*    Xử lý css cho hiển thị password   */
+/*.short-text {
+    display: block;
+}
+
+
+.full-text {
+    display: none;
+    white-space: pre-wrap;
+}
+
+
+
+.tableStyle td.password-cell {
+    word-break: break-all;
+    position: relative;
+    max-width: 100px;*/ /* Đặt kích thước tối đa */
+/*overflow: hidden;*/ /* Ẩn nội dung vượt quá kích thước */
+/*}*/
+
+
+
+/*  CSS cho action button   */
+/* Định dạng các nút trong cột action-button */
+.custom_i {
+    position: relative;
+    width: 12px;
+    height: 12px;
+    top: 0;
+    font-size: 15px; /* Kích thước biểu tượng và chữ */
+    text-align: center;
+    margin-right: 5px; /* Khoảng cách giữa biểu tượng và chữ */
+}

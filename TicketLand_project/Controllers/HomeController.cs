@@ -20,8 +20,8 @@ namespace TicketLand_project.Controllers
             return View();
         }
 
-        // GET: Dangki
-        public ActionResult Dangki()
+        // GET: Register
+        public ActionResult Register()
         {
             return View();
         }
@@ -32,7 +32,7 @@ namespace TicketLand_project.Controllers
         //POST: Register
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Dangki(member _user, HttpPostedFileBase imageFile)
+        public ActionResult Register(member _user, HttpPostedFileBase imageFile)
         {
             if (ModelState.IsValid)
             {
@@ -51,7 +51,7 @@ namespace TicketLand_project.Controllers
                                 _user.member_avatar = Convert.ToBase64String(imageData);
                             }
                         }
-                        _user.role_id = 1;
+                        _user.role_id = 2;
                         _user.member_point = 0;
                         objModel.Configuration.ValidateOnSaveEnabled = false;
                         objModel.members.Add(_user);
@@ -61,8 +61,7 @@ namespace TicketLand_project.Controllers
                     }
                     else
                     {
-                        ViewBag.error = "Tên người dùng đã tồn tại";
-                        return View();
+                        ViewBag.Message = "Tên người dùng đã tồn tại";
                     }
 
             }
@@ -90,14 +89,14 @@ namespace TicketLand_project.Controllers
 
 
         //Chức năng đăng nhập
-        public ActionResult Dangnhap()
+        public ActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Dangnhap(string username, string password)
+        public ActionResult Login(string username, string password)
         {
             if (ModelState.IsValid)
             {
@@ -111,7 +110,14 @@ namespace TicketLand_project.Controllers
                         //add session
                         Session["Username"] = data.FirstOrDefault().username;
                         Session["idMember"] = data.FirstOrDefault().member_id;
-                        return RedirectToAction("Index");
+                        if (data.FirstOrDefault().role_id == 2)
+                        {
+                            return RedirectToAction("Index");
+                        }
+                        else if (data.FirstOrDefault().role_id == 1)
+                        {
+                            return RedirectToAction("Index", "manage_members", new { area = "Admin" });
+                        }
                     }
                     else if (data.Count() == 0)
                     {
@@ -130,7 +136,7 @@ namespace TicketLand_project.Controllers
         public ActionResult Logout()
         {
             Session.Clear();//remove session
-            return RedirectToAction("Dangnhap");
+            return RedirectToAction("Login");
         }
 
         public ActionResult About()
