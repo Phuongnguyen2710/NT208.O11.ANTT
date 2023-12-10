@@ -1,0 +1,58 @@
+﻿@model IEnumerable<TicketLand_project.Models.seat>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.seat_type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.row)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.number)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.seats_status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.room.room_name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.seat_type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.row)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.number)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.seats_status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.room.room_name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.seat_id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.seat_id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.seat_id })
+        </td>
+    </tr>
+}
+
+</table>

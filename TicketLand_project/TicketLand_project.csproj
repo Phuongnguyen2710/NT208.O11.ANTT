@@ -132,6 +132,8 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeAdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\manage_membersController.cs" />
+    <Compile Include="Areas\Admin\Controllers\roomsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\seatsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -184,6 +186,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Assets\css\Seat.css" />
     <Content Include="Areas\Assets\Edit.css" />
     <Content Include="Assets\Register_css\Register.css" />
     <Content Include="Areas\Assets\Admin.css" />
@@ -222,6 +225,13 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout_admin.cshtml" />
+    <Content Include="Areas\Admin\Views\manage_members\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\manage_members\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\manage_members\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\manage_members\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\manage_members\Delete.cshtml" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -229,13 +239,16 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\Admin\Views\web.config" />
-    <Content Include="Areas\Admin\Views\Shared\_Layout_admin.cshtml" />
-    <Content Include="Areas\Admin\Views\manage_members\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\manage_members\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\manage_members\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\manage_members\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\manage_members\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\rooms\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\rooms\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\rooms\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\rooms\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\rooms\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\seats\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\seats\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\seats\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\seats\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\seats\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -267,6 +280,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Assets\js\" />
     <Folder Include="Assets\Dangnhap_css\" />
     <Folder Include="Assets\Public_img\Dangki_img\" />
     <Folder Include="Assets\Public_img\Dangnhap_img\" />

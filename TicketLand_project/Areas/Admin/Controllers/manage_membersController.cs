@@ -16,7 +16,7 @@ namespace TicketLand_project.Areas.Admin.Controllers
 {
     public class manage_membersController : Controller
     {
-        private QUANLYXEMPHIMEntities1 db = new QUANLYXEMPHIMEntities1();
+        private QUANLYXEMPHIMEntities db = new QUANLYXEMPHIMEntities();
 
         // GET: Admin/manage_members
         public ActionResult Index()
@@ -156,17 +156,41 @@ namespace TicketLand_project.Areas.Admin.Controllers
         // POST: Admin/manage_members/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult Delete(int id)
         {
+
             member member = db.members.Find(id);
             db.members.Remove(member);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
 
+        //// POST: Admin/manage_members/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public JsonResult DeleteConfirmed(int id)
+        //{
+        //    try
+        //    {
+        //        member member = db.members.Find(id);
+        //        if (member == null)
+        //        {
+        //            return Json(new { success = false, errorMessage = "Member not found" });
+        //        }
 
+        //        db.members.Remove(member);
+        //        db.SaveChanges();
 
-
+        //        // Trả về kết quả JSON
+        //        return Json(new { success = true });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Ghi log ngoại lệ
+        //        Console.WriteLine($"Exception: {ex.Message}");
+        //        return Json(new { success = false, errorMessage = ex.Message });
+        //    }
+        //}
 
 
         protected override void Dispose(bool disposing)

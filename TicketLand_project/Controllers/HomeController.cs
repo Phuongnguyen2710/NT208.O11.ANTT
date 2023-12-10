@@ -14,7 +14,7 @@ namespace TicketLand_project.Controllers
     public class HomeController : Controller
     {
 
-        QUANLYXEMPHIMEntities1 objModel = new QUANLYXEMPHIMEntities1();
+        QUANLYXEMPHIMEntities objModel = new QUANLYXEMPHIMEntities();
         public ActionResult Index()
         {
             return View();

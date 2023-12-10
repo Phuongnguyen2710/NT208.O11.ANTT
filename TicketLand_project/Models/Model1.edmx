@@ -572,7 +572,7 @@ error 6004: The table 'QUANLYXEMPHIM.dbo.booking_detail' is referenced by a rela
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="QUANLYXEMPHIMEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="QUANLYXEMPHIMEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="bookings" EntityType="Self.booking" />
           <EntitySet Name="comments" EntityType="Self.comment" />
           <EntitySet Name="events" EntityType="Self.event" />
@@ -629,7 +629,7 @@ error 6004: The table 'QUANLYXEMPHIM.dbo.booking_detail' is referenced by a rela
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="QUANLYXEMPHIMModelStoreContainer" CdmEntityContainer="QUANLYXEMPHIMEntities1">
+        <EntityContainerMapping StorageEntityContainer="QUANLYXEMPHIMModelStoreContainer" CdmEntityContainer="QUANLYXEMPHIMEntities">
           <EntitySetMapping Name="bookings">
             <EntityTypeMapping TypeName="QUANLYXEMPHIMModel.booking">
               <MappingFragment StoreEntitySet="booking">

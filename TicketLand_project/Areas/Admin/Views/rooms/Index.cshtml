@@ -1,0 +1,58 @@
+﻿@model IEnumerable<TicketLand_project.Models.room>
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+
+</head>
+<body>
+    <h1 class="custom_h1"><b>THÔNG TIN PHÒNG CHIẾU PHIM </b></h1>
+
+    <div class="container_custom">
+        <p>
+            <button type="button" class="btn btn-success" onclick="location.href='@Url.Action("Create")'">Create New +</button>
+        </p>
+        <table class="tableStyle">
+            <tr>
+                <th>Tên Phòng</th>
+                <th>Sức chứa</th>
+                <th> Action</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.room_name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.capacity)
+                    </td>
+                    <td>
+                        <button class="btn btn-xs btn-primary " onclick="location.href='@Url.Action("Edit", new { id = item.room_id })'">
+                            <i class="fa fa-edit custom_i"></i>
+                        </button>
+
+                        <button class="btn btn-xs btn-warning " onclick="location.href='@Url.Action("Details", new { id = item.room_id })'">
+                            <i class="fa fa-info-circle custom_i"></i>
+                        </button>
+
+                        <button class="btn btn-xs btn-danger delete-button" onclick="location.href='@Url.Action("Delete", new { id = item.room_id })'">
+
+                            <i class="fa fa-trash custom_i" aria-hidden="true"></i>
+                        </button>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+
+</body>
+</html>

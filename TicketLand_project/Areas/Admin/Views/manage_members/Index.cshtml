@@ -8,13 +8,15 @@
 }
 
 
-<h1 class="custom_h1"><b>QUẢN LÝ TÀI KHOẢN</b></h1>
-<br />
+
 
 <div class="container_custom">
+    <h1 class="custom_h1"><b>QUẢN LÝ TÀI KHOẢN</b></h1>
+
     <p>
         <button type="button" class="btn btn-success" onclick="location.href='@Url.Action("Create")'">Create New +</button>
     </p>
+    <hr/>
     <table class="tableStyle">
         <tr>
             <!-- Các cột tiêu đề -->
@@ -109,7 +111,8 @@
                         <i class="fa fa-info-circle custom_i"></i>
                     </button>
 
-                    <button class="btn btn-xs btn-danger delete-button" data-toggle="modal" data-target="#Delete" data-id="@item.member_id">
+                    <button class="btn btn-xs btn-danger delete-button" onclick="location.href='@Url.Action("Delete", new { id = item.member_id })'">
+
                         <i class="fa fa-trash custom_i" aria-hidden="true"></i>
                     </button>
 
@@ -120,11 +123,11 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="Delete" tabindex="-1" role="dialog" aria-labelledby="Delete" aria-hidden="true">
+@*<div class="modal fade" id="Delete" tabindex="-1" role="dialog" aria-labelledby="DeleteLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="Delete">Xác nhận xóa</h5>
+                <h5 class="modal-title" id="DeleteLabel">Xác nhận xóa</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -135,18 +138,11 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-
-                <!-- Thêm một form ẩn để thực hiện yêu cầu POST -->
-                <form id="deleteForm" action="" method="post">
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" id="deleteId" name="id" value="" />
-                    <button type="button" class="btn btn-danger" onclick="confirmDelete()">Xác nhận</button>
-                </form>
-
+                <button type="button" class="btn btn-danger" id="confirmDelete">Xác nhận</button>
             </div>
         </div>
     </div>
-</div>
+</div>*@
 
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -170,31 +166,28 @@
     //}
 
 
-    $(document).ready(function () {
-        $('.delete-button').on('click', function () {
-            var memberId = $(this).data('id');
-            $('#deleteId').val(memberId);
-        });
-    });
+    //$(document).ready(function () {
+    //    $('.delete-button').on('click', function () {
+    //        var memberId = $(this).data('id');
+    //        $('#deleteId').val(memberId);
+    //    });
 
-    function confirmDelete() {
-        var memberId = $('#deleteId').val();
-        
-        if (memberId !== null && memberId !== '') {
-            var deleteUrl = '/Admin/manage_members/Delete/' + memberId;
-            alert(deleteUrl);
-            // Cập nhật action của form hiện tại
-            deleteForm.form.action = deleteUrl;
-            // Submit form hiện tại
-            deleteForm.form.submit();
+    //    $('#confirmDelete').on('click', function () {
+    //        var memberId = $('#deleteId').val();
+    //        $.ajax({
+    //            url: '/Admin/manage_members/Delete/',
+    //            type: 'POST',
+    //            contentType: 'application/json', // Thiết lập kiểu dữ liệu là JSON
+    //            data: JSON.stringify({ id: memberId }), // Chuyển memberId thành đối tượng JSON
+    //            success: function (result) {
+    //                $('#Delete').modal('hide');
+    //                // Xử lý kết quả hoặc cập nhật giao diện nếu cần
+    //            },
+    //            error: function (error) {
+    //                console.error('Error:', error);
+    //            }
+    //        });
+    //    });
+    //});
 
-        }
-    }
 </script>
-
-
-
-
-
-
-

@@ -4,9 +4,9 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="b3f83463e62e440e8e68bd3effe30c6b" Name="Diagram1">
+      <Diagram DiagramId="ad85df18d81a499abc0b3e8225e7a662" Name="Diagram1">
         <EntityTypeShape EntityType="QUANLYXEMPHIMModel.booking" Width="1.5" PointX="8.25" PointY="6.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.comment" Width="1.5" PointX="3.125" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.comment" Width="1.5" PointX="3" PointY="4.625" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANLYXEMPHIMModel.event" Width="1.5" PointX="3" PointY="8.375" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANLYXEMPHIMModel.member" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANLYXEMPHIMModel.movy" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />

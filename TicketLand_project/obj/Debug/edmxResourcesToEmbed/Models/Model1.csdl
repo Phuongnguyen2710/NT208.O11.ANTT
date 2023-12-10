@@ -259,7 +259,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="QUANLYXEMPHIMEntities1" annotation:LazyLoadingEnabled="true">
+  <EntityContainer Name="QUANLYXEMPHIMEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="bookings" EntityType="Self.booking" />
     <EntitySet Name="comments" EntityType="Self.comment" />
     <EntitySet Name="events" EntityType="Self.event" />

@@ -13,10 +13,10 @@ namespace TicketLand_project.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class QUANLYXEMPHIMEntities1 : DbContext
+    public partial class QUANLYXEMPHIMEntities : DbContext
     {
-        public QUANLYXEMPHIMEntities1()
-            : base("name=QUANLYXEMPHIMEntities1")
+        public QUANLYXEMPHIMEntities()
+            : base("name=QUANLYXEMPHIMEntities")
         {
         }
     
