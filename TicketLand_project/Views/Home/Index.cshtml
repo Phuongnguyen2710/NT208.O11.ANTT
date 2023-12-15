@@ -1,33 +1,616 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+<head>
+    <link rel="stylesheet" href="~/Assets/css/home/home.css">
+</head>
+<!-- Banner Area -->
 
-<main>
-    <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="title">ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
-    </section>
-
-    <div class="row">
-        <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-            <h2 id="gettingStartedTitle">Getting started</h2>
-            <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="librariesTitle">
-            <h2 id="librariesTitle">Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="hostingTitle">
-            <h2 id="hostingTitle">Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-        </section>
+<div class="banner-area">
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img class="d-block w-100" src="https://youthvietnam.vn/wp-content/uploads/2021/06/mau-poster-phim-viet-nam.jpg" />
+            </div>
+            <div class="carousel-item">
+                <img class="d-block w-100" src="https://photo-cms-baophapluat.epicdn.me/w840/Uploaded/2023/hfobhvwbucqaow/2022_06_15/nha-thiet-ke-poster-phim-le-791655133447-5792.jpg" />
+             </div>
+        </div>
+        <a class=" carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
     </div>
-</main>
+</div>
+<!-- Banner Area End -->
+<!-- Banner Form Area -->
+<div class="banner-form-area">
+    <div class="container">
+        <div class="banner-form border border-1">
+            <form>
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-lg-3 col-md-3 form-group">
+                        <div class="input-group">
+
+                            <span class="input-group-text border border-secondary rounded-start"> <span class=" fa-solid fa-magnifying-glass" style="margin-top:2px;"></span></span>
+                            <input type="text" class="form-control border border-secondary rounded-end" placeholder="Tìm phim...">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-1 col-md-3 form-group">
+                        <span class="border border-1 border-start"></span>
+                    </div>
+
+                    <div class="col-lg-3 col-md-2 form-group">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div style="padding-right: 70px;">
+                                <label style="margin-bottom: 0; white-space: nowrap;">Ngày chiếu</label>
+                            </div>
+                            <div class="input-group_1" style="margin-top: 0;">
+                                <input id="datetimepicker-check" type="text" class="form-control" placeholder="11/02/2020">
+                                <span class="input-group-addon"></span>
+                            </div>
+                            <div>
+                                <span class='bx bxs-chevron-down'></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1 col-md-3 form-group">
+                        <span class="border border-1 border-start"></span>
+                    </div>
+                    <div class="col-lg-2 col-md-2">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary border-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Xuất chiếu
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">9:00</a></li>
+                                <li><a class="dropdown-item" href="#">10:00</a></li>
+                                <li><a class="dropdown-item" href="#">11:00</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-1 col-md-3 form-group">
+                        <span class="border border-1 border-start"></span>
+                    </div>
+                    <div class="col-lg-1 col-md-1 form-group">
+                        <div class="banner_button">
+                            <button type="button" style="height: 50px; width: 50px; border-radius: 50%" class="btn btn-danger">GO</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Banner Form Area End -->
+<!-- Film Area -->
+<div class="room-area pt-100 pb-70 section-bg">
+    <div class="container">
+        <div class="justify-content-between">
+            <div class="row justify-content-center">
+                @*Two tab Đang chiếu/ Sắp chiếu*@
+                <div class="col-4">
+                    <nav>
+                        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Đang chiếu</a>
+                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Sắp chiếu</a>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+            <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <div class="room-area pt-20 pb-20 section-bg">
+                        <div class="container">
+                            <div class="row pt-45">
+                                <div id="carouselExample" class="carousel slide">
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active">
+                                            @*Row1*@
+                                            <div class="row">
+                                                @*Poster 1*@
+                                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                                    <div class="room-card" >
+                                                        <div>
+                                                            <a href="room-details.html">
+                                                                <img src="~/Assets/img/home/poster_film/mat-biet.jpg" style="width: 100%; height: 350px;" alt="Images">
+                                                            </a>
+                                                        </div>
+                                                            <div class="content" style=" width: 100%; height: 100px;">
+                                                                <h4><a href="room-details.html">Cô Ba Sài Gòn</a></h4>
+                                                                <h4 class="fs-5">120 phút</h4>
+                                                                <div class="rating">
+                                                                    <i class='bx bxs-star'></i>
+                                                                    <i class='bx bxs-star'></i>
+                                                                    <i class='bx bxs-star'></i>
+                                                                    <i class='bx bxs-star'></i>
+                                                                    <i class='bx bxs-star-half'></i>
+                                                                </div>
+                                                            </div>
+                                                    </div>
+                                                </div>
+                                                @*Poster2*@
+                                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                                    <div class="room-card" >
+                                                        <div>
+                                                            <a href="room-details.html">
+                                                                <img src="~/Assets/img/home/poster_film/nha-ba-nu.jpg" style="width: 100%; height: 350px;" alt="Images">
+                                                            </a>
+                                                        </div>
+                                                        <div class="content" style=" width: 100%; height: 100px;">
+                                                            <h4><a href="room-details.html">Nhà Bà Nữ</a></h4>
+                                                            <h4>90 phút</h4>
+                                                            <div class="rating">
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star-half'></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @*Poster3*@
+                                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                                    <div class="room-card">
+                                                        <a href="room-details.html">
+                                                            <img src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" style="width: 100%; height: 350px;"  alt="Images">
+                                                        </a>
+                                                        <div class="content" style=" width: 100%; height: 100px;">
+                                                            <h4><a href="room-details.html">Tôi thấy hoa vàng trên cỏ xanh</a></h4>
+                                                            <h4>90 phút</h4>
+                                                            <div class="rating">
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star-half'></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @*Poster4*@
+                                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                                    <div class="room-card">
+                                                        <a href="room-details.html">
+                                                            <img src="~/Assets/img/home/poster_film/black.jpg" style="width: 100%; height: 350px;" alt="Images">
+                                                        </a>
+                                                        <div class="content" style=" width: 100%; height: 100px;">
+                                                            <h4><a href="room-details.html">BACK PANTHER</a></h4>
+                                                            <h4>90 phút</h4>
+                                                            <div class="rating">
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star-half'></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @*Row2*@
+                                            <div class="row">
+                                                @*Poster5*@
+                                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                                    <div class="room-card">
+                                                        <a href="room-details.html">
+                                                            <img src="~/Assets/img/home/poster_film/phap-su-mu.jpg" style="width: 100%; height: 350px;" alt="Images">
+                                                        </a>
+                                                        <div class="content" style=" width: 100%; height: 100px;">
+                                                            <h4><a href="room-details.html">Pháp Sư mù</a></h4>
+                                                            <h4>90 phút</h4>
+                                                            <div class="rating">
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star-half'></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @*Poster6*@
+                                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                                    <div class="room-card">
+                                                        <a href="room-details.html">
+                                                            <img src="~/Assets/img/home/poster_film/mat-biet.jpg" style="width: 100%; height: 350px;" alt="Images">
+                                                        </a>
+                                                        <div class="content" style=" width: 100%; height: 100px;">
+                                                            <h4><a href="room-details.html">Mắt biết</a></h4>
+                                                            <h4>127 phút</h4>
+                                                            <div class="rating">
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star-half'></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @*Poster7*@
+                                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                                    <div class="room-card">
+                                                        <a href="room-details.html">
+                                                            <img src="~/Assets/img/home/poster_film/phap-su-mu.jpg" style="width: 100%; height: 350px;" alt="Images">
+                                                        </a>
+                                                        <div class="content" style=" width: 100%; height: 100px;">
+                                                            <h4><a href="room-details.html">Pháp Sư mù</a></h4>
+                                                            <h4>90 phút</h4>
+                                                            <div class="rating">
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star-half'></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @*Poster8*@
+                                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                                    <div class="room-card">
+                                                        <a href="room-details.html">
+                                                            <img src="~/assets/img/home/poster_film/co-ba-sai-gon.jpg" style=" width: 100%; height: 350px;" alt="Images">
+                                                        </a>
+                                                        <div class="content" style=" width: 100%; height: 100px;">
+                                                            <h4><a href="room-details.html">Cô Ba Sài Gòn</a></h4>
+                                                            <h4>112 phút</h4>
+                                                            <div class="rating">
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star-half'></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        <div class="carousel-item">
+                                            <div class="row">
+                                                @*Poster 1*@
+                                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                                    <div class="room-card">
+                                                        <div>
+                                                            <a href="room-details.html">
+                                                                <img src="~/Assets/img/home/poster_film/mat-biet.jpg" style="width: 100%; height: 350px;" alt="Images">
+                                                            </a>
+                                                        </div>
+                                                        <div class="content" style=" width: 100%; height: 100px;">
+                                                            <h4><a href="room-details.html">Cô Ba Sài Gòn</a></h4>
+                                                            <h4 class="fs-5">120 phút</h4>
+                                                            <div class="rating">
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star-half'></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @*Poster2*@
+                                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                                    <div class="room-card">
+                                                        <div>
+                                                            <a href="room-details.html">
+                                                                <img src="~/Assets/img/home/poster_film/nha-ba-nu.jpg" style="width: 100%; height: 350px;" alt="Images">
+                                                            </a>
+                                                        </div>
+                                                        <div class="content" style=" width: 100%; height: 100px;">
+                                                            <h4><a href="room-details.html">Nhà Bà Nữ</a></h4>
+                                                            <h4>90 phút</h4>
+                                                            <div class="rating">
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star-half'></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @*Poster3*@
+                                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                                    <div class="room-card">
+                                                        <a href="room-details.html">
+                                                            <img src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" style="width: 100%; height: 350px;" alt="Images">
+                                                        </a>
+                                                        <div class="content" style=" width: 100%; height: 100px;">
+                                                            <h4><a href="room-details.html">Tôi thấy hoa vàng trên cỏ xanh</a></h4>
+                                                            <h4>90 phút</h4>
+                                                            <div class="rating">
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star-half'></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @*Poster4*@
+                                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                                    <div class="room-card">
+                                                        <a href="room-details.html">
+                                                            <img src="~/Assets/img/home/poster_film/black.jpg" style="width: 100%; height: 350px;" alt="Images">
+                                                        </a>
+                                                        <div class="content" style=" width: 100%; height: 100px;">
+                                                            <h4><a href="room-details.html">BACK PANTHER</a></h4>
+                                                            <h4>90 phút</h4>
+                                                            <div class="rating">
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star-half'></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                @*Poster3*@
+                                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                                    <div class="room-card">
+                                                        <a href="room-details.html">
+                                                            <img src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" style="width: 100%; height: 350px;" alt="Images">
+                                                        </a>
+                                                        <div class="content" style=" width: 100%; height: 100px;">
+                                                            <h4><a href="room-details.html">Tôi thấy hoa vàng trên cỏ xanh</a></h4>
+                                                            <h4>90 phút</h4>
+                                                            <div class="rating">
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star-half'></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @*Poster4*@
+                                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                                    <div class="room-card">
+                                                        <a href="room-details.html">
+                                                            <img src="~/Assets/img/home/poster_film/black.jpg" style="width: 100%; height: 350px;" alt="Images">
+                                                        </a>
+                                                        <div class="content" style=" width: 100%; height: 100px;">
+                                                            <h4><a href="room-details.html">BACK PANTHER</a></h4>
+                                                            <h4>90 phút</h4>
+                                                            <div class="rating">
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star-half'></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="carousel-control-prev" style="left: -10%; color: brown; font-size:2rem;" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                                        <span class="fa-solid fa-circle-chevron-left" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" style="right: -10%; color: brown; font-size: 2rem;" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                                        <span class="fa-solid fa-circle-chevron-right" aria-hidden="true"></span>
+                                        <span class="visually-hidden" style="color:brown;">Next</span>
+                                    </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    </div>
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                    <div class="room-area pt-20 pb-20 section-bg">
+                        <div class="container">
+                            <div class="row pt-45">
+                                <div id="carouselExample2" class="carousel slide">
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active">
+
+                                            <div class="row">
+                                                @*Poster 1*@
+                                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                                    <div class="room-card">
+                                                        <div>
+                                                            <a href="room-details.html">
+                                                                <img src="~/Assets/img/home/poster_film/mat-biet.jpg" style="width: 100%; height: 350px;" alt="Images">
+                                                            </a>
+                                                        </div>
+                                                        <div class="content" style=" width: 100%; height: 100px;">
+                                                            <h4><a href="room-details.html">Cô Ba Sài Gòn</a></h4>
+                                                            <h4 class="fs-5">120 phút</h4>
+                                                            <div class="rating">
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star-half'></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @*Poster2*@
+                                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                                    <div class="room-card">
+                                                        <div>
+                                                            <a href="room-details.html">
+                                                                <img src="~/Assets/img/home/poster_film/nha-ba-nu.jpg" style="width: 100%; height: 350px;" alt="Images">
+                                                            </a>
+                                                        </div>
+                                                        <div class="content" style=" width: 100%; height: 100px;">
+                                                            <h4><a href="room-details.html">Nhà Bà Nữ</a></h4>
+                                                            <h4>90 phút</h4>
+                                                            <div class="rating">
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star-half'></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @*Poster3*@
+                                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                                    <div class="room-card">
+                                                        <a href="room-details.html">
+                                                            <img src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" style="width: 100%; height: 350px;" alt="Images">
+                                                        </a>
+                                                        <div class="content" style=" width: 100%; height: 100px;">
+                                                            <h4><a href="room-details.html">Tôi thấy hoa vàng trên cỏ xanh</a></h4>
+                                                            <h4>90 phút</h4>
+                                                            <div class="rating">
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star-half'></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @*Poster4*@
+                                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                                    <div class="room-card">
+                                                        <a href="room-details.html">
+                                                            <img src="~/Assets/img/home/poster_film/black.jpg" style="width: 100%; height: 350px;" alt="Images">
+                                                        </a>
+                                                        <div class="content" style=" width: 100%; height: 100px;">
+                                                            <h4><a href="room-details.html">BACK PANTHER</a></h4>
+                                                            <h4>90 phút</h4>
+                                                            <div class="rating">
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star-half'></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            
+                                        </div>
+                                        <div class="carousel-item">
+                                            <div class="row">
+                                                @*Poster 1*@
+                                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                                    <div class="room-card">
+                                                        <div>
+                                                            <a href="room-details.html">
+                                                                <img src="~/Assets/img/home/poster_film/mat-biet.jpg" style="width: 100%; height: 350px;" alt="Images">
+                                                            </a>
+                                                        </div>
+                                                        <div class="content" style=" width: 100%; height: 100px;">
+                                                            <h4><a href="room-details.html">Cô Ba Sài Gòn</a></h4>
+                                                            <h4 class="fs-5">120 phút</h4>
+                                                            <div class="rating">
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star-half'></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @*Poster2*@
+                                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                                    <div class="room-card">
+                                                        <div>
+                                                            <a href="room-details.html">
+                                                                <img src="~/Assets/img/home/poster_film/nha-ba-nu.jpg" style="width: 100%; height: 350px;" alt="Images">
+                                                            </a>
+                                                        </div>
+                                                        <div class="content" style=" width: 100%; height: 100px;">
+                                                            <h4><a href="room-details.html">Nhà Bà Nữ</a></h4>
+                                                            <h4>90 phút</h4>
+                                                            <div class="rating">
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star-half'></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @*Poster3*@
+                                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                                    <div class="room-card">
+                                                        <a href="room-details.html">
+                                                            <img src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" style="width: 100%; height: 350px;" alt="Images">
+                                                        </a>
+                                                        <div class="content" style=" width: 100%; height: 100px;">
+                                                            <h4><a href="room-details.html">Tôi thấy hoa vàng trên cỏ xanh</a></h4>
+                                                            <h4>90 phút</h4>
+                                                            <div class="rating">
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star-half'></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @*Poster4*@
+                                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                                    <div class="room-card">
+                                                        <a href="room-details.html">
+                                                            <img src="~/Assets/img/home/poster_film/black.jpg" style="width: 100%; height: 350px;" alt="Images">
+                                                        </a>
+                                                        <div class="content" style=" width: 100%; height: 100px;">
+                                                            <h4><a href="room-details.html">BACK PANTHER</a></h4>
+                                                            <h4>90 phút</h4>
+                                                            <div class="rating">
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star'></i>
+                                                                <i class='bx bxs-star-half'></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="carousel-control-prev" style="left: -10%; color: brown; font-size:2rem;" type="button" data-bs-target="#carouselExample2" data-bs-slide="prev">
+                                        <span class="fa-solid fa-circle-chevron-left" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" style="right: -10%; color: brown; font-size: 2rem;" type="button" data-bs-target="#carouselExample2" data-bs-slide="next">
+                                        <span class="fa-solid fa-circle-chevron-right" aria-hidden="true"></span>
+                                        <span class="visually-hidden" style="color:brown;">Next</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
