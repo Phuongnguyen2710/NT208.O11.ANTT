@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>ADMIN PAGE</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="If-edge">
+
+    <meta name="viewport">
+    <title> Silder</title>
+
+    <!--Link css-->
+    <link href="~/Areas/Assets/css/Admin.css" rel="stylesheet" />
+
+
+    <!--link của bootrap-->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <!--link của Edit_1.css-->
+    <link href="~/Areas/Assets/css/Edit_1.css" rel="stylesheet" />
+    <!--link của box icons-->
+    <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
+    <!-- Thẻ link cho Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- Thẻ link cho Font chữ -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Smooch Sans:wght@700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" />
+
+
+</head>
+
+<body>
+    <nav>
+        <ul>
+            <li>
+                <a href="~/Home/Index" class="logo" style="border-bottom: solid thin">
+                    <img src="~/Assets/img/logos/logo.png" class="logo-one" alt="Logo">
+                    <span class="nav-item">Ticket Land Web </span>
+                </a>
+            </li>
+            <li><a href="#"><i class="bx bxs-dashboard"> </i><b>Dash Board</b></a></li>
+            <li><a href="~/Admin/manage_members/Index"><i class="bx bxs-user"> </i><b>Users</b> </a></li>
+            <li><a href="~/Admin/rooms/Index"><i class="fa-solid fa-couch"> </i><b>Rooms</b> </a></li>
+            <li><a href="~/Admin/seats/Index"><i class="fa-solid fa-couch"> </i><b>Seats</b> </a></li>
+            <li><a href="#"><i class="bx bxs-movie-play"> </i><b>Movies</b> </a></li>
+            <li><a href="#"><i class="bx bxs-news"> </i><b>News</b> </a></li>
+            <li>
+                <a href="~/Home/Logout" class="keluar">
+                    <i class="bx bxs-log-out"> </i>
+                    <span class="nav-item"><b>Log out</b></span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    @RenderBody()
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    @RenderSection("head", required: false)
+</body>
+
+
+</html>

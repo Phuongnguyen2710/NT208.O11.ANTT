@@ -1,0 +1,81 @@
+﻿@model TicketLand_project.Models.member
+@{
+    Layout = null;
+}
+
+<!DOCTYPE>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Smooch Sans:wght@700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Assets/Register_css/Register.css" rel="stylesheet" />
+</head>
+
+
+<body>
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+            <br />
+
+
+            <!-- Tabs Titles -->
+            <ul>
+                <li style="display: inline;"><a href="~/Home/Login"><h2 class="active">SIGN IN</h2></a></li>
+                <li style="display: inline;"><a href="~/Home/Register"><h2 class="inactive underlineHover">SIGN UP</h2></a></li>
+            </ul>
+
+            <!-- Icon -->
+            <div class="fadeIn first">
+                <img src="https://thumbs.dreamstime.com/b/choosing-ticket-icon-vector-isolated-contour-symbol-illustration-thin-line-sign-171542223.jpg" id="icon" alt="User Icon" />
+            </div>
+
+            @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="fadeIn second">
+                    @Html.TextBoxFor(m => m.username, "", new { @placeholder = "Username" })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.username, "", new { @class = "custom-validation-message" })
+                </div>
+
+                <div class="fadeIn second">
+                    @Html.PasswordFor(m => m.password, new { @placeholder = "Password" })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.password, "", new { @class = "custom-validation-message" })
+                </div>
+
+                <div class="fadeIn third">
+                    <input type="submit" name="submit" value="Đăng nhập">
+                </div>
+            }
+
+        </div>
+    </div>
+
+    <script>
+    // Kiểm tra xem ViewBag.error có giá trị hay không
+    var error = @Html.Raw(Json.Encode(ViewBag.Message));
+
+    // Kiểm tra nếu error không phải là null hoặc undefined hoặc chuỗi rỗng
+    if (error) {
+        alert(error);
+        }
+
+
+        // Kiểm tra xem key "Username" đã tồn tại trong sessionStorage hay chưa
+        if (!sessionStorage.getItem("Username")) {
+            // Nếu không tồn tại, thiết lập giá trị mặc định
+            sessionStorage.setItem("Username", "Guest");
+            sessionStorage.setItem("idMember", "-1");
+        }
+    </script>
+
+
+
+
+</body>
+</html>

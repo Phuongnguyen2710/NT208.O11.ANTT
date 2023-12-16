@@ -1,0 +1,16 @@
+﻿.group-form {
+    margin: 1rem 1rem;
+}
+.poster_film {
+    width: 100%;
+    max-height: 350px;
+}
+.footer_poster_film {
+    width: 100%;
+    max-height: 100px;
+}
+.h4{
+    font-size:2rem;
+    color:brown;
+    font-family:'UTM Avo';
+}
