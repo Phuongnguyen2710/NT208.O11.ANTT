@@ -202,5 +202,5 @@ nav:hover {
 
 .custom_search{
     display: flex;
-    background-color:red;
+    float: right;
 }

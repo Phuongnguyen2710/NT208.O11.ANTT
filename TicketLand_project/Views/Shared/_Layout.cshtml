@@ -17,11 +17,12 @@
     <link rel="stylesheet" href="~/assets/css/responsive.css">
     <link rel="stylesheet" href="~/assets/css/theme-dark.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="~/Assets/img/logos/logo.png">
 
 
-    <title>Tikket Land</title>
+    <title>Ticket Land</title>
 </head>
 <body>
 
@@ -195,12 +196,13 @@
                             }
                             else
                             {
-                                <!-- Optionally, you can show the user's name or a "Đăng xuất" (Logout) link -->
-                                <li class="nav-item">
-                                    Xin chào, @Session["Username"]
+                                <li class="nav-item text-center">
+                                    <img src="data:image/png;base64, @Session["Avartar"]" class="img_avartar" style="border-radius: 50%; height: 48px; width: 48px; margin-left: 107px; margin-top: -13px;}" /> Xin chào,
+                                        @Session["Username"]
+                                   
                                 </li>
 
-                                <li class="nav-item">
+                                <li class="nav-item text-danger" style="margin-left: 30px;">
                                     @Html.ActionLink("Đăng xuất", "Logout", "Home", new { area = "" }, new { @class = "nav-link" })
                                 </li>
                             }
@@ -209,6 +211,7 @@
                         <div class="nav-btn">
                             <a href="#" class="col-12 default-btn btn-bg-three border-radius-5">Đặt vé ngay</a>
                         </div>
+
                     </div>
                 </nav>
             </div>

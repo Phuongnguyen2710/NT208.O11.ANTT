@@ -37,7 +37,7 @@ $(document).ready(function () {
 });
 
 
-
+// Hàm tạo ghế
 function initializeSeats() {
     // Lấy thẻ chứa tất cả ghế
     let seats = document.querySelector(".all-seats");
@@ -70,22 +70,54 @@ function initializeSeats() {
         );
     }
 
+    //// Lấy tất cả các checkbox
+    //let checkboxes = document.querySelectorAll('input[name="tickets"]');
+
+    //// Thêm sự kiện click cho mỗi checkbox
+    //checkboxes.forEach(checkbox => {
+    //    checkbox.addEventListener('click', function () {
+    //        // Kiểm tra xem checkbox có được chọn hay không
+    //        if (this.checked) {
+    //            // Nếu được chọn, thêm class "booked" vào label tương ứng
+    //            this.nextElementSibling.classList.add('booked');
+    //            count_seats++;
+    //        } else {
+    //            // Nếu không được chọn, loại bỏ class "booked" khỏi label tương ứng
+    //            this.nextElementSibling.classList.remove('booked');
+    //        }
+    //    });
+    //});
+
+
     // Lấy tất cả các checkbox
     let checkboxes = document.querySelectorAll('input[name="tickets"]');
+    var count_seats = 0;
+    var maxSeats = 2;  // Số lượng ghế tối đa có thể chọn
 
     // Thêm sự kiện click cho mỗi checkbox
     checkboxes.forEach(checkbox => {
         checkbox.addEventListener('click', function () {
-            // Kiểm tra xem checkbox có được chọn hay không
-            if (this.checked) {
-                // Nếu được chọn, thêm class "booked" vào label tương ứng
-                this.nextElementSibling.classList.add('booked');
+            // Kiểm tra xem đã đạt được số lượng ghế tối đa chưa
+            if ((count_seats < maxSeats) && this.checked) {
+                // Kiểm tra xem checkbox có được chọn hay không
+                if (this.checked) {
+                    // Nếu được chọn và số lượng ghế chưa đạt tối đa, thêm class "booked" vào label tương ứng
+                    this.nextElementSibling.classList.add('booked');
+                    count_seats++;
+                } else {
+                    // Nếu không được chọn, loại bỏ class "booked" khỏi label tương ứng và giảm số lượng ghế đã chọn
+                    this.nextElementSibling.classList.remove('booked');
+                    count_seats--;
+                }
             } else {
-                // Nếu không được chọn, loại bỏ class "booked" khỏi label tương ứng
-                this.nextElementSibling.classList.remove('booked');
+                // Nếu đã đạt tới số lượng ghế tối đa, không thực hiện thêm/chọn
+                this.checked = false;
+                $("#errorAlert").fadeIn().delay(5000).fadeOut();
             }
         });
     });
+
+
 }
 
 
@@ -177,10 +209,7 @@ function saveSeats() {
     //    });
     }
 
-    // Gọi hàm initializeSeats và loadSeatsData khi trang được tải
-    document.addEventListener('DOMContentLoaded', function () {
-        initializeSeats();
-    });
+  
     
 
 

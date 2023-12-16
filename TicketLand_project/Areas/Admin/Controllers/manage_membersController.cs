@@ -25,7 +25,7 @@ namespace TicketLand_project.Areas.Admin.Controllers
             var idMember = Session["idMember"] as string;
             if (username != "phuong2003" || idMember != "1")
             {
-                return RedirectToAction("Login", "Home");
+                return RedirectToAction("Login", "Home", new { area = "" });
             }
             var members = db.members.Include(m => m.ROLE);
             return View(members.ToList());
@@ -37,7 +37,8 @@ namespace TicketLand_project.Areas.Admin.Controllers
             string username = Session["Username"] as string;
             string idMember = Session["idMember"] as string;
             string isLogin = Session["IsLoggedIn"] as string;
-            return Json(new { Username = username, IdMember = idMember, IsLogin = isLogin }, JsonRequestBehavior.AllowGet);
+            string avatar = Session["Avartar"] as string ?? "Null";
+            return Json(new { Username = username, IdMember = idMember, IsLogin = isLogin, Avatar = avatar }, JsonRequestBehavior.AllowGet);
         }
 
 
