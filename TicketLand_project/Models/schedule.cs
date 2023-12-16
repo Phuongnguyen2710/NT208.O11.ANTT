@@ -23,7 +23,6 @@ namespace TicketLand_project.Models
         public int schedule_id { get; set; }
         public Nullable<int> movie_id { get; set; }
         public Nullable<int> room_id { get; set; }
-        public Nullable<System.DateTime> schedule_date { get; set; }
         public Nullable<System.TimeSpan> schedule_date_start { get; set; }
         public Nullable<System.TimeSpan> schedule_date_end { get; set; }
         public Nullable<System.TimeSpan> time_start { get; set; }

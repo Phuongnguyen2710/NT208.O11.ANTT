@@ -8,25 +8,41 @@
 <link href="~/Areas/Assets/css/Seat.css" rel="stylesheet" />
 
 
+
+
 <div class="center">
     <div class="tickets">
+        <!-- Alert thông báo trạng thái-->
+        <div class="alert alert-info alert-dismissible" style="display: none;" id="successAlert">
+            <strong>Success!</strong> Quá trình lưu thành công.
+        </div>
+
+        <div class="alert alert-info alert-dismissible" style="display: none;" id="errorAlert">
+            <strong>Success!</strong> lưu thất bại.
+        </div>
+
+
         <div class="ticket-selector">
             <div class="head">
                 <div class="title">SƠ ĐỒ CHỖ NGỒI</div>
             </div>
-                <div class="col-md-10">
-                    @Html.DropDownList("room_id", null, htmlAttributes: new { @class = "form-control", @id = "room_id" })
-                    @Html.ValidationMessageFor(model => model.room_id, "", new { @class = "text-danger" })
-                </div>
-     <br/>
+            <!--List phòng-->
+            <div class="col-md-10">
+                @Html.DropDownList("room_Id", null, htmlAttributes: new { @class = "form-control text-center", @id = "room_id", @disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.room_id, "", new { @class = "text-danger" })
+            </div>
+            <br />
 
+            <!--Màn hình-->
             <div class="screen"></div>
 
-            <div class="all-seats">
-            </div>
+            <!--Ghế ngồi-->
+            <div class="all-seats"></div>
         </div>
 
         <div class="seats">
+
+            <!--Ghế ngồi available và selected-->
             <div class="status">
                 <div class="item">Available</div>
                 <div class="item">Selected</div>
@@ -42,101 +58,9 @@
     @Html.ActionLink("Back to List", "Index")
 </div>
 
+
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-<script>
-
-    // Lấy thẻ chứa tất cả ghế
-    let seats = document.querySelector(".all-seats");
-
-    // Số lượng ghế trong mỗi dãy
-    let seatsPerRow = 10;
-
-    // Số lượng dãy
-    let numRows = 5;
-
-    // Lặp qua số lượng ghế trong mỗi dãy
-    for (let i = 0; i < seatsPerRow * numRows; i++) {
-        // Tính toán số hàng (chữ cái)
-        let rowLetter = String.fromCharCode('A'.charCodeAt(0) + Math.floor(i / seatsPerRow));
-
-        // Tính toán chữ số cho cột (chữ số)
-        let seatNumber = (i % seatsPerRow) + 1;
-
-        // Thêm ghế vào DOM với đánh số theo hàng là A1, A2, A3, ...
-        seats.insertAdjacentHTML(
-            "beforeend",
-            '<input type="checkbox" name="tickets" id="' +
-            rowLetter +
-            seatNumber +
-            '" /><label for="' +
-            rowLetter +
-            seatNumber +
-            '" class="seat"></label>'
-        );
-    }
-
-    // Lấy tất cả các checkbox
-    let checkboxes = document.querySelectorAll('input[name="tickets"]');
-
-    // Thêm sự kiện click cho mỗi checkbox
-    checkboxes.forEach(checkbox => {
-        checkbox.addEventListener('click', function () {
-            // Kiểm tra xem checkbox có được chọn hay không
-            if (this.checked) {
-                // Nếu được chọn, thêm class "booked" vào label tương ứng
-                this.nextElementSibling.classList.add('booked');
-            } else {
-                // Nếu không được chọn, loại bỏ class "booked" khỏi label tương ứng
-                this.nextElementSibling.classList.remove('booked');
-            }
-        });
-    });
-
-    // Hàm để lưu thông tin ghế khi nhấn nút SET
-    function saveSeats() {
-        // Tạo một mảng để lưu trữ thông tin về các ghế được chọn
-        let selectedSeats = [];
-
-        // Lấy đối tượng phần tử dropdown theo ID (lấy id của phòng)
-        let dropdown = document.getElementById("room_id");
-
-        // Lấy ID của dropdown
-        let dropdownId = dropdown.value;
-
-        // Lặp qua tất cả checkbox để xem ghế nào được chọn
-        let checkboxes = document.querySelectorAll('input[name="tickets"]:checked');
-        checkboxes.forEach(checkbox => {
-            // Lấy thông tin về hàng và số ghế từ ID của checkbox
-            let seatId = checkbox.id;
-            let row = seatId[0];
-            let number = seatId.substring(1);
-            let status = true;
-            let room_id = dropdownId;
-
-            // Thêm thông tin về ghế vào mảng
-            selectedSeats.push({ room_id ,row, number, status });
-        });
-
-        // Hiển thị payload trước khi gửi đi
-        console.log('Payload:', selectedSeats);
+<script src="~/Areas/Assets/js/Set_seats.js"></script>
 
 
-        // Gửi dữ liệu đến controller bằng Ajax
-        $.ajax({
-            url: '/Admin/seats/SaveSeats',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(selectedSeats),
-            success: function (response) {
-                // Xử lý kết quả trả về từ controller
-                console.log(response);
-            },
-            error: function (error) {
-                console.error('Error:', error);
-            }
-        });
-    }
 
-
-</script>

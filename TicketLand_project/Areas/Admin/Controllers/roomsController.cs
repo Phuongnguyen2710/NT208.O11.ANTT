@@ -115,6 +115,96 @@ namespace TicketLand_project.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+
+        // GET: Admin/seats/Create
+        public ActionResult Create_Seats()
+        {
+            return View();
+        }
+
+
+        //Hàm post dữ liệu ghế bằng ajax
+        [HttpPost]
+        public JsonResult SaveSeats(List<seat> selectedSeats)
+        {
+            try
+            {
+                foreach (var selectedSeat in selectedSeats)
+                {
+                    seat newSeat = new seat
+                    {
+                        room_id = selectedSeat.room_id,
+                        seats_status = true,
+                        row = selectedSeat.row,
+                        number = selectedSeat.number
+                    };
+
+                    if ((newSeat.row == "A" && (newSeat.number == 1 || newSeat.number == 2 || newSeat.number == 9 || newSeat.number == 10)) ||
+                        (newSeat.row == "B" && (newSeat.number == 1 || newSeat.number == 2 || newSeat.number == 9 || newSeat.number == 10)) ||
+                        (newSeat.row == "C" && (newSeat.number == 1 || newSeat.number == 2 || newSeat.number == 9 || newSeat.number == 10)) ||
+                        (newSeat.row == "D" && (newSeat.number == 1 || newSeat.number == 2 || newSeat.number == 9 || newSeat.number == 10)) ||
+                        (newSeat.row == "E" && (newSeat.number == 1 || newSeat.number == 2 || newSeat.number == 9 || newSeat.number == 10)))
+                    {
+                        newSeat.seat_type = "Couple";
+                    }
+                    else
+                    {
+                        newSeat.seat_type = "Đơn";
+                    }
+
+
+                    // Thêm mới ghế vào cơ sở dữ liệu
+                    db.seats.Add(newSeat);
+                }
+
+                // Lưu thay đổi vào cơ sở dữ liệu
+                db.SaveChanges();
+
+                return Json(new { success = true, message = "Seats saved successfully" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+        //Hàm post dữ liệu ghế ngồi ajax
+        [HttpGet]
+        public JsonResult LoadSeatsData_()
+        {
+            try
+            {
+                var _seats = db.seats.Select(s => new
+                {
+                    seatId = s.seat_id,
+                    seatNumber = s.number,
+                    seatRow = s.row,
+                    seatType = s.seat_type,
+                    Room = new
+                    {
+                        RoomId = s.room.room_id,
+                    }
+                }).ToList();
+
+                return Json(new { seats = _seats }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+
+        public ActionResult GetModalContent(int roomId)
+        {
+            // Lấy dữ liệu phòng từ cơ sở dữ liệu hoặc từ nơi nào đó
+            var room = db.rooms.Find(roomId);// Lấy thông tin phòng dựa trên roomId;
+
+            // Trả về PartialView của modal với dữ liệu của phòng
+            return PartialView("DeletePartialView", room);
+        }
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

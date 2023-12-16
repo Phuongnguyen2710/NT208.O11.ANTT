@@ -1,58 +1,60 @@
 ﻿@model IEnumerable<TicketLand_project.Models.seat>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Quản lý Ghế";
     Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
 }
 
-<h2>Index</h2>
+<h1 class="custom_h1"><b>Quản lý ghế ngồi </b></h1>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.seat_type)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.row)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.number)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.seats_status)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.room.room_name)
-        </th>
-        <th></th>
-    </tr>
+<div class="container_custom">
+    <div class="box_shadow">
+        <table class="tableStyle">
+            <tr>
+                <th>Tên phòng</th>
+                <th>Loại ghế</th>
+                <th>Hàng</th>
+                <th>Cột</th>
+                <th>Tình trạng</th>
+                <th>Action</th>
+            </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.seat_type)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.row)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.number)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.seats_status)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.room.room_name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.seat_id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.seat_id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.seat_id })
-        </td>
-    </tr>
-}
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.room.room_name)
+                    </td>
 
-</table>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.seat_type)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.row)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.number)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.seats_status)
+                    </td>
+
+                    <td>
+                        <button class="btn btn-xs btn-primary " onclick="location.href='@Url.Action("Edit", new { id = item.seat_id })'">
+                            <i class="fa fa-edit custom_i"></i>
+                        </button>
+
+                        <button class="btn btn-xs btn-info " onclick="location.href='@Url.Action("Details", new { id = item.seat_id })'">
+                            <i class="fa fa-info-circle custom_i"></i>
+                        </button>
+
+                        <button class="btn btn-xs btn-warning " onclick="location.href='@Url.Action("Delete", new { id = item.seat_id })'">
+                            <i class="fa fa-trash custom_i"></i>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+

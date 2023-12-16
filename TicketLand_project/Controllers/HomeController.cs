@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 using TicketLand_project.Models;
 
@@ -17,7 +18,16 @@ namespace TicketLand_project.Controllers
         QUANLYXEMPHIMEntities objModel = new QUANLYXEMPHIMEntities();
         public ActionResult Index()
         {
-            return View();
+            if (Session["Username"] != null)
+            {
+                return View();
+            }
+            else if (Session["username"].ToString() == "Phương")
+            {
+                return View();
+            }
+
+            return RedirectToAction("Login");
         }
 
         // GET: Register
@@ -68,7 +78,7 @@ namespace TicketLand_project.Controllers
             return View();
         }
 
-        //create a string MD5
+        //Tạo MD5
         public static string GetMD5(string str)
         {
             string byte2String = null;
@@ -109,7 +119,9 @@ namespace TicketLand_project.Controllers
                     {
                         //add session
                         Session["Username"] = data.FirstOrDefault().username;
-                        Session["idMember"] = data.FirstOrDefault().member_id;
+                        Session["idMember"] = data.FirstOrDefault().member_id.ToString();
+                        Session["IsLoggedIn"] = "1";
+                        // 2: user, 1: admin
                         if (data.FirstOrDefault().role_id == 2)
                         {
                             return RedirectToAction("Index");
@@ -132,6 +144,16 @@ namespace TicketLand_project.Controllers
             return View();
         }
 
+        //Lấy thông tin session để hiển thị ra session storage
+        public JsonResult GetUserInfo()
+        {
+            string username = Session["Username"] as string ?? "Guest";
+            string idMember = Session["idMember"] as string ?? "-1";
+            string isLogin = Session["IsLoggedIn"] as string ?? "0";
+            return Json(new { Username = username, IdMember = idMember, IsLogin = isLogin }, JsonRequestBehavior.AllowGet);
+        }
+
+ 
         //Logout
         public ActionResult Logout()
         {

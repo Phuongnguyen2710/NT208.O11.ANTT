@@ -15,6 +15,7 @@ namespace TicketLand_project.Areas.Admin.Controllers
 {
     public class seatsController : Controller
     {
+
         private QUANLYXEMPHIMEntities db = new QUANLYXEMPHIMEntities();
 
         // GET: Admin/seats
@@ -64,7 +65,7 @@ namespace TicketLand_project.Areas.Admin.Controllers
         //    return View(seat);
         //}
 
-
+        //Hàm post dữ liệu ghế bằng ajax
         [HttpPost]
         public JsonResult SaveSeats(List<seat> selectedSeats)
         {
@@ -75,7 +76,7 @@ namespace TicketLand_project.Areas.Admin.Controllers
                     seat newSeat = new seat
                     {
                         room_id = selectedSeat.room_id,
-                        seats_status = selectedSeat.seats_status,
+                        seats_status = true,
                         row = selectedSeat.row,
                         number = selectedSeat.number
                     };
@@ -95,6 +96,10 @@ namespace TicketLand_project.Areas.Admin.Controllers
 
 
                     // Thêm mới ghế vào cơ sở dữ liệu
+                    //if (db.seats.Any(x => x.row == newSeat.row && x.number == newSeat.number))
+                    //{
+                    //    return Json(new { success = false, message = "Ghế đã được cài đặt" });
+                    //}
                     db.seats.Add(newSeat);
                 }
 
@@ -102,6 +107,31 @@ namespace TicketLand_project.Areas.Admin.Controllers
                 db.SaveChanges();
 
                 return Json(new { success = true, message = "Seats saved successfully" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        public JsonResult LoadSeatsData_()
+        {
+            try
+            {
+                var _seats = db.seats.Select(s => new
+                {
+                    seatId = s.seat_id,
+                    seatNumber = s.number,
+                    seatRow = s.row,
+                    seatType = s.seat_type,
+                    Room = new
+                    {
+                        RoomId = s.room.room_id,
+                    }
+                }).ToList();
+
+                return Json(new { seats = _seats }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

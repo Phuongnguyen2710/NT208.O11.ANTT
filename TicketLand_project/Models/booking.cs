@@ -17,7 +17,7 @@ namespace TicketLand_project.Models
         public int booking_id { get; set; }
         public Nullable<int> member_id { get; set; }
         public Nullable<int> schedule_id { get; set; }
-        public Nullable<System.DateTime> booking_date { get; set; }
+        public Nullable<System.TimeSpan> booking_date { get; set; }
         public Nullable<int> total_price { get; set; }
         public Nullable<int> booking_status { get; set; }
     

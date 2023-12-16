@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="QUANLYXEMPHIMModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+<Schema Namespace="QUANLYXEMPHIMModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityType Name="booking">
     <Key>
       <PropertyRef Name="booking_id" />
@@ -7,7 +7,7 @@
     <Property Name="booking_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="member_id" Type="int" />
     <Property Name="schedule_id" Type="int" />
-    <Property Name="booking_date" Type="date" />
+    <Property Name="booking_date" Type="time" Precision="7" />
     <Property Name="total_price" Type="int" />
     <Property Name="booking_status" Type="int" />
   </EntityType>
@@ -62,8 +62,8 @@ warning 6013: The table/view 'QUANLYXEMPHIM.dbo.booking_detail' does not have a 
       <PropertyRef Name="movie_id" />
     </Key>
     <Property Name="movie_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="movie_name" Type="ntext" />
-    <Property Name="movie_description" Type="ntext" />
+    <Property Name="movie_name" Type="nvarchar" MaxLength="30" />
+    <Property Name="movie_description" Type="nvarchar" MaxLength="50" />
     <Property Name="movie_trailer" Type="text" />
     <Property Name="movie_cens" Type="varchar" MaxLength="3" />
     <Property Name="movie_genres" Type="nvarchar" MaxLength="30" />
@@ -71,8 +71,9 @@ warning 6013: The table/view 'QUANLYXEMPHIM.dbo.booking_detail' does not have a 
     <Property Name="movie_duration" Type="time" Precision="7" />
     <Property Name="movie_format" Type="text" />
     <Property Name="movie_poster" Type="text" />
-    <Property Name="movie_actor" Type="ntext" />
-    <Property Name="movie_director" Type="ntext" />
+    <Property Name="movie_actor" Type="nvarchar" MaxLength="30" />
+    <Property Name="movie_director" Type="nvarchar" MaxLength="20" />
+    <Property Name="movie_status" Type="int" />
     <Property Name="rate" Type="float" />
   </EntityType>
   <EntityType Name="news">
@@ -108,7 +109,6 @@ warning 6013: The table/view 'QUANLYXEMPHIM.dbo.booking_detail' does not have a 
     <Property Name="schedule_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="movie_id" Type="int" />
     <Property Name="room_id" Type="int" />
-    <Property Name="schedule_date" Type="date" />
     <Property Name="schedule_date_start" Type="time" Precision="7" />
     <Property Name="schedule_date_end" Type="time" Precision="7" />
     <Property Name="time_start" Type="time" Precision="7" />
@@ -125,7 +125,7 @@ warning 6013: The table/view 'QUANLYXEMPHIM.dbo.booking_detail' does not have a 
     <Property Name="number" Type="int" />
     <Property Name="seats_status" Type="bit" />
   </EntityType>
-  <Association Name="FK__booking__member___3A81B327">
+  <Association Name="FK__booking__member___72C60C4A">
     <End Role="members" Type="Self.members" Multiplicity="0..1" />
     <End Role="booking" Type="Self.booking" Multiplicity="*" />
     <ReferentialConstraint>
@@ -137,7 +137,7 @@ warning 6013: The table/view 'QUANLYXEMPHIM.dbo.booking_detail' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__booking__schedul__3B75D760">
+  <Association Name="FK__booking__schedul__73BA3083">
     <End Role="schedule" Type="Self.schedule" Multiplicity="0..1" />
     <End Role="booking" Type="Self.booking" Multiplicity="*" />
     <ReferentialConstraint>
@@ -151,11 +151,11 @@ warning 6013: The table/view 'QUANLYXEMPHIM.dbo.booking_detail' does not have a 
   </Association>
   <!--Errors Found During Generation:
 error 6004: The table 'QUANLYXEMPHIM.dbo.booking_detail' is referenced by a relationship, but cannot be found.
-        <Association Name="FK__booking_d__booki__3C69FB99" />-->
+        <Association Name="FK__booking_d__booki__74AE54BC" />-->
   <!--Errors Found During Generation:
 error 6004: The table 'QUANLYXEMPHIM.dbo.booking_detail' is referenced by a relationship, but cannot be found.
-        <Association Name="FK__booking_d__seat___3D5E1FD2" />-->
-  <Association Name="FK__comment__member___3E52440B">
+        <Association Name="FK__booking_d__seat___75A278F5" />-->
+  <Association Name="FK__comment__member___76969D2E">
     <End Role="members" Type="Self.members" Multiplicity="0..1" />
     <End Role="comment" Type="Self.comment" Multiplicity="*" />
     <ReferentialConstraint>
@@ -167,7 +167,7 @@ error 6004: The table 'QUANLYXEMPHIM.dbo.booking_detail' is referenced by a rela
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__comment__movie_i__3F466844">
+  <Association Name="FK__comment__movie_i__778AC167">
     <End Role="movies" Type="Self.movies" Multiplicity="0..1" />
     <End Role="comment" Type="Self.comment" Multiplicity="*" />
     <ReferentialConstraint>
@@ -179,7 +179,7 @@ error 6004: The table 'QUANLYXEMPHIM.dbo.booking_detail' is referenced by a rela
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__event__movie_id__403A8C7D">
+  <Association Name="FK__event__movie_id__787EE5A0">
     <End Role="movies" Type="Self.movies" Multiplicity="0..1" />
     <End Role="event" Type="Self.event" Multiplicity="*" />
     <ReferentialConstraint>
@@ -191,7 +191,7 @@ error 6004: The table 'QUANLYXEMPHIM.dbo.booking_detail' is referenced by a rela
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__members__role_id__36B12243">
+  <Association Name="FK__members__role_id__6EF57B66">
     <End Role="ROLE" Type="Self.ROLE" Multiplicity="0..1" />
     <End Role="members" Type="Self.members" Multiplicity="*" />
     <ReferentialConstraint>
@@ -203,7 +203,7 @@ error 6004: The table 'QUANLYXEMPHIM.dbo.booking_detail' is referenced by a rela
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__news__movie_id__412EB0B6">
+  <Association Name="FK__news__movie_id__797309D9">
     <End Role="movies" Type="Self.movies" Multiplicity="0..1" />
     <End Role="news" Type="Self.news" Multiplicity="*" />
     <ReferentialConstraint>
@@ -215,7 +215,7 @@ error 6004: The table 'QUANLYXEMPHIM.dbo.booking_detail' is referenced by a rela
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__schedule__movie___38996AB5">
+  <Association Name="FK__schedule__movie___70DDC3D8">
     <End Role="movies" Type="Self.movies" Multiplicity="0..1" />
     <End Role="schedule" Type="Self.schedule" Multiplicity="*" />
     <ReferentialConstraint>
@@ -227,7 +227,7 @@ error 6004: The table 'QUANLYXEMPHIM.dbo.booking_detail' is referenced by a rela
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__schedule__room_i__398D8EEE">
+  <Association Name="FK__schedule__room_i__71D1E811">
     <End Role="rooms" Type="Self.rooms" Multiplicity="0..1" />
     <End Role="schedule" Type="Self.schedule" Multiplicity="*" />
     <ReferentialConstraint>
@@ -239,7 +239,7 @@ error 6004: The table 'QUANLYXEMPHIM.dbo.booking_detail' is referenced by a rela
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__seats__room_id__37A5467C">
+  <Association Name="FK__seats__room_id__6FE99F9F">
     <End Role="rooms" Type="Self.rooms" Multiplicity="0..1" />
     <End Role="seats" Type="Self.seats" Multiplicity="*" />
     <ReferentialConstraint>
@@ -262,43 +262,43 @@ error 6004: The table 'QUANLYXEMPHIM.dbo.booking_detail' is referenced by a rela
     <EntitySet Name="rooms" EntityType="Self.rooms" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="schedule" EntityType="Self.schedule" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="seats" EntityType="Self.seats" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK__booking__member___3A81B327" Association="Self.FK__booking__member___3A81B327">
+    <AssociationSet Name="FK__booking__member___72C60C4A" Association="Self.FK__booking__member___72C60C4A">
       <End Role="members" EntitySet="members" />
       <End Role="booking" EntitySet="booking" />
     </AssociationSet>
-    <AssociationSet Name="FK__booking__schedul__3B75D760" Association="Self.FK__booking__schedul__3B75D760">
+    <AssociationSet Name="FK__booking__schedul__73BA3083" Association="Self.FK__booking__schedul__73BA3083">
       <End Role="schedule" EntitySet="schedule" />
       <End Role="booking" EntitySet="booking" />
     </AssociationSet>
-    <AssociationSet Name="FK__comment__member___3E52440B" Association="Self.FK__comment__member___3E52440B">
+    <AssociationSet Name="FK__comment__member___76969D2E" Association="Self.FK__comment__member___76969D2E">
       <End Role="members" EntitySet="members" />
       <End Role="comment" EntitySet="comment" />
     </AssociationSet>
-    <AssociationSet Name="FK__comment__movie_i__3F466844" Association="Self.FK__comment__movie_i__3F466844">
+    <AssociationSet Name="FK__comment__movie_i__778AC167" Association="Self.FK__comment__movie_i__778AC167">
       <End Role="movies" EntitySet="movies" />
       <End Role="comment" EntitySet="comment" />
     </AssociationSet>
-    <AssociationSet Name="FK__event__movie_id__403A8C7D" Association="Self.FK__event__movie_id__403A8C7D">
+    <AssociationSet Name="FK__event__movie_id__787EE5A0" Association="Self.FK__event__movie_id__787EE5A0">
       <End Role="movies" EntitySet="movies" />
       <End Role="event" EntitySet="event" />
     </AssociationSet>
-    <AssociationSet Name="FK__members__role_id__36B12243" Association="Self.FK__members__role_id__36B12243">
+    <AssociationSet Name="FK__members__role_id__6EF57B66" Association="Self.FK__members__role_id__6EF57B66">
       <End Role="ROLE" EntitySet="ROLE" />
       <End Role="members" EntitySet="members" />
     </AssociationSet>
-    <AssociationSet Name="FK__news__movie_id__412EB0B6" Association="Self.FK__news__movie_id__412EB0B6">
+    <AssociationSet Name="FK__news__movie_id__797309D9" Association="Self.FK__news__movie_id__797309D9">
       <End Role="movies" EntitySet="movies" />
       <End Role="news" EntitySet="news" />
     </AssociationSet>
-    <AssociationSet Name="FK__schedule__movie___38996AB5" Association="Self.FK__schedule__movie___38996AB5">
+    <AssociationSet Name="FK__schedule__movie___70DDC3D8" Association="Self.FK__schedule__movie___70DDC3D8">
       <End Role="movies" EntitySet="movies" />
       <End Role="schedule" EntitySet="schedule" />
     </AssociationSet>
-    <AssociationSet Name="FK__schedule__room_i__398D8EEE" Association="Self.FK__schedule__room_i__398D8EEE">
+    <AssociationSet Name="FK__schedule__room_i__71D1E811" Association="Self.FK__schedule__room_i__71D1E811">
       <End Role="rooms" EntitySet="rooms" />
       <End Role="schedule" EntitySet="schedule" />
     </AssociationSet>
-    <AssociationSet Name="FK__seats__room_id__37A5467C" Association="Self.FK__seats__room_id__37A5467C">
+    <AssociationSet Name="FK__seats__room_id__6FE99F9F" Association="Self.FK__seats__room_id__6FE99F9F">
       <End Role="rooms" EntitySet="rooms" />
       <End Role="seats" EntitySet="seats" />
     </AssociationSet>

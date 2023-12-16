@@ -1,15 +1,14 @@
 ﻿@model IEnumerable<TicketLand_project.Models.room>
 
 @{
+    ViewBag.title = "Manage";
     Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
 }
 
 <!DOCTYPE html>
-
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-
 </head>
 <body>
     <h1 class="custom_h1"><b>THÔNG TIN PHÒNG CHIẾU PHIM </b></h1>
@@ -18,41 +17,81 @@
         <p>
             <button type="button" class="btn btn-success" onclick="location.href='@Url.Action("Create")'">Create New +</button>
         </p>
-        <table class="tableStyle">
-            <tr>
-                <th>Tên Phòng</th>
-                <th>Sức chứa</th>
-                <th> Action</th>
-            </tr>
-
-            @foreach (var item in Model)
-            {
+        <div class="box_shadow">
+            <table class="tableStyle">
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.room_name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.capacity)
-                    </td>
-                    <td>
-                        <button class="btn btn-xs btn-primary " onclick="location.href='@Url.Action("Edit", new { id = item.room_id })'">
-                            <i class="fa fa-edit custom_i"></i>
-                        </button>
-
-                        <button class="btn btn-xs btn-warning " onclick="location.href='@Url.Action("Details", new { id = item.room_id })'">
-                            <i class="fa fa-info-circle custom_i"></i>
-                        </button>
-
-                        <button class="btn btn-xs btn-danger delete-button" onclick="location.href='@Url.Action("Delete", new { id = item.room_id })'">
-
-                            <i class="fa fa-trash custom_i" aria-hidden="true"></i>
-                        </button>
-                    </td>
+                    <th>Tên Phòng</th>
+                    <th>Sức chứa</th>
+                    <th>Action</th>
                 </tr>
-            }
 
-        </table>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.room_name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.capacity)
+                        </td>
+                        <td>
+                            <button class="btn btn-xs btn-primary" onclick="location.href='@Url.Action("Edit", new { id = item.room_id })'">
+                                <i class="fa fa-edit custom_i"></i>
+                            </button>
+
+                            <button class="btn btn-xs btn-info" data-toggle="modal" data-target="#roomModal_@item.room_id">
+                                <i class="fa fa-info-circle custom_i"></i>
+                            </button>
+
+                            <!-- Modal Placeholder -->
+                            <div class="modal fade" id="roomModal_@item.room_id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">THÔNG TIN PHÒNG</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <dl class="dl-horizontal">
+                                                <dt>Tên Phòng</dt>
+                                                <dd>
+                                                    @Html.DisplayFor(model => item.room_name)
+                                                </dd>
+
+                                                <dt>Sức chứa</dt>
+                                                <dd>
+                                                    @Html.DisplayFor(model => item.capacity)
+                                                </dd>
+                                            </dl>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" location.href="@Url.Action("Edit", new {id = item.room_id})">Edit</button>
+                                            @*@Html.ActionLink("Edit", "Edit", new { id = item.room_id }, new { @class = "btn btn-primary" })*@
+                                            @Html.ActionLink("Back to List", "Index", new { @class = "btn btn-secondary" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-xs btn-danger delete-button" onclick="location.href='@Url.Action("Delete", new { id = item.room_id })'">
+                                <i class="fa fa-trash custom_i" aria-hidden="true"></i>
+                            </button>
+
+                            <button class="btn btn-xs btn-warning" onclick="location.href='@Url.Action("Create", "seats", new { roomId = item.room_id })'">
+                                <i class="fa fa-plus custom_i"></i> Tạo ghế
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
     </div>
 
+    <!-- Bootstrap JS and jQuery (make sure they are included after Bootstrap CSS) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

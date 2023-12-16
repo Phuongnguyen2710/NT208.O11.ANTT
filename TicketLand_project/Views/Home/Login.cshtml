@@ -19,7 +19,7 @@
 <body>
     <div class="wrapper fadeInDown">
         <div id="formContent">
-            <br/>
+            <br />
 
 
             <!-- Tabs Titles -->
@@ -63,8 +63,19 @@
     // Kiểm tra nếu error không phải là null hoặc undefined hoặc chuỗi rỗng
     if (error) {
         alert(error);
-    }
+        }
+
+
+        // Kiểm tra xem key "Username" đã tồn tại trong sessionStorage hay chưa
+        if (!sessionStorage.getItem("Username")) {
+            // Nếu không tồn tại, thiết lập giá trị mặc định
+            sessionStorage.setItem("Username", "Guest");
+            sessionStorage.setItem("idMember", "-1");
+        }
     </script>
+
+
+
 
 </body>
 </html>

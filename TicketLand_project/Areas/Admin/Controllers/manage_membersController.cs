@@ -21,9 +21,26 @@ namespace TicketLand_project.Areas.Admin.Controllers
         // GET: Admin/manage_members
         public ActionResult Index()
         {
+            var username = Session["Username"] as string;
+            var idMember = Session["idMember"] as string;
+            if (username != "phuong2003" || idMember != "1")
+            {
+                return RedirectToAction("Login", "Home");
+            }
             var members = db.members.Include(m => m.ROLE);
             return View(members.ToList());
         }
+
+        [HttpGet]
+        public JsonResult GetUserInfoFromUser()
+        {
+            string username = Session["Username"] as string;
+            string idMember = Session["idMember"] as string;
+            string isLogin = Session["IsLoggedIn"] as string;
+            return Json(new { Username = username, IdMember = idMember, IsLogin = isLogin }, JsonRequestBehavior.AllowGet);
+        }
+
+
 
         // GET: Admin/manage_members/Details/5
         public ActionResult Details(int? id)
@@ -66,7 +83,7 @@ namespace TicketLand_project.Areas.Admin.Controllers
             return View();
         }
 
-        // POST: Admin/manage_members/Create
+        // POST: Admin/manage_members/Creates
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
