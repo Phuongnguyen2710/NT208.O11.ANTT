@@ -46,6 +46,7 @@
                             <!-- Modal Placeholder -->
                             <div class="modal fade" id="roomModal_@item.room_id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
+                                    <!-- Modal header -->
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="exampleModalLabel">THÔNG TIN PHÒNG</h5>
@@ -53,6 +54,7 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
+                                        <!-- Modal Body -->
                                         <div class="modal-body">
                                             <dl class="dl-horizontal">
                                                 <dt>Tên Phòng</dt>
@@ -62,15 +64,24 @@
 
                                                 <dt>Sức chứa</dt>
                                                 <dd>
-                                                    @Html.DisplayFor(model => item.capacity)
+                                                    @Html.DisplayFor(model => item.capacity, new { id = "Capacity" })
                                                 </dd>
                                             </dl>
                                         </div>
+                                        <!-- Modal footer -->
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary" location.href="@Url.Action("Edit", new {id = item.room_id})">Edit</button>
-                                            @*@Html.ActionLink("Edit", "Edit", new { id = item.room_id }, new { @class = "btn btn-primary" })*@
+                                            @*<button type="button" class="btn btn-primary" location.href="@Url.Action("Edit", new {id = item.room_id})">Edit</button>*@
+                                            @Html.ActionLink("Edit", "Edit", new { id = item.room_id }, new { @class = "btn btn-primary" })
                                             @Html.ActionLink("Back to List", "Index", new { @class = "btn btn-secondary" })
+                                            @using (Html.BeginForm())
+                                            {
+                                                @Html.AntiForgeryToken()
+
+                                                <div class="form-actions no-color">
+                                                    <input type="submit" value="Delete" class="btn btn-default" /> |
+                                                </div>
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -80,7 +91,7 @@
                                 <i class="fa fa-trash custom_i" aria-hidden="true"></i>
                             </button>
 
-                            <button class="btn btn-xs btn-warning" onclick="location.href='@Url.Action("Create", "seats", new { roomId = item.room_id })'">
+                            <button class="btn btn-xs btn-warning" onclick="location.href='@Url.Action("Create", "seats", new { roomId = item.room_id })'" data-capacity="@Html.DisplayFor(modelItem => item.capacity)">
                                 <i class="fa fa-plus custom_i"></i> Tạo ghế
                             </button>
                         </td>
@@ -90,8 +101,10 @@
         </div>
     </div>
 
-    <!-- Bootstrap JS and jQuery (make sure they are included after Bootstrap CSS) -->
+    <!-- Bootstrap JS and jQuery-->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
 </body>
 </html>

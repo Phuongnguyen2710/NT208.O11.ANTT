@@ -41,29 +41,23 @@ namespace TicketLand_project.Areas.Admin.Controllers
         }
 
         // GET: Admin/seats/Create
-        public ActionResult Create()
+        public ActionResult Create(string roomSlug)
         {
             ViewBag.room_id = new SelectList(db.rooms, "room_id", "room_name");
+            ViewBag.room_capacity = new SelectList(db.rooms, "room_id", "capacity");
             return View();
         }
 
-        //// POST: Admin/seats/Create
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create([Bind(Include = "seat_id,seat_type,room_id,row,number,seats_status")] seat seat)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.seats.Add(seat);
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
+        [HttpGet]
+        public JsonResult GetRoomCapacity(int roomId)
+        {
+            // Lấy capacity từ cơ sở dữ liệu dựa trên roomId
+            var capacity = db.rooms.Find(roomId)?.capacity;
 
-        //    ViewBag.room_id = new SelectList(db.rooms, "room_id", "room_name", seat.room_id);
-        //    return View(seat);
-        //}
+            // Trả về capacity dưới dạng JSON
+            return Json(capacity, JsonRequestBehavior.AllowGet);
+        }
+
 
         //Hàm post dữ liệu ghế bằng ajax
         [HttpPost]
@@ -81,6 +75,7 @@ namespace TicketLand_project.Areas.Admin.Controllers
                         number = selectedSeat.number
                     };
 
+
                     if ((newSeat.row == "A" && (newSeat.number == 1 || newSeat.number == 2 || newSeat.number == 9 || newSeat.number == 10)) ||
                         (newSeat.row == "B" && (newSeat.number == 1 || newSeat.number == 2 || newSeat.number == 9 || newSeat.number == 10)) ||
                         (newSeat.row == "C" && (newSeat.number == 1 || newSeat.number == 2 || newSeat.number == 9 || newSeat.number == 10)) ||
@@ -94,15 +89,15 @@ namespace TicketLand_project.Areas.Admin.Controllers
                         newSeat.seat_type = "Đơn";
                     }
 
+                    // Check trùng nhau để báo lỗi
+                    var check_unique = db.seats.Any(x => x.row == newSeat.row && x.number == newSeat.number);
+                    if (check_unique)
+                    {
+                        return Json(new { success = false, message = "Ghế đã được set up!" });
+                    }
 
-                    // Thêm mới ghế vào cơ sở dữ liệu
-                    //if (db.seats.Any(x => x.row == newSeat.row && x.number == newSeat.number))
-                    //{
-                    //    return Json(new { success = false, message = "Ghế đã được cài đặt" });
-                    //}
                     db.seats.Add(newSeat);
                 }
-
                 // Lưu thay đổi vào cơ sở dữ liệu
                 db.SaveChanges();
 
@@ -173,20 +168,20 @@ namespace TicketLand_project.Areas.Admin.Controllers
             return View(seat);
         }
 
-        // GET: Admin/seats/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            seat seat = db.seats.Find(id);
-            if (seat == null)
-            {
-                return HttpNotFound();
-            }
-            return View(seat);
-        }
+        //// GET: Admin/seats/Delete/5
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    seat seat = db.seats.Find(id);
+        //    if (seat == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(seat);
+        //}
 
         // POST: Admin/seats/Delete/5
         [HttpPost, ActionName("Delete")]
@@ -194,6 +189,10 @@ namespace TicketLand_project.Areas.Admin.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             seat seat = db.seats.Find(id);
+            if (seat == null)
+            {
+                return HttpNotFound();
+            }
             db.seats.Remove(seat);
             db.SaveChanges();
             return RedirectToAction("Index");

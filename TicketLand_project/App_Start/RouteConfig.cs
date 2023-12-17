@@ -14,10 +14,11 @@ namespace TicketLand_project
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-            name: "Create",
-            url: "Admin/Room/{roomId}/seats/Create",
-            defaults: new { controller = "seats", action = "Create" }
-);
+                name: "CreateSeat",
+                url: "Admin/seats/Create/{roomSlug}",
+                defaults: new { controller = "seats", action = "Create" }
+            );
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

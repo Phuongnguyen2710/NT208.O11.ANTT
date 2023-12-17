@@ -22,10 +22,6 @@ namespace TicketLand_project.Controllers
             {
                 return View();
             }
-            else if (Session["username"].ToString() == "Phương")
-            {
-                return View();
-            }
 
             return RedirectToAction("Login");
         }
@@ -163,18 +159,5 @@ namespace TicketLand_project.Controllers
             return RedirectToAction("Login");
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
     }
 }

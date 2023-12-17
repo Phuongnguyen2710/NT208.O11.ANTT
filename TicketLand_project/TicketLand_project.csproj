@@ -130,7 +130,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
-    <Compile Include="Areas\Admin\Controllers\Dashborad.cs" />
     <Compile Include="Areas\Admin\Controllers\manage_membersController.cs" />
     <Compile Include="Areas\Admin\Controllers\roomsController.cs" />
     <Compile Include="Areas\Admin\Controllers\seatsController.cs" />
@@ -363,7 +362,6 @@
     <Content Include="Assets\js\form-validator.min.js" />
     <Content Include="Assets\js\javascript-calendar.js" />
     <Content Include="Areas\Admin\Views\rooms\DeletePartialView.cshtml" />
-    <Content Include="Areas\Admin\Views\Dashborad\Index.cshtml" />
     <None Include="Assets\js\jquery-3.7.1.intellisense.js" />
     <Content Include="Assets\js\jquery-3.7.1.js" />
     <Content Include="Assets\js\jquery-3.7.1.min.js" />
@@ -507,8 +505,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />

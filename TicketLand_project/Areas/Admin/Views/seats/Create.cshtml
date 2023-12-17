@@ -18,20 +18,24 @@
         </div>
 
         <div class="alert alert-danger alert-dismissible" style="display: none;" id="errorAlert">
-            <strong>Error!</strong> lưu thất bại.
+            <strong>Error!</strong> Ghế chọn đã bị trùng.
         </div>
 
+        <div class="alert alert-danger alert-dismissible" style="display: none;" id="errorAlert_full_seat">
+            <strong>Error!</strong> Đã thêm vào đủ ghế.
+        </div>
 
         <div class="ticket-selector">
             <div class="head">
                 <div class="title">SƠ ĐỒ CHỖ NGỒI</div>
             </div>
+
             <!--List phòng-->
             <div class="col-md-10">
-                @Html.DropDownList("room_Id", null, htmlAttributes: new { @class = "form-control text-center", @id = "room_id", @disabled = "disabled" })
-                @Html.ValidationMessageFor(model => model.room_id, "", new { @class = "text-danger" })
+                @Html.DropDownList("room_Id", null, htmlAttributes: new { @class = "form-control text-center", @id = "room_Id", @disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.room_id, "", new { @class = "text-danger", @disabled = "disabled" })
             </div>
-            <br />
+            <br/>
 
             <!--Màn hình-->
             <div class="screen"></div>
