@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/assets/css/home/home.css">
     <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/assets/css/animate.min.css">
     <link rel="stylesheet" href="~/assets/fonts/flaticon.css">
@@ -56,134 +57,54 @@
                         <img src="~/Assets/img/logos/logo.png" class="logo-one" alt="Logo">
                     </a>
 
-                    <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
-                        <ul class="navbar-nav m-auto">
-                            <li class="nav-item">
-                                <a href="#" class="nav-link active">
+                    <div class="collapse navbar-collapse mean-menu" style="justify-content:center; justify-items:center;" id="navbarSupportedContent">
+                        <ul class="col-lg-10 navbar-nav">
+                            <li class="nav-item col-lg-2">
+                                <a onclick="scrollToPosition_home()" href="#" class="nav-link active">
                                     Trang chủ
-                                    <i class='bx bx-chevron-down'></i>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a href="about.html" class="nav-link">
+                            <li class="nav-item col-lg-2">
+                                <a onclick="scrollToPosition_che()" href="about.html" class="nav-link">
                                     Lịch chiếu
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
+                            <li class="nav-item col-lg-2">
+                                <a onclick="scrollToPosition_news()" href="#" class="nav-link">
                                     Tin tức
-                                    <i class='bx bx-chevron-down'></i>
                                 </a>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-item">
-                                        <a href="book.html" class="nav-link">
-                                            Booking
-                                        </a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a href="team.html" class="nav-link">
-                                            Team
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="faq.html" class="nav-link">
-                                            FAQ
-                                        </a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a href="restaurant.html" class="nav-link">
-                                            Restaurant
-                                        </a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a href="reservation.html" class="nav-link">
-                                            Reservation
-                                        </a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a href="gallery.html" class="nav-link">
-                                            Gallery
-                                        </a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a href="testimonials.html" class="nav-link">
-                                            Testimonials
-                                        </a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a href="checkout.html" class="nav-link">
-                                            Check out
-                                        </a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a href="sign-in.html" class="nav-link">
-                                            Sign In
-                                        </a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a href="sign-up.html" class="nav-link">
-                                            Sign Up
-                                        </a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a href="terms-condition.html" class="nav-link">
-                                            Terms & Conditions
-                                        </a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a href="privacy-policy.html" class="nav-link">
-                                            Privacy Policy
-                                        </a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a href="404.html" class="nav-link">
-                                            404 page
-                                        </a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a href="coming-soon.html" class="nav-link">
-                                            Coming Soon
-                                        </a>
-                                    </li>
-                                </ul>
                             </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
+                            <li class="nav-item col-lg-2">
+                                <a onclick="scrollToPosition_about() " href="#" class="nav-link">
                                     Chúng tôi
-                                    <i class='bx bx-chevron-down'></i>
                                 </a>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-item">
-                                        <a href="services-1.html" class="nav-link">
-                                            Services Style One
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="services-2.html" class="nav-link">
-                                            Services Style Two
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="service-details.html" class="nav-link">
-                                            Service Details
-                                        </a>
-                                    </li>
-                                </ul>
                             </li>
+
+
+                            @if (Session["IsLoggedIn"] == null)
+                            {
+                                <li class="nav-item col-lg-2">
+                                    @Html.ActionLink("Đăng nhập", "Login", "Home", new { area = "" }, new { @class = "nav-link" })
+                                </li>
+
+                                <li class="nav-item col-lg-2">
+                                    @Html.ActionLink("Đăng kí", "Register", "Home", new { area = "" }, new { @class = "nav-link" })
+                                </li>
+                            }
+                            else
+                            {
+                                <!-- Optionally, you can show the user's name or a "Đăng xuất" (Logout) link -->
+                                <li class="nav-item">
+                                    Xin chào, @Session["Username"]
+                                </li>
+
+                                <li class="nav-item">
+                                    @Html.ActionLink("Đăng xuất", "Logout", "Home", new { area = "" }, new { @class = "nav-link" })
+                                </li>
+                            }
+
                         </ul>
-                        <div class="nav-btn">
+                        <div class="col-lg-2 nav-btn text-normal">
                             <a href="#" class="col-12 default-btn btn-bg-three border-radius-5">Đặt vé ngay</a>
                         </div>
                     </div>
@@ -197,38 +118,42 @@
     <!-- Footer Area -->
     <footer class="footer-area footer-bg">
         <div class="container">
-            <div class="footer-top pt-100 pb-70">
+            <div class="footer-top pt-50 pb-10">
                 <div class="row align-items-center">
-                    <div class="col-lg-3 col-md-6">
-                        <div class="footer-widget">
+                    <div class="text-header pt-20 pb-70" style="color:azure;">Về Chúng tôi</div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="footer-widget text-normal">
+                            <p style="font-weight:bold;">
+                                TICKET LAND
+                            </p>
                             <div class="footer-logo">
                                 <a href="index.html">
-                                    <img src="~/Assets/img/logos/footer-logo1.png" alt="Images">
+                                    <img src="~/Assets/img/logos/logo.png" class="logo-one" alt="Logo">
                                 </a>
                             </div>
                             <p>
-                                Aenean finibus convallis nisl sit amet hendrerit. Etiam blandit velit non lorem mattis, non ultrices eros bibendum .
+                                CÔNG TY CP GIẢI TRÍ VÀ TRUYỀN THÔNG THẾ GIỚI TRẺ
                             </p>
                             <ul class="footer-list-contact">
                                 <li>
                                     <i class='bx bx-home-alt'></i>
-                                    <a href="#">123 Stanton, Virginia, USA</a>
+                                    <a href="#">Khu phố 6, Phường Linh Trung, TP. Thủ Đức</a>
                                 </li>
                                 <li>
                                     <i class='bx bx-phone-call'></i>
-                                    <a href="tel:+1-(123)-456-7890">+1 (123) 456 7890</a>
+                                    <a href="tel:+84395955049">+1 (123) 456 7890</a>
                                 </li>
                                 <li>
                                     <i class='bx bx-envelope'></i>
-                                    <a href="mailto:hello@atoli.com">hello@atoli.com</a>
+                                    <a href="mailto:ticketland@gmail.com">ticketland@gmail.com</a>
                                 </li>
                             </ul>
                         </div>
                     </div>
-
-                    <div class="col-lg-3 col-md-6">
-                        <div class="footer-widget pl-5">
-                            <h3>Links</h3>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="footer-widget pl-5 text-normal">
+                            <p style="font-weight:bold;">Điều khoản</p>
                             <ul class="footer-list">
                                 <li>
                                     <a href="about.html" target="_blank">
@@ -270,56 +195,11 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-3 col-md-6">
-                        <div class="footer-widget">
-                            <h3>Useful Links</h3>
-                            <ul class="footer-list">
-                                <li>
-                                    <a href="index.html" target="_blank">
-                                        <i class='bx bx-caret-right'></i>
-                                        Home
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="blog-1.html" target="_blank">
-                                        <i class='bx bx-caret-right'></i>
-                                        Blog
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="faq.html" target="_blank">
-                                        <i class='bx bx-caret-right'></i>
-                                        FAQ
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="testimonials.html" target="_blank">
-                                        <i class='bx bx-caret-right'></i>
-                                        Testimonials
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="gallery.html" target="_blank">
-                                        <i class='bx bx-caret-right'></i>
-                                        Gallery
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="contact.html" target="_blank">
-                                        <i class='bx bx-caret-right'></i>
-                                        Contact Us
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
 
-                    <div class="col-lg-3 col-md-6">
-                        <div class="footer-widget">
-                            <h3>Newsletter</h3>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                Nullam tempor eget ante fringilla rutrum aenean sed venenatis .
+                    <div class="col-lg-4 col-md-6">
+                        <div class="footer-widget text-normal">
+                            <p style="font-size:1.2rem; font-weight:bold;">
+                                Nhận tin tức từ chứng tôi
                             </p>
                             <div class="footer-form">
                                 <form class="newsletter-form" data-toggle="validator" method="POST">
@@ -347,11 +227,11 @@
             <div class="copy-right-area">
                 <div class="row">
                     <div class="col-lg-8 col-md-8">
-                        <div class="copy-right-text text-align1">
+                        <div class="copy-right-text text-align1 text-normal">
                             <p>
                                 Copyright
-                                <script>document.write(new Date().getFullYear())</script> Atoli. All Rights Reserved by
-                                <a href="https://hibootstrap.com/" target="_blank">HiBootstrap</a>
+                                <script>document.write(new Date().getFullYear())</script> TicketLand. All Rights Reserved by
+                                <a href="https://https://moit.gov.vn/" target="_blank">Ministry of Industry and Trade</a>
                             </p>
                         </div>
                     </div>
@@ -380,10 +260,13 @@
                 </div>
             </div>
         </div>
+
+
+
     </footer>
     <!-- Footer Area End -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Jquery Min JS -->
     <script src="~/Assets/js/jquery.min.js"></script>
@@ -412,5 +295,9 @@
     <!-- Custom JS -->
     <script src="~/Assets/js/custom.js"></script>
     <script src="https://kit.fontawesome.com/577247cd82.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 </body>
-</html>
+
+    </html>
+

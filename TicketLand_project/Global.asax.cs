@@ -16,6 +16,16 @@ namespace TicketLand_project
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+           
         }
+
+        protected void Session_Start(object sender, EventArgs e)
+        {
+            // Khởi tạo Session với giá trị mặc định, ví dụ: "Guest"
+            Session["Username"] = "Guest";
+            Session["idMember"] = "-1";
+        }
+
+
     }
 }
