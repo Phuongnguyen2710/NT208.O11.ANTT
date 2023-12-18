@@ -74,14 +74,6 @@
                                             @*<button type="button" class="btn btn-primary" location.href="@Url.Action("Edit", new {id = item.room_id})">Edit</button>*@
                                             @Html.ActionLink("Edit", "Edit", new { id = item.room_id }, new { @class = "btn btn-primary" })
                                             @Html.ActionLink("Back to List", "Index", new { @class = "btn btn-secondary" })
-                                            @using (Html.BeginForm())
-                                            {
-                                                @Html.AntiForgeryToken()
-
-                                                <div class="form-actions no-color">
-                                                    <input type="submit" value="Delete" class="btn btn-default" /> |
-                                                </div>
-                                            }
                                         </div>
                                     </div>
                                 </div>

@@ -90,7 +90,7 @@ namespace TicketLand_project.Areas.Admin.Controllers
                     }
 
                     // Check trùng nhau để báo lỗi
-                    var check_unique = db.seats.Any(x => x.row == newSeat.row && x.number == newSeat.number);
+                    var check_unique = db.seats.Any(x => x.row == newSeat.row && x.number == newSeat.number && x.room_id == newSeat.room_id);
                     if (check_unique)
                     {
                         return Json(new { success = false, message = "Ghế đã được set up!" });
