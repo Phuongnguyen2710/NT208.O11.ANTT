@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -12,6 +13,7 @@ using TicketLand_project.Models;
 
 namespace TicketLand_project.Controllers
 {
+
     public class HomeController : Controller
     {
 
@@ -20,10 +22,37 @@ namespace TicketLand_project.Controllers
         {
             if (Session["Username"] != null)
             {
-                return View(objModel.movies.ToList());
+                var movies = objModel.movies.ToList();
+                int numberMoviesEnable = 0;
+                foreach (var movie in movies)
+                {
+                    movie.DurationInMinutes = ConvertTimeToMinutes(movie.movie_duration.ToString());
+                    if (movie.movie_status == 1) numberMoviesEnable++;
+                }
+                ViewBag.numberMoviesEnable = numberMoviesEnable;
+                return View(movies);
+                //return View(objModel.movies.ToList());
+            }
+            else if (Session["username"].ToString() == "Phương")
+            {
+                return View();
             }
 
+
             return RedirectToAction("Login");
+        }
+
+        public static int ConvertTimeToMinutes(string time)
+        {
+            TimeSpan timeSpan;
+            if (TimeSpan.TryParse(time, out timeSpan))
+            {
+                int minutes = timeSpan.Hours * 60 + timeSpan.Minutes;
+                return minutes;
+            }
+
+            // Nếu định dạng thời gian không hợp lệ hoặc không thể chuyển đổi thành TimeSpan, trả về giá trị mặc định hoặc ném ra một ngoại lệ tùy thuộc vào yêu cầu của bạn.
+            return 0; // Giá trị mặc định (hoặc bạn có thể trả về một giá trị khác)
         }
 
         // GET: Register
@@ -42,33 +71,33 @@ namespace TicketLand_project.Controllers
         {
             if (ModelState.IsValid)
             {
-                    var check = objModel.members.FirstOrDefault(s => s.username == _user.username);
-                    if (check == null)
-                    {
-                        //Mã hóa mật khẩu
-                        _user.password = GetMD5(_user.password);
+                var check = objModel.members.FirstOrDefault(s => s.username == _user.username);
+                if (check == null)
+                {
+                    //Mã hóa mật khẩu
+                    _user.password = GetMD5(_user.password);
 
-                        // Xử lý hình ảnh
-                        if (imageFile != null && imageFile.ContentLength > 0)
+                    // Xử lý hình ảnh
+                    if (imageFile != null && imageFile.ContentLength > 0)
+                    {
+                        using (var binaryReader = new BinaryReader(imageFile.InputStream))
                         {
-                            using (var binaryReader = new BinaryReader(imageFile.InputStream))
-                            {
-                                byte[] imageData = binaryReader.ReadBytes(imageFile.ContentLength);
-                                _user.member_avatar = Convert.ToBase64String(imageData);
-                            }
+                            byte[] imageData = binaryReader.ReadBytes(imageFile.ContentLength);
+                            _user.member_avatar = Convert.ToBase64String(imageData);
                         }
-                        _user.role_id = 2;
-                        _user.member_point = 0;
-                        objModel.Configuration.ValidateOnSaveEnabled = false;
-                        objModel.members.Add(_user);
+                    }
+                    _user.role_id = 2;
+                    _user.member_point = 0;
+                    objModel.Configuration.ValidateOnSaveEnabled = false;
+                    objModel.members.Add(_user);
 
-                        objModel.SaveChanges();
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        ViewBag.Message = "Tên người dùng đã tồn tại";
-                    }
+                    objModel.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ViewBag.Message = "Tên người dùng đã tồn tại";
+                }
 
             }
             return View();
@@ -78,7 +107,7 @@ namespace TicketLand_project.Controllers
         public static string GetMD5(string str)
         {
             string byte2String = null;
-            if (str !=  null)
+            if (str != null)
             {
                 MD5 md5 = new MD5CryptoServiceProvider();
                 byte[] fromData = Encoding.UTF8.GetBytes(str);
@@ -88,7 +117,7 @@ namespace TicketLand_project.Controllers
                 {
                     byte2String += targetData[i].ToString("x2");
 
-                }   
+                }
             }
             return byte2String;
         }
@@ -138,7 +167,7 @@ namespace TicketLand_project.Controllers
                     ViewBag.Message = "Vui lòng nhập thông tin tài khoản";
                 }
             }
-            return RedirectToAction("Index","movies");
+            return View();
         }
 
         //Lấy thông tin session để hiển thị ra session storage
@@ -151,12 +180,30 @@ namespace TicketLand_project.Controllers
             return Json(new { Username = username, IdMember = idMember, IsLogin = isLogin, Avatar = avatar }, JsonRequestBehavior.AllowGet);
         }
 
- 
+
         //Logout
         public ActionResult Logout()
         {
             Session.Clear();//remove session
             return RedirectToAction("Login");
+        }
+
+        public ActionResult About()
+        {
+            ViewBag.Message = "Your application description page.";
+
+            return View();
+        }
+
+        public ActionResult Contact()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+        public ActionResult ScrollToPosition()
+        {
+            return RedirectToAction("Index");
         }
 
     }
