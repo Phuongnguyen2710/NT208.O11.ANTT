@@ -108,9 +108,9 @@ namespace TicketLand_project.Areas.Admin.Controllers
             {
                 db.Entry(movy).State = EntityState.Modified;
                 db.SaveChanges();
-                return Json(new { success = true, message = "Xóa thành công" });
+                return Json(new { success = true, message = "Sửa thành công" });
             }
-            return Json(new { success = false, message = "Xóa thành công" });
+            return Json(new { success = false, message = "Sửa thất bại" });
         }
 
         // GET: Admin/movies/Delete/5

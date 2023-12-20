@@ -78,27 +78,43 @@ namespace TicketLand_project.Areas.Admin.Controllers
         //    return View();
         //}
 
-        // POST: Admin/rooms/Create
-        [HttpPost]
-        public JsonResult Create([Bind(Include = "room_id,room_name,capacity")] room room)
-        {
-            if (ModelState.IsValid)
-            {
-                // Kiểm tra định dạng của room_name (ví dụ: Phòng 3)
-                if (IsValidRoomNameFormat(room.room_name))
-                {
-                    db.rooms.Add(room);
-                    db.SaveChanges();
-                    return Json(new { success = true, message = "Lưu thành công" });
-                }
-                else
-                {
-                    return Json(new { success = false, message = "Định dạng room_name không hợp lệ" });
-                }
-            }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Create([Bind(Include = "room_id,room_name,capacity")] room room)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        // Kiểm tra định dạng của room_name (ví dụ: Phòng 3)
+        //        if (IsValidRoomNameFormat(room.room_name))
+        //        {
+        //            db.rooms.Add(room);
+        //            db.SaveChanges();
+        //            return View();
+        //        }
+        //    }
+        //}
 
-            return Json(new { success = false, message = "Lưu không thành công" });
-        }
+        //// POST: Admin/rooms/Create
+        //[HttpPost]
+        //public JsonResult Create([Bind(Include = "room_id,room_name,capacity")] room room)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        // Kiểm tra định dạng của room_name (ví dụ: Phòng 3)
+        //        if (IsValidRoomNameFormat(room.room_name))
+        //        {
+        //            db.rooms.Add(room);
+        //            db.SaveChanges();
+        //            return Json(new { success = true, message = "Lưu thành công" });
+        //        }
+        //        else
+        //        {
+        //            return Json(new { success = false, message = "Định dạng room_name không hợp lệ" });
+        //        }
+        //    }
+
+        //    return Json(new { success = false, message = "Lưu không thành công" });
+        //}
 
         //Kiểm tra nhập phòng
         private bool IsValidRoomNameFormat(string roomName)

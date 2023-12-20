@@ -210,11 +210,11 @@
 
                 @if (Model.HasPreviousPage)
                 {
-                    <a href="@Url.Action("Index", new { page = Model.PageNumber - 1 })" class="page-link prev @(Model.PageNumber == 1 ? "current-page" : "")">&laquo; Previous</a>
+                    <a href="@Url.Action("Index", new { page = Model.PageNumber - 1 })" class="page-link prev @(Model.PageNumber == 1 ? "current-page" : "")">&laquo; </a>
                 }
                 else
                 {
-                    <span class="page-link disabled">&laquo; Previous</span>
+                    <span class="page-link disabled">&laquo;</span>
                 }
 
                 @for (int i = 1; i <= Model.PageCount; i++)
@@ -224,17 +224,16 @@
 
                 @if (Model.HasNextPage)
                 {
-                    <a href="@Url.Action("Index", new { page = Model.PageNumber + 1 })" class="page-link next">Next &raquo;</a>
+                    <a href="@Url.Action("Index", new { page = Model.PageNumber + 1 })" class="page-link next">&raquo;</a>
                 }
                 else
                 {
-                    <span class="page-link disabled">Next &raquo;</span>
+                    <span class="page-link disabled">&raquo;</span>
                 }
             </div>
         </div>
-
-
     </div>
+
     <!-- Kết thúc -->
 </div>
 
