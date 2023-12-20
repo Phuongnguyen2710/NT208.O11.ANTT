@@ -11,8 +11,6 @@
 
     <!--Link css-->
     <link href="~/Areas/Assets/css/Admin.css" rel="stylesheet" />
-
-
     <!--link của bootrap-->
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <!--link của Edit_1.css-->
@@ -25,6 +23,7 @@
     <!-- Thẻ link cho Font chữ -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Smooch Sans:wght@700&display=swap" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" />
+    <link rel="icon" type="image/png" href="~/Assets/img/logos/logo.png">
 
 
 </head>
@@ -38,11 +37,11 @@
                     <span class="nav-item">Ticket Land Web </span>
                 </a>
             </li>
-            <li><a href="#"><i class="bx bxs-dashboard"> </i><b>Dash Board</b></a></li>
+            <li><a href="~/Admin/Dashboard/Index"><i class="bx bxs-dashboard"> </i><b>Dash Board</b></a></li>
             <li><a href="~/Admin/manage_members/Index"><i class="bx bxs-user"> </i><b>Users</b> </a></li>
-            <li><a href="~/Admin/rooms/Index"><i class="fa-solid fa-couch"> </i><b>Rooms</b> </a></li>
+            <li><a href="~/Admin/rooms/Index"><i class="fa-solid fa-door-open"> </i><b>Rooms</b> </a></li>
             <li><a href="~/Admin/seats/Index"><i class="fa-solid fa-couch"> </i><b>Seats</b> </a></li>
-            <li><a href="#"><i class="bx bxs-movie-play"> </i><b>Movies</b> </a></li>
+            <li><a href="~/Admin/movies/Index"><i class="bx bxs-movie-play"> </i><b>Movies</b> </a></li>
             <li><a href="#"><i class="bx bxs-news"> </i><b>News</b> </a></li>
             <li>
                 <a href="~/Home/Logout" class="keluar">
@@ -52,9 +51,13 @@
             </li>
         </ul>
     </nav>
+
     @RenderBody()
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    @RenderSection("head", required: false)
+
+
+    <!-- Bootstrap JS and jQuery-->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    @RenderSection("scripts", required: false)
 </body>
 
 

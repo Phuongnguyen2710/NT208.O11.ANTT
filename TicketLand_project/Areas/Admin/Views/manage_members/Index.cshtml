@@ -1,6 +1,7 @@
-﻿@model IEnumerable<TicketLand_project.Models.member>
-
-
+﻿<!-- Thêm thư viện -->
+@model PagedList.IPagedList<TicketLand_project.Models.member>
+@using PagedList.Mvc;
+<!-- Kết thúc-->
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
@@ -8,17 +9,27 @@
 <!DOCTYPE>
 
 <div class="container_custom">
+
+
     <div class="custom_h1">
         <h1><b>QUẢN LÝ TÀI KHOẢN</b></h1>
     </div>
 
     <hr />
-    <p>
-        <button type="button" class="btn btn-success" onclick="location.href='@Url.Action("Create")'">Create New +</button>
-    </p>
-    <div class="custom_search">
-        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+    <div class="row">
+        <div class="col-md-10">
+            <p>
+                <button type="button" class="btn btn-success" onclick="location.href='@Url.Action("Create")'">Create New +</button>
+            </p>
+        </div>
+
+        @*<div class="custom_search col-md-2">
+                <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+                <br />
+            </div>*@
     </div>
+
+
     <div class="box_shadow">
         <table class="tableStyle">
             <tr>
@@ -27,7 +38,7 @@
                 <th>Họ Tên</th>
                 <th>Username</th>
                 @*<th>Password</th>*@
-                <th>Ngày sinh</th>
+                <th>Giới Tính</th>
                 <th>Email</th>
                 <th>Phone</th>
                 <th>Avatar</th>
@@ -50,31 +61,31 @@
                         @Html.DisplayFor(modelItem => item.username)
                     </td>
                     @*<td class="password-cell">
-                            @{
-                                string password = item.password; // Lấy giá trị password từ model
-                                string displayedPassword = "";
+                        @{
+                            string password = item.password; // Lấy giá trị password từ model
+                            string displayedPassword = "";
 
-                                if (password.Length > 10)
-                                {
-                                    displayedPassword = password.Substring(0, 8) + "...";
-                                }
-                                else
-                                {
-                                    displayedPassword = password;
-                                }
-                            }
-
-                            <span class="short-text">
-                                @Html.Raw(displayedPassword.Replace(Environment.NewLine, "<br>"))
-                            </span>
-                            @if (password.Length > 8)
+                            if (password.Length > 10)
                             {
-                                <button class="expand-button" onclick="togglePassword(this)">Xem thêm</button>
-                                <span class="full-text" style="display: none;">
-                                    @Html.Raw(password.Replace(Environment.NewLine, "<br>"))
-                                </span>
+                                displayedPassword = password.Substring(0, 8) + "...";
                             }
-                        </td>*@
+                            else
+                            {
+                                displayedPassword = password;
+                            }
+                        }
+
+                        <span class="short-text">
+                            @Html.Raw(displayedPassword.Replace(Environment.NewLine, "<br>"))
+                        </span>
+                        @if (password.Length > 8)
+                        {
+                            <button class="expand-button" onclick="togglePassword(this)">Xem thêm</button>
+                            <span class="full-text" style="display: none;">
+                                @Html.Raw(password.Replace(Environment.NewLine, "<br>"))
+                            </span>
+                        }
+                    </td>*@
 
                     <td>
                         @{
@@ -105,6 +116,7 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.ROLE.role_name)
                     </td>
+                    <!-- Button Action -->
                     <td>
                         <button class="btn btn-xs btn-primary " onclick="location.href='@Url.Action("Edit", new { id = item.member_id })'">
                             <i class="fa fa-edit custom_i"></i>
@@ -114,62 +126,105 @@
                             <i class="fa fa-info-circle custom_i"></i>
                         </button>
 
-                        <button class="btn btn-xs btn-danger delete-button" onclick="location.href='@Url.Action("Delete", new { id = item.member_id })'">
-
-                            <i class="fa fa-trash custom_i" aria-hidden="true"></i>
+                        <button class="btn btn-xs btn-danger" data-toggle="modal" data-target="#DeleteModal_@item.member_id">
+                            <i class="fa fa-trash custom_i"></i>
                         </button>
+
+                        <!-- Delete Modal -->
+                        <div class="modal fade" id="DeleteModal_@item.member_id" tabindex="-1" role="dialog" aria-labelledby="DeleteLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="DeleteLabel">Xác nhận xóa</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Bạn có chắc chắn muốn xóa đối tượng này không?
+                                        <input type="hidden" id="deleteId" value="" />
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        @using (Html.BeginForm("Delete", "manage_members", FormMethod.Post, new { id = "confirmDelete" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" id="deleteId" name="id" value="@item.member_id" />
+                                            <div class="form-actions no-color text-center">
+                                                <input type="submit" value="Xóa" class="btn btn-danger" />
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                     </td>
                 </tr>
             }
         </table>
+        <br />
+
+
+        Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <!-- Pagination on the right -->
+            <div>
+                <div class="pagination custom-pagination" style="margin-right: 150px">
+
+                    @if (Model.HasPreviousPage)
+                    {
+                        <a href="@Url.Action("Index", new { page = Model.PageNumber - 1 })" class="page-link prev @(Model.PageNumber == 1 ? "current-page" : "")">&laquo; Previous</a>
+                    }
+                    else
+                    {
+                        <span class="page-link disabled">&laquo; Previous</span>
+                    }
+
+                    @for (int i = 1; i <= Model.PageCount; i++)
+                    {
+                        <a href="@Url.Action("Index", new { page = i })" class="page-link number @(i == Model.PageNumber ? "current-page" : "")">@i</a>
+                    }
+
+                    @if (Model.HasNextPage)
+                    {
+                        <a href="@Url.Action("Index", new { page = Model.PageNumber + 1 })" class="page-link next">Next &raquo;</a>
+                    }
+                    else
+                    {
+                        <span class="page-link disabled">Next &raquo;</span>
+                    }
+                </div>
+            </div>
+
+            <!-- Kết thúc -->
+        </div>
     </div>
 
 </div>
 
-<!-- Modal -->
-@*<div class="modal fade" id="Delete" tabindex="-1" role="dialog" aria-labelledby="DeleteLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="DeleteLabel">Xác nhận xóa</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Bạn có chắc chắn muốn xóa đối tượng này không?
-                    <input type="hidden" id="deleteId" value="" />
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-danger" id="confirmDelete">Xác nhận</button>
-                </div>
-            </div>
-        </div>                           
-    </div>*@
 
 
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
 
-<script>
-    // Kiểm tra xem key "Username" đã tồn tại trong sessionStorage hay chưa
-    if (sessionStorage.getItem("Username") != null) {
-        // Nếu không tồn tại, thực hiện AJAX để lấy thông tin đăng nhập từ máy chủ cho phần User
-        $.ajax({
-            url: '@Url.Action("GetUserInfoFromUser", "manage_members")', // Sửa khi thay đổi qua trang khác
-            type: 'GET',
-            success: function (data) {
-                // Cập nhật sessionStorage với thông tin đăng nhập cho phần User
-                console.log(data.Username, data.IdMember);
-                sessionStorage.setItem("Username", data.Username);
-                sessionStorage.setItem("idMember", data.IdMember);
-                sessionStorage.setItem("isLogin", data.IsLogin);
-            },
-            error: function () {
-                console.log('error!');
-            }
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+
+
+    <script>
+        // Thêm sự kiện click cho nút "Xác nhận" trong modal
+        document.getElementById("confirmDelete").addEventListener("click", function () {
+            // Lấy seat_id từ hidden input trong modal
+            var deleteId = document.getElementById("deleteId").value;
+
+            // Đặt giá trị vào input hidden trong form
+            document.getElementById("deleteForm").elements["id"].value = deleteId;
+
+            // Submit form
+            $("#deleteForm").submit();
         });
-    }
-</script>
+
+    </script>

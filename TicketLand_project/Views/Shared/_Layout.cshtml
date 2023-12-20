@@ -17,11 +17,12 @@
     <link rel="stylesheet" href="~/assets/css/responsive.css">
     <link rel="stylesheet" href="~/assets/css/theme-dark.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="~/Assets/img/logos/logo.png">
 
 
-    <title>Tikket Land</title>
+    <title>Ticket Land</title>
 </head>
 <body>
 
@@ -122,16 +123,6 @@
                                         </a>
                                     </li>
 
-                                    @*<ul>
-                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Đăng kí", "Register", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Đăng xuất", "Logout", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Session["Username"];</li>
-                </ul>*@
-
-
                                     <li class="nav-item">
                                         <a href="terms-condition.html" class="nav-link">
                                             Terms & Conditions
@@ -159,15 +150,31 @@
                             </li>
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
-                                    Chúng tôi
+                                    Thông tin tài khoản
                                     <i class='bx bx-chevron-down'></i>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li class="nav-item">
-                                        <a href="services-1.html" class="nav-link">
-                                            Services Style One
-                                        </a>
-                                    </li>
+                                    @if (Session["IsLoggedIn"] == null)
+                                    {
+                                        <li class="nav-item">
+                                            @Html.ActionLink("Đăng nhập", "Login", "Home", new { area = "" }, new { @class = "nav-link" })
+                                        </li>
+
+                                        <li class="nav-item">
+                                            @Html.ActionLink("Đăng kí", "Register", "Home", new { area = "" }, new { @class = "nav-link" })
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                <li class="nav-item text-center">
+                                    <img src="data:image/png;base64, @Session["Avartar"]" class="img_avartar" style="border-radius: 50%; height: 48px; width: 48px;" />
+                                    Hello,@Session["Username"]
+                                </li>
+
+                                        <li class="nav-item text-danger" style="margin-left: 30px;">
+                                            @Html.ActionLink("Đăng xuất", "Logout", "Home", new { area = "" }, new { @class = "nav-link" })
+                                        </li>
+                                    }
                                     <li class="nav-item">
                                         <a href="services-2.html" class="nav-link">
                                             Services Style Two
@@ -183,32 +190,13 @@
                                 </ul>
                             </li>
 
-                            @if (Session["IsLoggedIn"] == null)
-                            {
-                                <li class="nav-item">
-                                    @Html.ActionLink("Đăng nhập", "Login", "Home", new { area = "" }, new { @class = "nav-link" })
-                                </li>
-
-                                <li class="nav-item">
-                                    @Html.ActionLink("Đăng kí", "Register", "Home", new { area = "" }, new { @class = "nav-link" })
-                                </li>
-                            }
-                            else
-                            {
-                                <!-- Optionally, you can show the user's name or a "Đăng xuất" (Logout) link -->
-                                <li class="nav-item">
-                                    Xin chào, @Session["Username"]
-                                </li>
-
-                                <li class="nav-item">
-                                    @Html.ActionLink("Đăng xuất", "Logout", "Home", new { area = "" }, new { @class = "nav-link" })
-                                </li>
-                            }
+                            
 
                         </ul>
                         <div class="nav-btn">
                             <a href="#" class="col-12 default-btn btn-bg-three border-radius-5">Đặt vé ngay</a>
                         </div>
+
                     </div>
                 </nav>
             </div>

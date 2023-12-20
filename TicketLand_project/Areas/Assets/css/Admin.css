@@ -103,13 +103,14 @@ nav:hover {
 
 /* Container chung */
 .container_custom {
-/*    box-shadow: 0 0 7px rgba(15, 35, 21, 11.1);*/
+    /*    box-shadow: 0 0 7px rgba(15, 35, 21, 11.1);*/
     padding: 6px; /* Thêm khoảng cách bên trong container */
     margin: 0px auto; /* Tự căn giữa */
     max-width: 100%; /* Điều chỉnh giới hạn độ rộng theo nhu cầu */
     padding-left: 100px;
     background-color: white;
 }
+
 .box_shadow {
     border: 3px solid #ffcccc;
     box-shadow: 0 0 10px rgba(15, 35, 21, 11.1);
@@ -125,9 +126,9 @@ nav:hover {
     border-collapse: collapse;
     width: 100%;
     /*    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);*/
-    
+
     text-align: center;
-    border:groove;
+    border: groove;
     border-collapse: collapse;
 }
 
@@ -200,7 +201,68 @@ nav:hover {
     margin-right: 5px; /* Khoảng cách giữa biểu tượng và chữ */
 }
 
-.custom_search{
+.custom_search {
     display: flex;
-    background-color:red;
+    float: right;
 }
+/*  Kết thúc   */
+
+
+
+/*  CSS cho Phân trang   */
+.custom-pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    width: 10px;
+}
+
+    .custom-pagination .page-link {
+        display: inline-block;
+        padding: 8px 12px;
+        margin: 0 5px;
+        color: #007bff;
+        background-color: #ffffff;
+        border: 1px solid #007bff;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.3s;
+
+    }
+
+        .custom-pagination .page-link:hover {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+
+    .custom-pagination .prev,
+    .custom-pagination .next {
+        padding: 8px 12px;
+        color: #007bff;
+        background-color: #ffffff;
+        border: 1px solid #007bff;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+
+        .custom-pagination .prev:hover,
+        .custom-pagination .next:hover {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+
+    .custom-pagination .current-page {
+        padding: 8px 12px;
+        color: #ffffff;
+        background-color: #007bff;
+        border: 1px solid #007bff;
+        border-radius: 5px;
+        text-decoration: none;
+    }
+
+/*  Kết thúc   */

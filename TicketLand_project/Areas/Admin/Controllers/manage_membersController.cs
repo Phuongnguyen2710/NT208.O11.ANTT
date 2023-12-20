@@ -10,6 +10,8 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
+using Microsoft.Ajax.Utilities;
+using PagedList;
 using TicketLand_project.Models;
 
 namespace TicketLand_project.Areas.Admin.Controllers
@@ -19,16 +21,43 @@ namespace TicketLand_project.Areas.Admin.Controllers
         private QUANLYXEMPHIMEntities db = new QUANLYXEMPHIMEntities();
 
         // GET: Admin/manage_members
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             var username = Session["Username"] as string;
             var idMember = Session["idMember"] as string;
-            if (username != "phuong2003" || idMember != "1")
+            int Idmember;
+
+            // Covert sang int
+            int.TryParse(idMember, out Idmember);
+
+            var member = db.members.SingleOrDefault(m => m.member_id == Idmember);
+
+            if (member == null ||member.role_id == 2)
             {
-                return RedirectToAction("Login", "Home");
+                return RedirectToAction("Login", "Home", new { area = "" });
             }
-            var members = db.members.Include(m => m.ROLE);
-            return View(members.ToList());
+
+            // 1. Tham số int? dùng để thể hiện null và kiểu int
+            // page có thể có giá trị là null và kiểu int.
+
+            // 2. Nếu page = null thì đặt lại là 1.
+            if (page == null) page = 1;
+
+            // 3. Tạo truy vấn, lưu ý phải sắp xếp theo trường nào đó, ví dụ OrderBy
+            // theo memberID mới có thể phân trang.
+            var _member = (from l in db.members
+                         select l).OrderBy(x => x.member_id);
+
+            // 4. Tạo kích thước trang (pageSize) hay là số Link hiển thị trên 1 trang
+            int pageSize = 11;
+
+            // 4.1 Toán tử ?? trong C# mô tả nếu page khác null thì lấy giá trị page, còn
+            // nếu page = null thì lấy giá trị 1 cho biến pageNumber.
+            int pageNumber = (page ?? 1);
+
+            // 5. Trả về các member được phân trang theo kích thước và số trang.
+            return View(_member.ToPagedList(pageNumber, pageSize));
+
         }
 
         [HttpGet]
@@ -37,7 +66,8 @@ namespace TicketLand_project.Areas.Admin.Controllers
             string username = Session["Username"] as string;
             string idMember = Session["idMember"] as string;
             string isLogin = Session["IsLoggedIn"] as string;
-            return Json(new { Username = username, IdMember = idMember, IsLogin = isLogin }, JsonRequestBehavior.AllowGet);
+            string avatar = Session["Avartar"] as string ?? "Null";
+            return Json(new { Username = username, IdMember = idMember, IsLogin = isLogin, Avatar = avatar }, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -129,8 +159,6 @@ namespace TicketLand_project.Areas.Admin.Controllers
         }
 
         // POST: Admin/manage_members/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "member_id,member_name,username,password,gender,date_of_birth,email,city,phone,role_id,member_point")] member member, HttpPostedFileBase imageFile)
@@ -155,20 +183,7 @@ namespace TicketLand_project.Areas.Admin.Controllers
             return View(member);
         }
 
-        // GET: Admin/manage_members/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            member member = db.members.Find(id);
-            if (member == null)
-            {
-                return HttpNotFound();
-            }
-            return View(member);
-        }
+ 
 
         // POST: Admin/manage_members/Delete/5
         [HttpPost, ActionName("Delete")]
@@ -177,6 +192,10 @@ namespace TicketLand_project.Areas.Admin.Controllers
         {
 
             member member = db.members.Find(id);
+            if (member == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             db.members.Remove(member);
             db.SaveChanges();
             return RedirectToAction("Index");

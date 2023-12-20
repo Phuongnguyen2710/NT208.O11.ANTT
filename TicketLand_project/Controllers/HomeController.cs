@@ -20,11 +20,7 @@ namespace TicketLand_project.Controllers
         {
             if (Session["Username"] != null)
             {
-                return View();
-            }
-            else if (Session["username"].ToString() == "Phương")
-            {
-                return View();
+                return View(objModel.movies.ToList());
             }
 
             return RedirectToAction("Login");
@@ -121,6 +117,7 @@ namespace TicketLand_project.Controllers
                         Session["Username"] = data.FirstOrDefault().username;
                         Session["idMember"] = data.FirstOrDefault().member_id.ToString();
                         Session["IsLoggedIn"] = "1";
+                        Session["Avartar"] = data.FirstOrDefault().member_avatar.ToString();
                         // 2: user, 1: admin
                         if (data.FirstOrDefault().role_id == 2)
                         {
@@ -141,7 +138,7 @@ namespace TicketLand_project.Controllers
                     ViewBag.Message = "Vui lòng nhập thông tin tài khoản";
                 }
             }
-            return View();
+            return RedirectToAction("Index","movies");
         }
 
         //Lấy thông tin session để hiển thị ra session storage
@@ -150,7 +147,8 @@ namespace TicketLand_project.Controllers
             string username = Session["Username"] as string ?? "Guest";
             string idMember = Session["idMember"] as string ?? "-1";
             string isLogin = Session["IsLoggedIn"] as string ?? "0";
-            return Json(new { Username = username, IdMember = idMember, IsLogin = isLogin }, JsonRequestBehavior.AllowGet);
+            string avatar = Session["Avartar"] as string ?? "Null";
+            return Json(new { Username = username, IdMember = idMember, IsLogin = isLogin, Avatar = avatar }, JsonRequestBehavior.AllowGet);
         }
 
  
@@ -161,18 +159,5 @@ namespace TicketLand_project.Controllers
             return RedirectToAction("Login");
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
     }
 }

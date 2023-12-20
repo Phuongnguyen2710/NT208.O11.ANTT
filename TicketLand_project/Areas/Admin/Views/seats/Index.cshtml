@@ -1,4 +1,7 @@
-﻿@model IEnumerable<TicketLand_project.Models.seat>
+﻿<!-- Thêm thư viện -->
+@model PagedList.IPagedList<TicketLand_project.Models.seat>
+@using PagedList.Mvc;
+<!-- Kết thúc-->
 
 @{
     ViewBag.Title = "Quản lý Ghế";
@@ -11,20 +14,16 @@
     <div class="box_shadow">
         <table class="tableStyle">
             <tr>
-                <th>Tên phòng</th>
                 <th>Loại ghế</th>
                 <th>Hàng</th>
                 <th>Cột</th>
-                <th>Tình trạng</th>
+                <th>Tên phòng</th>
                 <th>Action</th>
             </tr>
 
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.room.room_name)
-                    </td>
 
                     <td>
                         @Html.DisplayFor(modelItem => item.seat_type)
@@ -36,25 +35,217 @@
                         @Html.DisplayFor(modelItem => item.number)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.seats_status)
+                        @Html.DisplayFor(modelItem => item.room.room_name)
                     </td>
 
                     <td>
-                        <button class="btn btn-xs btn-primary " onclick="location.href='@Url.Action("Edit", new { id = item.seat_id })'">
+                        <button class="btn btn-xs btn-primary " data-toggle="modal" data-target="#EditModal_@item.seat_id">
                             <i class="fa fa-edit custom_i"></i>
                         </button>
 
-                        <button class="btn btn-xs btn-info " onclick="location.href='@Url.Action("Details", new { id = item.seat_id })'">
+                        <button class="btn btn-xs btn-info" data-toggle="modal" data-target="#seatModal_@item.seat_id">
                             <i class="fa fa-info-circle custom_i"></i>
                         </button>
 
-                        <button class="btn btn-xs btn-warning " onclick="location.href='@Url.Action("Delete", new { id = item.seat_id })'">
+
+                        <button class="btn btn-xs btn-warning" data-toggle="modal" data-target="#DeleteModal_@item.seat_id">
                             <i class="fa fa-trash custom_i"></i>
                         </button>
+
+                        <!-- Delete Modal -->
+                        <div class="modal fade" id="DeleteModal_@item.seat_id" tabindex="-1" role="dialog" aria-labelledby="DeleteLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="DeleteLabel">Xác nhận xóa</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Bạn có chắc chắn muốn xóa đối tượng này không?
+                                        <input type="hidden" id="deleteId" value="" />
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        @using (Html.BeginForm("Delete", "seats", "item.seat_id", FormMethod.Post, new { id = "confirmDelete" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" id="deleteId" name="id" value="@item.seat_id" />
+                                            <div class="form-actions no-color text-center">
+                                                <input type="submit" value="Xóa" class="btn btn-danger" />
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Info Modal-->
+                        <div class="modal fade" id="seatModal_@item.seat_id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <!-- Modal header -->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">THÔNG TIN PHÒNG</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <!-- Modal Body -->
+                                    <div class="modal-body">
+                                        <dl class="dl-horizontal">
+                                            <dt>Loại Ghế</dt>
+                                            <dd>
+                                                @Html.DisplayFor(model => item.seat_type)
+                                            </dd>
+
+                                            <dt>Tên Hàng</dt>
+                                            <dd>
+                                                @Html.DisplayFor(model => item.row)
+                                            </dd>
+
+                                            <dt>Số Cột</dt>
+                                            <dd>
+                                                @Html.DisplayFor(model => item.number)
+                                            </dd>
+
+                                            <dt>Phòng</dt>
+                                            <dd>
+                                                @Html.DisplayFor(model => item.room.room_name)
+                                            </dd>
+
+                                            <dt>Tình Trạng</dt>
+                                            <dd>
+                                                @if (item.seats_status == true)
+                                                {
+                                                    <span class="text-success">Đã Cài Đặt</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-danger">Chưa Cài Đặt</span>
+                                                }
+                                            </dd>
+                                        </dl>
+                                    </div>
+
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        @*<button type="button" class="btn btn-primary" location.href="@Url.Action("Edit", new {id = item.room_id})">Edit</button>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Edit Modal -->
+                        <div class="modal fade" id="EditModal_@item.seat_id" data-seat-id="@item.seat_id" tabindex="-1" role="dialog" aria-labelledby="EditLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Chỉnh Sửa Thông Tin Ghế</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="EditSeatForm" onsubmit="submitForm(e)">
+                                            <div class="form-group">
+                                                <label for="seat_type">Room ID:</label>
+                                                <input type="text" class="form-control" id="room_id" name="_room_id_" value="@item.room_id" disabled />
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="seat_type">Loại ghế:</label>
+                                                <input type="text" class="form-control" id="seat_type" name="_seat_type_" value="@item.seat_type" disabled />
+                                            </div>
+
+
+                                            <div class="form-group">
+                                                <label for="seat_row">Hàng:</label>
+                                                <input type="text" class="form-control" id="seat_row" name="_seat_row_" value="@item.row" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="seat_number">Cột:</label>
+                                                <input type="number" class="form-control" id="seat_number" name="_seat_number_" value="@item.number" />
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="seat_status">Tình trạng:</label>
+                                                <select class="form-control" id="seat_status" name="seat_status_">
+                                                    <option value="1" @(item.seats_status == true ? "selected" : "")>Đã cài đặt</option>
+                                                    <option value="0" @(item.seats_status == false ? "selected" : "")>Chưa cài đặt</option>
+                                                </select>
+                                            </div>
+
+                                            <!-- Add other fields as needed -->
+                                            <!-- Submit button -->
+                                            <button type="submit" class="btn btn-primary">Thay đổi</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
                     </td>
                 </tr>
             }
         </table>
+
     </div>
+
+    <!--Phân trang-->
+    <br />
+    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+
+    <div class="d-flex justify-content-between align-items-center">
+
+        <!-- Pagination on the right -->
+        <div>
+            <div class="pagination custom-pagination" style="margin-right: 150px">
+
+                @if (Model.HasPreviousPage)
+                {
+                    <a href="@Url.Action("Index", new { page = Model.PageNumber - 1 })" class="page-link prev @(Model.PageNumber == 1 ? "current-page" : "")">&laquo; Previous</a>
+                }
+                else
+                {
+                    <span class="page-link disabled">&laquo; Previous</span>
+                }
+
+                @for (int i = 1; i <= Model.PageCount; i++)
+                {
+                    <a href="@Url.Action("Index", new { page = i })" class="page-link number @(i == Model.PageNumber ? "current-page" : "")">@i</a>
+                }
+
+                @if (Model.HasNextPage)
+                {
+                    <a href="@Url.Action("Index", new { page = Model.PageNumber + 1 })" class="page-link next">Next &raquo;</a>
+                }
+                else
+                {
+                    <span class="page-link disabled">Next &raquo;</span>
+                }
+            </div>
+        </div>
+
+
+    </div>
+    <!-- Kết thúc -->
 </div>
+
+
+
+        <!-- Thêm jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+        <!-- Thêm Bootstrap JavaScript -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+        <script src="~/Areas/Assets/js/Seat.js"></script>
+
 

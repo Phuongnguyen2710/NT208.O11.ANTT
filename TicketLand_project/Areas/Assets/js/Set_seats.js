@@ -1,44 +1,32 @@
-﻿//// Hàm được gọi khi chọn một phòng mới từ DropDownList
-//function RoomSelectionChange() {
-//    // Lấy giá trị của DropDownList
-//    var selectedRoomId = $("#room_id").val();
-
-//    // Xây dựng URL mới dựa trên giá trị phòng được chọn
-//    var newUrl = "/Admin/Room/" + selectedRoomId + "/seats/Create";
-
-//    // Chuyển hướng đến URL mới
-//    window.location.href = newUrl;
-//}
-
-//// Gọi hàm khi có sự thay đổi trong DropDownList
-//$("#room_id").change(function () {
-//    RoomSelectionChange();
-//});
-
-//document.addEventListener('DOMContentLoaded', function () {
-//    RoomSelectionChange();
-//});
-
-// Lấy giá trị của roomId từ tham số truy vấn
-var roomIdFromUrl = new URLSearchParams(window.location.search).get('roomId');
-
-// Đặt giá trị cho DropDownList
-$("#room_id").val(roomIdFromUrl);
+﻿var max_seats = 0;
 
 // Đặt giá trị mặc định cho DropDownList khi trang được tải
 $(document).ready(function () {
     var roomIdFromUrl = new URLSearchParams(window.location.search).get('roomId');
-    $("#room_id").val(roomIdFromUrl);
 
-    // Gọi hàm khi có sự thay đổi trong DropDownList
-    $("#room_id").change(function () {
-        onRoomSelectionChange();
+    // Đặt giá trị cho room_Id và kích hoạt sự kiện change
+    $("#room_Id").val(roomIdFromUrl);
+    $("#room_Capacity").val(roomIdFromUrl);
+
+    // Gửi yêu cầu Ajax để lấy room_capacity từ server
+    $.ajax({
+        url: '/Admin/seats/GetRoomCapacity',
+        type: 'GET',
+        data: { roomId: roomIdFromUrl },
+        success: function (data) {
+            // Cập nhật giá trị cho room_capacity
+            $("#room_capacity").val(data);
+            initializeSeats(data);      
+        },
+        error: function () {
+            console.error('Failed to fetch room capacity.');
+        }
     });
 });
 
 
-
-function initializeSeats() {
+// Hàm tạo ghế
+function initializeSeats(data) {
     // Lấy thẻ chứa tất cả ghế
     let seats = document.querySelector(".all-seats");
 
@@ -70,19 +58,32 @@ function initializeSeats() {
         );
     }
 
+
     // Lấy tất cả các checkbox
     let checkboxes = document.querySelectorAll('input[name="tickets"]');
+    var count_seats = 0;
 
+    var maxSeats = data;
+    console.log(data);
     // Thêm sự kiện click cho mỗi checkbox
     checkboxes.forEach(checkbox => {
         checkbox.addEventListener('click', function () {
             // Kiểm tra xem checkbox có được chọn hay không
             if (this.checked) {
-                // Nếu được chọn, thêm class "booked" vào label tương ứng
-                this.nextElementSibling.classList.add('booked');
+                // Kiểm tra xem đã đạt được số lượng ghế tối đa chưa
+                if (count_seats < maxSeats) {
+                    // Nếu được chọn và số lượng ghế chưa đạt tối đa, thêm class "booked" vào label tương ứng
+                    this.nextElementSibling.classList.add('booked');
+                    count_seats++;
+                } else {
+                    // Nếu đã đạt tới số lượng ghế tối đa, không thực hiện thêm/chọn
+                    this.checked = false;
+                    $("#errorAlert_full_seat").fadeIn().delay(5000).fadeOut();
+                }
             } else {
-                // Nếu không được chọn, loại bỏ class "booked" khỏi label tương ứng
+                // Nếu checkbox bị bỏ chọn, loại bỏ class "booked" khỏi label tương ứng và giảm số lượng ghế đã chọn
                 this.nextElementSibling.classList.remove('booked');
+                count_seats--;
             }
         });
     });
@@ -90,23 +91,16 @@ function initializeSeats() {
 
 
 
-// Gọi hàm initializeSeats và loadSeatesData khi trang được tải
-document.addEventListener('DOMContentLoaded', function () {
-    initializeSeats();
-});
-
-
-// Hàm để lưu thông tin ghế khi nhấn nút SET
+// Hàm để lưu thông tin ghế khi nhấn nút SET Ajax
 function saveSeats() {
     // Tạo một mảng để lưu trữ thông tin về các ghế được chọn
     let selectedSeats = [];
 
     // Lấy đối tượng phần tử dropdown theo ID (lấy id của phòng)
-    let dropdown = document.getElementById("room_id");
+    let dropdown = document.getElementById("room_Id");
 
     // Lấy ID của dropdown
     let dropdownId = dropdown.value;
-
     // Lặp qua tất cả checkbox để xem ghế nào được chọn
     let checkboxes = document.querySelectorAll('input[name="tickets"]:checked');
     checkboxes.forEach(checkbox => {
@@ -132,16 +126,21 @@ function saveSeats() {
         contentType: 'application/json',
         data: JSON.stringify(selectedSeats),
         success: function (response) {
-            // Xử lý kết quả trả về từ controller
-            console.log(response);
-            $("#successAlert").fadeIn().delay(5000).fadeOut();
-/*            loadSeatsData();*/
+            if (response.success) {
+                console.log(response.message);
+                $("#successAlert").fadeIn().delay(5000).fadeOut();
+                // Thực hiện các thao tác khác khi thành công
+            } else {
+                console.error(response.message);
+                $("#errorAlert").fadeIn().delay(5000).fadeOut();
+                // Thực hiện các thao tác khác khi có lỗi
+            }
         },
-        error: function (error) {
-            console.error('Error:', error);
-            $("#errorAlert").fadeIn().delay(5000).fadeOut();
-        }
+
     });
+
+
+
 
 
     //Hàm load data seat từ controller
@@ -177,10 +176,7 @@ function saveSeats() {
     //    });
     }
 
-    // Gọi hàm initializeSeats và loadSeatsData khi trang được tải
-    document.addEventListener('DOMContentLoaded', function () {
-        initializeSeats();
-    });
+  
     
 
 

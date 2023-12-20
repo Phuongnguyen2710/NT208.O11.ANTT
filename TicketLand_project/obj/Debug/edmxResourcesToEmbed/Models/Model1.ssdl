@@ -25,7 +25,7 @@ warning 6013: The table/view 'QUANLYXEMPHIM.dbo.booking_detail' does not have a 
     <Property Name="member_id" Type="int" />
     <Property Name="movie_id" Type="int" />
     <Property Name="content" Type="ntext" />
-    <Property Name="comment_date" Type="date" />
+    <Property Name="comment_date" Type="datetime" />
     <Property Name="comment_star" Type="float" />
   </EntityType>
   <EntityType Name="event">
@@ -75,6 +75,7 @@ warning 6013: The table/view 'QUANLYXEMPHIM.dbo.booking_detail' does not have a 
     <Property Name="movie_director" Type="nvarchar" MaxLength="20" />
     <Property Name="movie_status" Type="int" />
     <Property Name="rate" Type="float" />
+    <Property Name="movie_banner" Type="text" />
   </EntityType>
   <EntityType Name="news">
     <Key>
@@ -109,10 +110,11 @@ warning 6013: The table/view 'QUANLYXEMPHIM.dbo.booking_detail' does not have a 
     <Property Name="schedule_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="movie_id" Type="int" />
     <Property Name="room_id" Type="int" />
-    <Property Name="schedule_date_start" Type="time" Precision="7" />
     <Property Name="schedule_date_end" Type="time" Precision="7" />
     <Property Name="time_start" Type="time" Precision="7" />
     <Property Name="time_end" Type="time" Precision="7" />
+    <Property Name="schedule_date_start" Type="time" Precision="7" />
+    <Property Name="show_date" Type="date" />
   </EntityType>
   <EntityType Name="seats">
     <Key>
@@ -121,7 +123,7 @@ warning 6013: The table/view 'QUANLYXEMPHIM.dbo.booking_detail' does not have a 
     <Property Name="seat_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="seat_type" Type="nvarchar" MaxLength="20" />
     <Property Name="room_id" Type="int" />
-    <Property Name="row" Type="text" />
+    <Property Name="row" Type="varchar" MaxLength="1" />
     <Property Name="number" Type="int" />
     <Property Name="seats_status" Type="bit" />
   </EntityType>
