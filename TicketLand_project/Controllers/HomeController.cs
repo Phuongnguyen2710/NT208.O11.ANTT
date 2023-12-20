@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -8,7 +9,10 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Xml.Linq;
+using Microsoft.Ajax.Utilities;
 using TicketLand_project.Models;
+using TicketLand_project.ViewModels;
 
 namespace TicketLand_project.Controllers
 {
@@ -124,7 +128,17 @@ namespace TicketLand_project.Controllers
                         // 2: user, 1: admin
                         if (data.FirstOrDefault().role_id == 2)
                         {
-                            return RedirectToAction("Index");
+                            var returnUrl = Session["ReturnUrlAfterLogin"] as string;
+                            if (!string.IsNullOrEmpty(returnUrl))
+                            {
+                                // Xóa đường dẫn đã lưu trong session
+                                Session.Remove("ReturnUrlAfterLogin");
+
+                                // Chuyển hướng người dùng trở lại đường dẫn trước đó
+                                return Redirect(returnUrl);
+                            }
+                            else
+                                return RedirectToAction("Index");
                         }
                         else if (data.FirstOrDefault().role_id == 1)
                         {
@@ -174,5 +188,128 @@ namespace TicketLand_project.Controllers
 
             return View();
         }
+
+        public ActionResult MovieDetail(string title)
+        {
+            ViewBag.Message = "Movie Detail";
+            // Chuyển đổi từ URL an toàn về tên phim
+            //string decodedTitle = System.Web.HttpUtility.UrlDecode(title);
+            var movieEntity = objModel.movies.FirstOrDefault(m => m.movie_id == 13);
+            if (movieEntity != null)
+            {
+                // Chuyển đổi từ Entity sang ViewModel
+                var viewModel = new MovieDetailViewModel
+                {
+                    Id = movieEntity.movie_id,
+                    Title = movieEntity.movie_name,
+                    Genre = movieEntity.movie_genres,
+                    Director = movieEntity.movie_director,
+                    Actors = movieEntity.movie_actor,
+                    ReleaseDate = (DateTime)movieEntity.movie_release,
+                    Description = movieEntity.movie_description,
+                    PosterUrl = movieEntity.movie_poster,
+                    Trailer = movieEntity.movie_trailer,
+                    Duration = movieEntity.movie_duration,
+                    Format = movieEntity.movie_format,
+                    Comments = movieEntity.comments.Select(c => new CommentViewModel
+                    {
+                        CommentId = c.comment_id,
+                        Content = c.content,
+                        CommentStar = (float)c.comment_star,
+                        CommentDate = (DateTime)c.comment_date,
+                        MemberName = c.member.member_name,
+                        MemberAvatar = c.member.member_avatar,
+                    }).ToList(),
+                    AverageRating = /*(float)movieEntity.rate,*/
+                   (float)Math.Round((double)(movieEntity.comments.Any() ? movieEntity.comments.Average(c => c.comment_star) : 0), 1),
+                   
+                    Schedules = objModel.schedules.Where(s=>s.movie_id == movieEntity.movie_id).ToList(),
+                };
+                // Thêm các thông tin chi tiết khác của phim
+            
+                return View(viewModel);
+            }
+            else {
+                return HttpNotFound(); 
+            }
+                
+            // Truyền dữ liệu vào view
+        }
+        [HttpPost]
+        public ActionResult AddComment(int movieId, string content, float commentStar)
+        {
+            // Lấy thông tin người dùng hiện tại (đã đăng nhập)
+            var currentUserId = GetCurrentUserId();
+
+            if (currentUserId == -1)
+            {
+                // Lưu đường dẫn trước đó vào session để sử dụng sau khi đăng nhập
+                Session["ReturnUrlAfterLogin"] = Request.UrlReferrer?.ToString();
+                // Xử lý khi người dùng chưa đăng nhập
+                return RedirectToAction("Login");
+            }
+
+            // Tạo đối tượng Comment
+            var newComment = new comment
+            {
+                movie_id = movieId,
+                member_id = currentUserId,
+                content = content,
+                comment_star = commentStar,
+                comment_date = DateTime.Now,
+            };
+
+            // Thêm đánh giá và bình luận mới vào cơ sở dữ liệu
+            objModel.comments.Add(newComment);
+            objModel.SaveChanges();
+
+            // Chuyển hướng về trang chi tiết phim
+            return RedirectToAction("MovieDetail", new { movieId });
+        }
+        private int GetCurrentUserId()
+        {
+            // Implement logic để lấy MemberId từ session hoặc cookie
+            // ...
+            if (Session["idMember"] != null)
+            {
+                // Ép kiểu Session["idMember"] về kiểu int
+                if (int.TryParse(Session["idMember"].ToString(), out int memberId))
+                {
+                    Debug.WriteLine($"Current User ID: {memberId}");
+                    // Trả về memberId
+                    return memberId;
+                }
+            }
+
+            Debug.WriteLine("Session 'idMember' not found or cannot be parsed as int.");
+            return 0;
+        }
+        [HttpGet]
+        public JsonResult GetDates(int roomNumber)
+        {
+            // Lấy danh sách các ngày chiếu từ cơ sở dữ liệu dựa trên phòng
+            var dates = objModel.schedules
+                .Where(s => s.room_id == roomNumber)
+                .Select(s => s.show_date)
+                .Distinct()
+                .ToList();
+
+            return Json(dates, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult GetShowtimes(int roomNumber, DateTime date)
+        {
+            // Lấy danh sách thời gian chiếu từ cơ sở dữ liệu dựa trên phòng và ngày
+            var showtimes = objModel.schedules
+                .Where(s => s.room_id == roomNumber && s.show_date == date)
+                .Select(s => new { StartTime = s.time_start, EndTime = s.time_end })
+                .ToList();
+
+            return Json(showtimes, JsonRequestBehavior.AllowGet);
+        }
     }
+        
 }
+        
+ 

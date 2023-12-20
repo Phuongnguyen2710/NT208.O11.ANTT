@@ -37,6 +37,7 @@ namespace TicketLand_project.Models
         public string movie_director { get; set; }
         public Nullable<int> movie_status { get; set; }
         public Nullable<double> rate { get; set; }
+        public string movie_banner { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<comment> comments { get; set; }

@@ -1,0 +1,57 @@
+﻿button[type="submit"] {
+    background-color: #000; /* Màu đen */
+    color: #fff; /* Màu chữ trắng */
+    border: none; /* Loại bỏ đường viền */
+    padding: 10px 20px; /* Kích thước nút */
+    border-radius: 5px; /* Bo góc */
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+    /* Hover effect (nếu muốn) */
+    button[type="submit"]:hover {
+        background-color: #333; /* Màu đen đậm khi hover */
+    }
+.comment {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 8px;
+    margin: 15px auto; /* Căn giữa theo chiều ngang và đặt margin top/bottom */
+    max-width: 700px; /* Giảm chiều rộng tối đa của comment */
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.member-name {
+    font-weight: bold;
+}
+
+.comment-date {
+    color: #888;
+}
+
+.comment-rating {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.star-rating {
+    margin-right: 8px;
+}
+
+/* CSS để làm hình tròn và kích thước nhỏ cho avatar */
+.member-avatar {
+    width: 40px; /* Đặt kích thước mong muốn */
+    height: 40px;
+    border-radius: 50%; /* Làm hình tròn */
+    margin-right: -450px; /* Khoảng cách giữa avatar và tên thành viên */
+}

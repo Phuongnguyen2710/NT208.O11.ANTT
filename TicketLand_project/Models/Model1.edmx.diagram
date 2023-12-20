@@ -4,17 +4,17 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="597477c972c147d6a4ac3e1321a4e316" Name="Diagram1">
-        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.booking" Width="1.5" PointX="8.25" PointY="6.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.comment" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.event" Width="1.5" PointX="3" PointY="8.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.member" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.movy" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.news" Width="1.5" PointX="3" PointY="11.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.ROLE" Width="1.5" PointX="1.5" PointY="15" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.room" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.schedule" Width="1.5" PointX="6" PointY="6.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.seat" Width="1.5" PointX="6" PointY="2.875" IsExpanded="true" />
+      <Diagram DiagramId="b1ac23ab0c174194bed5ec4307297d15" Name="Diagram1">
+        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.booking" Width="1.5" PointX="8.25" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.comment" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.event" Width="1.5" PointX="3" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.member" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.movy" Width="1.5" PointX="0.75" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.news" Width="1.5" PointX="3" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.ROLE" Width="1.5" PointX="1.5" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.room" Width="1.5" PointX="3.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.schedule" Width="1.5" PointX="6" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.seat" Width="1.5" PointX="6" PointY="3.875" IsExpanded="true" />
         <AssociationConnector Association="QUANLYXEMPHIMModel.FK__booking__member___72C60C4A" ManuallyRouted="false" />
         <AssociationConnector Association="QUANLYXEMPHIMModel.FK__booking__schedul__73BA3083" ManuallyRouted="false" />
         <AssociationConnector Association="QUANLYXEMPHIMModel.FK__comment__member___76969D2E" ManuallyRouted="false" />

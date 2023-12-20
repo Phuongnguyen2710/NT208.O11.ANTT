@@ -73,6 +73,7 @@
           <ScalarProperty Name="movie_director" ColumnName="movie_director" />
           <ScalarProperty Name="movie_status" ColumnName="movie_status" />
           <ScalarProperty Name="rate" ColumnName="rate" />
+          <ScalarProperty Name="movie_banner" ColumnName="movie_banner" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -111,10 +112,9 @@
           <ScalarProperty Name="schedule_id" ColumnName="schedule_id" />
           <ScalarProperty Name="movie_id" ColumnName="movie_id" />
           <ScalarProperty Name="room_id" ColumnName="room_id" />
-          <ScalarProperty Name="schedule_date_start" ColumnName="schedule_date_start" />
-          <ScalarProperty Name="schedule_date_end" ColumnName="schedule_date_end" />
           <ScalarProperty Name="time_start" ColumnName="time_start" />
           <ScalarProperty Name="time_end" ColumnName="time_end" />
+          <ScalarProperty Name="show_date" ColumnName="show_date" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

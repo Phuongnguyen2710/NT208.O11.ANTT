@@ -21,7 +21,7 @@
     <Property Name="member_id" Type="Int32" />
     <Property Name="movie_id" Type="Int32" />
     <Property Name="content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="comment_date" Type="DateTime" Precision="0" />
+    <Property Name="comment_date" Type="DateTime" Precision="3" />
     <Property Name="comment_star" Type="Double" />
     <NavigationProperty Name="member" Relationship="Self.FK__comment__member___76969D2E" FromRole="comment" ToRole="members" />
     <NavigationProperty Name="movy" Relationship="Self.FK__comment__movie_i__778AC167" FromRole="comment" ToRole="movies" />
@@ -77,6 +77,7 @@
     <Property Name="movie_director" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
     <Property Name="movie_status" Type="Int32" />
     <Property Name="rate" Type="Double" />
+    <Property Name="movie_banner" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="comments" Relationship="Self.FK__comment__movie_i__778AC167" FromRole="movies" ToRole="comment" />
     <NavigationProperty Name="events" Relationship="Self.FK__event__movie_id__787EE5A0" FromRole="movies" ToRole="event" />
     <NavigationProperty Name="news" Relationship="Self.FK__news__movie_id__797309D9" FromRole="movies" ToRole="news" />
@@ -119,10 +120,9 @@
     <Property Name="schedule_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="movie_id" Type="Int32" />
     <Property Name="room_id" Type="Int32" />
-    <Property Name="schedule_date_start" Type="Time" Precision="7" />
-    <Property Name="schedule_date_end" Type="Time" Precision="7" />
     <Property Name="time_start" Type="Time" Precision="7" />
     <Property Name="time_end" Type="Time" Precision="7" />
+    <Property Name="show_date" Type="DateTime" Precision="0" />
     <NavigationProperty Name="bookings" Relationship="Self.FK__booking__schedul__73BA3083" FromRole="schedule" ToRole="booking" />
     <NavigationProperty Name="movy" Relationship="Self.FK__schedule__movie___70DDC3D8" FromRole="schedule" ToRole="movies" />
     <NavigationProperty Name="room" Relationship="Self.FK__schedule__room_i__71D1E811" FromRole="schedule" ToRole="rooms" />
@@ -134,7 +134,7 @@
     <Property Name="seat_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="seat_type" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
     <Property Name="room_id" Type="Int32" />
-    <Property Name="row" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="row" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
     <Property Name="number" Type="Int32" />
     <Property Name="seats_status" Type="Boolean" />
     <NavigationProperty Name="room" Relationship="Self.FK__seats__room_id__6FE99F9F" FromRole="seats" ToRole="rooms" />

@@ -1,0 +1,285 @@
+﻿@model TicketLand_project.ViewModels.MovieDetailViewModel
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Smooch Sans:wght@700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css" />
+    <link rel="stylesheet" href="~/Assets/css/home/moviedetail.css" />
+    @* <link href="~/Assets/Register_css/Register.css" rel="stylesheet" />*@
+    <style>
+        .btn-tab {
+            margin: 0 5px;
+        }
+
+            .btn-tab:hover,
+            .btn-tab:focus {
+                background-color: #007bff;
+                color: #fff;
+            }
+    </style>
+</head>
+
+<body>
+    <iframe width="100%" height="500" src="@Model.Trailer&autoplay=1&mute=1" frameborder="0" allowfullscreen></iframe>
+    <div class="container mt-3">
+        <div class="text-center mt-3 mb-3">
+            <button id="info-tab-btn" class="btn btn-light btn-tab" onclick="showTab('info-tab')">Thông tin</button>
+            <button id="ratings-tab-btn" class="btn btn-light btn-tab" onclick="showTab('ratings-tab')">Đánh giá</button>
+            <button id="schedule-tab-btn" class="btn btn-light btn-tab" onclick="showTab('schedule-tab')">Lịch chiếu</button>
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    // Lắng nghe sự kiện click trên các nút chuyển đổi và chuyển đổi giữa chúng
+                    document.getElementById("info-tab-btn").addEventListener("click", function () {
+                        showTab("info-tab");
+                    });
+
+                    document.getElementById("ratings-tab-btn").addEventListener("click", function () {
+                        showTab("ratings-tab");
+                    });
+
+                    document.getElementById("schedule-tab-btn").addEventListener("click", function () {
+                        showTab("schedule-tab");
+                    });
+
+                    // Hiển thị mặc định tab thông tin khi trang được tải
+                    showTab("info-tab");
+
+                    // Hàm để ẩn tất cả các tab và hiển thị tab được chọn
+                    function showTab(tabId) {
+                        var tabs = ["info-tab", "ratings-tab", "schedule-tab"];
+                        tabs.forEach(function (tab) {
+                            var tabContent = document.getElementById(tab);
+                            if (tabContent) {
+                                tabContent.style.display = tab === tabId ? "block" : "none";
+                            }
+                        });
+                    }
+                });
+            </script>
+        </div>
+
+        <div id="info-tab">
+            <div style="overflow: hidden;">
+            </div>
+            @*<h2>Thông tin phim</h2>*@
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="movie-details">
+                        <div class="poster" style="margin-bottom:10px; text-align:right">
+                            <img src="@Model.PosterUrl" alt="Movie Poster" style="margin-right:30px; width:70%">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="movie-details">
+                        <h2>@Model.Title</h2>
+                        <p><strong>Thể loại:</strong> @Model.Genre</p>
+                        <p><strong>Đạo diễn:</strong> @Model.Director</p>
+                        <p><strong>Diễn viên:</strong> @Model.Actors</p>
+                        <p><strong>Ngày phát hành:</strong> @Model.ReleaseDate.ToString("dd/MM/yyyy")</p>
+                        <p><strong>Thời lượng:</strong> @Model.Duration</p>
+                        <p><strong>Định dạng:</strong> @Model.Format</p>
+                        <p><strong>Mô tả:</strong> @Model.Description</p>
+                        <!-- Thêm nội dung chi tiết khác về phim -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    <div id="ratings-tab" style="display: none;" class="text-center">
+        <h2>@Model.Title</h2>
+        <h3>@Model.AverageRating</h3>
+        <div id="average-rating" class="text-center" style="margin-left: 42vw"></div>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
+
+        <!-- Hiển thị danh sách đánh giá -->
+        <div id="comments">
+            @foreach (var comment in Model.Comments)
+            {
+                <div class="comment">
+                    <div class="comment-header">
+                        <img src="data:image/png;base64,@comment.MemberAvatar" alt="Member Avatar" class="member-avatar" />
+                        <span class="member-name">@comment.MemberName</span>
+                        <span class="comment-date">@comment.CommentDate.ToString("dd/MM/yyyy HH:mm")</span>
+                    </div>
+                    <div class="comment-body" style="text-align:left">
+                        <p class="comment-content" style="margin-left:2vw">@comment.Content</p>
+                        <div class="comment-rating">
+                            @*<p>@comment.CommentId</p>*@
+                            <div id="star-rating-@comment.CommentId" class="star-rating"></div>
+                            <script>
+
+                                $("#star-rating-@comment.CommentId").rateYo({
+                                    rating: @comment.CommentStar,
+                                    readOnly: true,
+                                    starWidth: "20px",
+                                    ratedFill: "#FFD700",
+                                    normalFill: "#808080"
+                                });
+
+                            </script>
+                        </div>
+                    </div>
+                </div>
+               
+            }
+        </div>
+        
+        <!-- Form để thêm đánh giá và bình luận -->
+        <form id="comment-form" method="post" action="@Url.Action("AddComment")" class="mx-auto col-md-6">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="movieId" value="@Model.Id" />
+
+            <div>
+                <label for="content">Bình luận:</label>
+                <textarea id="content" name="content" rows="3" class="form-control" placeholder="Cảm nghĩ của bạn về phim @Model.Title" required></textarea>
+            </div>
+
+            <div>
+                <label for="commentStar">Đánh giá:</label>
+                <div id="star-rating" style="margin-left:20vw; position:relative"></div>
+                <input type="hidden" id="commentStar" name="commentStar"/>
+            </div><br />
+
+            <button class="submit-btn" type="submit">Gửi</button><br/><br />
+        </form>
+    </div>
+
+        <div id="schedule-tab" style="display: none;">
+            <h2>Lịch chiếu</h2>
+            <!-- Hiển thị lịch chiếu -->
+            <div class="row">
+                <!-- Danh sách các phòng (cột bên trái) -->
+                <div class="col-md-3">
+                    <div class="list-group">
+                        @foreach (var room in Model.Schedules)
+                        {
+                            <a href="#" class="list-group-item list-group-item-action" onclick="loadDates('@room.room_id')">
+                                Phòng @room.room_id
+                            </a>
+                        }
+                    </div>
+                </div>
+
+                <!-- Danh sách các ngày (danh sách ngang) -->
+                <div class="col-md-9">
+                    <div id="dates-list" class="list-group">
+                        <!-- Nội dung ngày được load thông qua JavaScript -->
+                    </div>
+                </div>
+            </div>
+            <!-- Modal hiển thị thông tin suất chiếu -->
+            <div class="modal fade" id="showtimeModal" tabindex="-1" role="dialog" aria-labelledby="showtimeModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="showtimeModalLabel">Thông tin suất chiếu</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="showtimeInfo"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                        function loadDates(roomId) {
+                            // Gọi controller để lấy danh sách ngày chiếu cho phòng và phim cụ thể
+                            $.ajax({
+                                url: '@Url.Action("GetDates", "Home")',
+                                method: 'GET',
+                                data: { roomId: roomId, movieId: @Model.Id },
+                                success: function (data) {
+                                    // Hiển thị danh sách ngày chiếu
+                                    var datesList = $("#dates-list");
+                                    datesList.empty();
+
+                                    data.forEach(function (date) {
+                                        var listItem = $('<a href="javascript:void(0)" class="list-group-item list-group-item-action" onclick="loadShowtimes(' + roomId + ', \'' + date + '\')">' + date + '</a>');
+                                        datesList.append(listItem);
+                                    });
+                                },
+                                error: function (error) {
+                                    console.error('Error fetching dates:', error);
+                                }
+                            });
+                        }
+
+                        function loadShowtimes(roomId, date) {
+                            // Gọi controller để lấy danh sách suất chiếu cho phòng, phim, và ngày cụ thể
+                            $.ajax({
+                                url: '@Url.Action("GetShowtimes", "Home")',
+                                method: 'GET',
+                                data: { roomId: roomId, movieId: @Model.Id, date: date },
+                                success: function (data) {
+                                    // Hiển thị thông tin suất chiếu
+                                    var showtimeInfo = $("#showtimeInfo");
+                                    showtimeInfo.empty();
+
+                                    data.forEach(function (showtime) {
+                                        // Hiển thị giờ chiếu trong các ô vuông nhỏ
+                                        var showtimeHtml = '<div class="time-slot" onclick="showShowtimeInfo(\'' + showtime.StartTime + '\', \'' + showtime.EndTime + '\')">' +
+                                            showtime.StartTime + '~' + showtime.EndTime +
+                                            '</div>';
+                                        showtimeInfo.append(showtimeHtml);
+                                    });
+
+                                    // Hiển thị modal
+                                    $("#showtimeModal").modal("show");
+                                },
+                                error: function (error) {
+                                    console.error('Error fetching showtimes:', error);
+                                }
+                            });
+                        }
+            </script>
+        </div>
+    
+        <!-- Thêm các tệp JavaScript của Bootstrap và script tùy chỉnh -->
+       
+
+     
+
+        <script>
+                // Thiết lập hình sao cho phần đánh giá
+                $("#star-rating").rateYo({
+                    rating: 1,
+                    halfStar: true,
+                    fullStar: true,
+                    starWidth: "20px",
+                    ratedFill: "#FFD700",  // Màu sao đã đánh giá
+                    normalFill: "#808080", // Màu sao chưa đánh giá
+                    onChange: function (rating, rateYoInstance) {
+                        $("#commentStar").val(rating); // Cập nhật giá trị rating vào hidden input
+                    }
+                });
+
+                // Hiển thị số sao trung bình
+                $("#average-rating").rateYo({
+                    rating: @Model.AverageRating,
+                    readOnly: true,
+                    starWidth: "50px",
+                    ratedFill: "#FFD700",
+                    normalFill: "#808080",
+                });
+        </script>
+
+     
+</body>
+</html>
