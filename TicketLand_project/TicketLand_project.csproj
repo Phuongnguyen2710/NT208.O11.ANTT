@@ -135,6 +135,7 @@
     <Compile Include="Areas\Admin\Controllers\roomsController.cs" />
     <Compile Include="Areas\Admin\Controllers\seatsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\moviesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -440,13 +441,6 @@
     <Content Include="Areas\Admin\Views\seats\Details.cshtml" />
     <Content Include="Areas\Admin\Views\seats\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\seats\Index.cshtml" />
-    <EntityDeploy Include="Models\Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Content>
     <Content Include="Assets\css\bootstrap-grid.css.map" />
     <Content Include="Assets\css\bootstrap-grid.min.css.map" />
     <Content Include="Assets\css\bootstrap-grid.rtl.css.map" />
@@ -485,6 +479,13 @@
     <Content Include="Assets\js\bootstrap.min.js.map" />
     <Content Include="Assets\js\jquery-3.7.1.min.map" />
     <Content Include="Assets\js\jquery-3.7.1.slim.min.map" />
+    <EntityDeploy Include="Models\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -512,6 +513,11 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
+    <Content Include="Views\movies\Create.cshtml" />
+    <Content Include="Views\movies\Delete.cshtml" />
+    <Content Include="Views\movies\Details.cshtml" />
+    <Content Include="Views\movies\Edit.cshtml" />
+    <Content Include="Views\movies\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

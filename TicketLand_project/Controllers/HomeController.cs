@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -12,6 +13,7 @@ using TicketLand_project.Models;
 
 namespace TicketLand_project.Controllers
 {
+     
     public class HomeController : Controller
     {
 
@@ -20,14 +22,37 @@ namespace TicketLand_project.Controllers
         {
             if (Session["Username"] != null)
             {
-                return View();
+                var movies = objModel.movies.ToList();
+                int numberMoviesEnable = 0;
+                foreach (var movie in movies)
+                {
+                    movie.DurationInMinutes = ConvertTimeToMinutes(movie.movie_duration.ToString());
+                    if (movie.movie_status == 1) numberMoviesEnable++;
+                }
+                ViewBag.numberMoviesEnable = numberMoviesEnable;
+                return View(movies);
+                //return View(objModel.movies.ToList());
             }
             else if (Session["username"].ToString() == "Phương")
             {
                 return View();
             }
 
+
             return RedirectToAction("Login");
+        }
+
+        public static int ConvertTimeToMinutes(string time)
+        {
+            TimeSpan timeSpan;
+            if (TimeSpan.TryParse(time, out timeSpan))
+            {
+                int minutes = timeSpan.Hours * 60 + timeSpan.Minutes;
+                return minutes;
+            }
+
+            // Nếu định dạng thời gian không hợp lệ hoặc không thể chuyển đổi thành TimeSpan, trả về giá trị mặc định hoặc ném ra một ngoại lệ tùy thuộc vào yêu cầu của bạn.
+            return 0; // Giá trị mặc định (hoặc bạn có thể trả về một giá trị khác)
         }
 
         // GET: Register
@@ -174,5 +199,10 @@ namespace TicketLand_project.Controllers
 
             return View();
         }
+        public ActionResult ScrollToPosition()
+        {
+            return RedirectToAction("Index");
+        }
+
     }
 }

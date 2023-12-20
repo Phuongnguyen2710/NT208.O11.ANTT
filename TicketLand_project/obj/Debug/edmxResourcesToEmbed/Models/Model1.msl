@@ -73,6 +73,7 @@
           <ScalarProperty Name="movie_director" ColumnName="movie_director" />
           <ScalarProperty Name="movie_status" ColumnName="movie_status" />
           <ScalarProperty Name="rate" ColumnName="rate" />
+          <ScalarProperty Name="movie_banner" ColumnName="movie_banner" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

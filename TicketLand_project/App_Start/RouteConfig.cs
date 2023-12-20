@@ -17,13 +17,18 @@ namespace TicketLand_project
             name: "Create",
             url: "Admin/Room/{roomId}/seats/Create",
             defaults: new { controller = "seats", action = "Create" }
-);
-            routes.MapRoute(
+            );
+
+           routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
-
+            routes.MapRoute(
+    name: "ScrollToPosition",
+    url: "Home/ScrollToPosition",
+    defaults: new { controller = "Home", action = "ScrollToPosition" }
+);
 
 
         }

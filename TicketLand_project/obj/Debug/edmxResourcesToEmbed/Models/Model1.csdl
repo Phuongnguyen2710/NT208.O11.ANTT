@@ -77,6 +77,7 @@
     <Property Name="movie_director" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
     <Property Name="movie_status" Type="Int32" />
     <Property Name="rate" Type="Double" />
+    <Property Name="movie_banner" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="comments" Relationship="Self.FK__comment__movie_i__778AC167" FromRole="movies" ToRole="comment" />
     <NavigationProperty Name="events" Relationship="Self.FK__event__movie_id__787EE5A0" FromRole="movies" ToRole="event" />
     <NavigationProperty Name="news" Relationship="Self.FK__news__movie_id__797309D9" FromRole="movies" ToRole="news" />
@@ -134,7 +135,7 @@
     <Property Name="seat_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="seat_type" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
     <Property Name="room_id" Type="Int32" />
-    <Property Name="row" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="row" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
     <Property Name="number" Type="Int32" />
     <Property Name="seats_status" Type="Boolean" />
     <NavigationProperty Name="room" Relationship="Self.FK__seats__room_id__6FE99F9F" FromRole="seats" ToRole="rooms" />

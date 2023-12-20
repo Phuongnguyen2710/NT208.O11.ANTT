@@ -1,8 +1,9 @@
-﻿@{
+﻿@model IEnumerable<TicketLand_project.Models.movy>
+@{
     ViewBag.Title = "Home Page";
+
 }
 <!-- Banner Area -->
-
 <div class="banner-area">
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
@@ -49,14 +50,14 @@
 
                     <div class="col-lg-3 col-md-2 form-group">
                         <div class="d-flex justify-content-center align-items-center">
-                            <div class="col-7" >
+                            <div class="col-7">
                                 <label style="margin-bottom: 0; white-space: nowrap;">Ngày chiếu</label>
                             </div>
                             <div class="col-5 input-group_1">
                                 <input id="datetimepicker-check" type="text" class="form-control" placeholder="11/02/2020">
                                 <span class="input-group-addon"></span>
                             </div>
-                       
+
                         </div>
                     </div>
                     <div class="col-lg-1 col-md-3 form-group">
@@ -78,7 +79,7 @@
                         <span class="border border-1 border-start"></span>
                     </div>
                     <div class="col-lg-1 col-md-1 form-group">
-                            <button type="button" class="banner-button btn btn-danger">GO</button>
+                        <button type="button" class="banner-button btn btn-danger">GO</button>
                     </div>
                 </div>
             </form>
@@ -87,7 +88,7 @@
 </div>
 <!-- Banner Form Area End -->
 <!-- Film Area -->
-<div id ="film-area" class="room-area pt-70 pb-20 section-bg">
+<div id="schedule-page" class="room-area pt-70 pb-20 section-bg">
     <div class="container mt-5">
         <div class="justify-content-between">
             <div class="row justify-content-center">
@@ -107,6 +108,128 @@
                         <div class="container">
                             <div class="row pt-10">
                                 <div id="carouselExample" class="carousel slide">
+                                    
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active">
+                                            @*Row1*@
+                                            @{
+                                                int numberMoviesEnable = ViewBag.numberMoviesEnable;
+                                            }
+                                            <div class="row">
+                                                @foreach (var item in Model)
+                                                {
+                                                    @*Poster 1*@
+                                                    <div class="col-lg-3 col-md-4 col-sm-6">
+                                                        <div class="room-card">
+                                                            <div>
+                                                                <a href="room-details.html">
+                                                                    <img class="poster_film responsive-image" src=@Html.DisplayFor(modelItem => item.movie_poster) alt="Images">
+                                                                </a>
+                                                            </div>
+                                                            <div class="content" style=" width: 100%; height: 100px;">
+                                                                <div class="text-age-name">
+                                                                    <div><button class="btn-age btn btn-success">P</button></div>
+                                                                    <span><a class="text-name-film" href="room-details.html">@Html.DisplayFor(modelItem => item.movie_name)</a></span>
+                                                                </div>
+                                                                <div class="text-time-rating">
+                                                                    <div class="col-lg-6 text-poster">@Html.DisplayFor(modelItem => item.DurationInMinutes) phút</div>
+                                                                    <span class="col-lg-6 star-rating ">
+                                                                        <i class='bx bxs-star'></i>
+                                                                        <i class='bx bxs-star'></i>
+                                                                        <i class='bx bxs-star'></i>
+                                                                        <i class='bx bxs-star'></i>
+                                                                        <i class='bx bxs-star-half'></i>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                            @*Row2*@
+                                            <div class="row">
+                                                @*Poster 5*@
+                                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                                    <div class="room-card">
+                                                        <div>
+                                                            <a href="room-details.html">
+                                                                <img class="poster_film responsive-image" src="~/Assets/img/home/poster_film/mat-biet.jpg" alt="Images">
+                                                            </a>
+                                                        </div>
+                                                        <div class="content" style=" width: 100%; height: 100px;">
+                                                            <div class="text-age-name">
+                                                                <div><button class="btn-age btn btn-success">P</button></div>
+                                                                <span><a class="text-name-film" href="room-details.html">Cô Ba Sài Gòn</a></span>
+                                                            </div>
+                                                            <div class="text-time-rating">
+                                                                <div class="col-lg-6 text-poster">120 phút</div>
+                                                                <span class="col-lg-6 star-rating ">
+                                                                    <i class='bx bxs-star'></i>
+                                                                    <i class='bx bxs-star'></i>
+                                                                    <i class='bx bxs-star'></i>
+                                                                    <i class='bx bxs-star'></i>
+                                                                    <i class='bx bxs-star-half'></i>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="carousel-item">
+                                            @*Row1*@
+                                            <div class="row">
+                                                @*Poster 1*@
+                                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                                    <div class="room-card">
+                                                        <div>
+                                                            <a href="room-details.html">
+                                                                <img class="poster_film responsive-image" src="~/Assets/img/home/poster_film/mat-biet.jpg" alt="Images">
+                                                            </a>
+                                                        </div>
+                                                        <div class="content" style=" width: 100%; height: 100px;">
+                                                            <div class="text-age-name">
+                                                                <div><button class="btn-age btn btn-success">P</button></div>
+                                                                <span><a class="text-name-film" href="room-details.html">Cô Ba Sài Gòn</a></span>
+                                                            </div>
+                                                            <div class="text-time-rating">
+                                                                <div class="col-lg-6 text-poster">120 phút</div>
+                                                                <span class="col-lg-6 star-rating ">
+                                                                    <i class='bx bxs-star'></i>
+                                                                    <i class='bx bxs-star'></i>
+                                                                    <i class='bx bxs-star'></i>
+                                                                    <i class='bx bxs-star'></i>
+                                                                    <i class='bx bxs-star-half'></i>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <button class="carousel-control-prev" style="left: -10%; color: brown; font-size:2rem;" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                                        <span class="fa-solid fa-circle-chevron-left" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" style="right: -10%; color: brown; font-size: 2rem;" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                                        <span class="fa-solid fa-circle-chevron-right" aria-hidden="true"></span>
+                                        <span class="visually-hidden" style="color:brown;">Next</span>
+                                    </button>
+                                </div>
+                            
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                    <div class="room-area pt-20 pb-20 section-bg">
+                        <div class="container">
+                            <div class="row pt-45">
+                                <div id="carouselExample2" class="carousel slide">
                                     <div class="carousel-inner">
                                         <div class="carousel-item active">
                                             @*Row1*@
@@ -331,363 +454,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="carousel-item">
-                                            @*Row1*@
-                                            <div class="row">
-                                                @*Poster 1*@
-                                                <div class="col-lg-3 col-md-4 col-sm-6">
-                                                    <div class="room-card">
-                                                        <div>
-                                                            <a href="room-details.html">
-                                                                <img class="poster_film responsive-image" src="~/Assets/img/home/poster_film/mat-biet.jpg" alt="Images">
-                                                            </a>
-                                                        </div>
-                                                        <div class="content" style=" width: 100%; height: 100px;">
-                                                            <div class="text-age-name">
-                                                                <div><button class="btn-age btn btn-success">P</button></div>
-                                                                <span><a class="text-name-film" href="room-details.html">Cô Ba Sài Gòn</a></span>
-                                                            </div>
-                                                            <div class="text-time-rating">
-                                                                <div class="col-lg-6 text-poster">120 phút</div>
-                                                                <span class="col-lg-6 star-rating ">
-                                                                    <i class='bx bxs-star'></i>
-                                                                    <i class='bx bxs-star'></i>
-                                                                    <i class='bx bxs-star'></i>
-                                                                    <i class='bx bxs-star'></i>
-                                                                    <i class='bx bxs-star-half'></i>
-
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @*Poster 2*@
-                                                <div class="col-lg-3 col-md-4 col-sm-6">
-                                                    <div class="room-card">
-                                                        <div>
-                                                            <a href="room-details.html">
-                                                                <img class="poster_film responsive-image" src="~/Assets/img/home/poster_film/mat-biet.jpg" alt="Images">
-                                                            </a>
-                                                        </div>
-                                                        <div class="content" style=" width: 100%; height: 100px;">
-                                                            <div class="text-age-name">
-                                                                <div><button class="btn-age btn btn-success">P</button></div>
-                                                                <span><a class="text-name-film" href="room-details.html">Cô Ba Sài Gòn</a></span>
-                                                            </div>
-                                                            <div class="text-time-rating">
-                                                                <div class="col-lg-6 text-poster">120 phút</div>
-                                                                <span class="col-lg-6 star-rating ">
-                                                                    <i class='bx bxs-star'></i>
-                                                                    <i class='bx bxs-star'></i>
-                                                                    <i class='bx bxs-star'></i>
-                                                                    <i class='bx bxs-star'></i>
-                                                                    <i class='bx bxs-star-half'></i>
-
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @*Poster 3*@
-                                                <div class="col-lg-3 col-md-4 col-sm-6">
-                                                    <div class="room-card">
-                                                        <div>
-                                                            <a href="room-details.html">
-                                                                <img class="poster_film responsive-image" src="~/Assets/img/home/poster_film/mat-biet.jpg" alt="Images">
-                                                            </a>
-                                                        </div>
-                                                        <div class="content" style=" width: 100%; height: 100px;">
-                                                            <div class="text-age-name">
-                                                                <div><button class="btn-age btn btn-success">P</button></div>
-                                                                <span><a class="text-name-film" href="room-details.html">Cô Ba Sài Gòn</a></span>
-                                                            </div>
-                                                            <div class="text-time-rating">
-                                                                <div class="col-lg-6 text-poster">120 phút</div>
-                                                                <span class="col-lg-6 star-rating ">
-                                                                    <i class='bx bxs-star'></i>
-                                                                    <i class='bx bxs-star'></i>
-                                                                    <i class='bx bxs-star'></i>
-                                                                    <i class='bx bxs-star'></i>
-                                                                    <i class='bx bxs-star-half'></i>
-
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @*Poster 4*@
-                                                <div class="col-lg-3 col-md-4 col-sm-6">
-                                                    <div class="room-card">
-                                                        <div>
-                                                            <a href="room-details.html">
-                                                                <img class="poster_film responsive-image" src="~/Assets/img/home/poster_film/mat-biet.jpg" alt="Images">
-                                                            </a>
-                                                        </div>
-                                                        <div class="content" style=" width: 100%; height: 100px;">
-                                                            <div class="text-age-name">
-                                                                <div><button class="btn-age btn btn-success">P</button></div>
-                                                                <span><a class="text-name-film" href="room-details.html">Cô Ba Sài Gòn</a></span>
-                                                            </div>
-                                                            <div class="text-time-rating">
-                                                                <div class="col-lg-6 text-poster">120 phút</div>
-                                                                <span class="col-lg-6 star-rating ">
-                                                                    <i class='bx bxs-star'></i>
-                                                                    <i class='bx bxs-star'></i>
-                                                                    <i class='bx bxs-star'></i>
-                                                                    <i class='bx bxs-star'></i>
-                                                                    <i class='bx bxs-star-half'></i>
-
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button class="carousel-control-prev" style="left: -10%; color: brown; font-size:2rem;" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                                        <span class="fa-solid fa-circle-chevron-left" aria-hidden="true"></span>
-                                        <span class="visually-hidden">Previous</span>
-                                    </button>
-                                    <button class="carousel-control-next" style="right: -10%; color: brown; font-size: 2rem;" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                                        <span class="fa-solid fa-circle-chevron-right" aria-hidden="true"></span>
-                                        <span class="visually-hidden" style="color:brown;">Next</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                    <div class="room-area pt-20 pb-20 section-bg">
-                        <div class="container">
-                            <div class="row pt-45">
-                                <div id="carouselExample2" class="carousel slide">
-                                    <div class="carousel-inner">
-                                        <div class="carousel-item active">
-                                                @*Row1*@
-                                                <div class="row">
-                                                    @*Poster 1*@
-                                                    <div class="col-lg-3 col-md-4 col-sm-6">
-                                                        <div class="room-card">
-                                                            <div>
-                                                                <a href="room-details.html">
-                                                                    <img class="poster_film responsive-image" src="~/Assets/img/home/poster_film/mat-biet.jpg" alt="Images">
-                                                                </a>
-                                                            </div>
-                                                            <div class="content" style=" width: 100%; height: 100px;">
-                                                                <div class="text-age-name">
-                                                                    <div><button class="btn-age btn btn-success">P</button></div>
-                                                                    <span><a class="text-name-film" href="room-details.html">Cô Ba Sài Gòn</a></span>
-                                                                </div>
-                                                                <div class="text-time-rating">
-                                                                    <div class="col-lg-6 text-poster">120 phút</div>
-                                                                    <span class="col-lg-6 star-rating ">
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star-half'></i>
-
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    @*Poster 2*@
-                                                    <div class="col-lg-3 col-md-4 col-sm-6">
-                                                        <div class="room-card">
-                                                            <div>
-                                                                <a href="room-details.html">
-                                                                    <img class="poster_film responsive-image" src="~/Assets/img/home/poster_film/mat-biet.jpg" alt="Images">
-                                                                </a>
-                                                            </div>
-                                                            <div class="content" style=" width: 100%; height: 100px;">
-                                                                <div class="text-age-name">
-                                                                    <div><button class="btn-age btn btn-success">P</button></div>
-                                                                    <span><a class="text-name-film" href="room-details.html">Cô Ba Sài Gòn</a></span>
-                                                                </div>
-                                                                <div class="text-time-rating">
-                                                                    <div class="col-lg-6 text-poster">120 phút</div>
-                                                                    <span class="col-lg-6 star-rating ">
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star-half'></i>
-
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    @*Poster 3*@
-                                                    <div class="col-lg-3 col-md-4 col-sm-6">
-                                                        <div class="room-card">
-                                                            <div>
-                                                                <a href="room-details.html">
-                                                                    <img class="poster_film responsive-image" src="~/Assets/img/home/poster_film/mat-biet.jpg" alt="Images">
-                                                                </a>
-                                                            </div>
-                                                            <div class="content" style=" width: 100%; height: 100px;">
-                                                                <div class="text-age-name">
-                                                                    <div><button class="btn-age btn btn-success">P</button></div>
-                                                                    <span><a class="text-name-film" href="room-details.html">Cô Ba Sài Gòn</a></span>
-                                                                </div>
-                                                                <div class="text-time-rating">
-                                                                    <div class="col-lg-6 text-poster">120 phút</div>
-                                                                    <span class="col-lg-6 star-rating ">
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star-half'></i>
-
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    @*Poster 4*@
-                                                    <div class="col-lg-3 col-md-4 col-sm-6">
-                                                        <div class="room-card">
-                                                            <div>
-                                                                <a href="room-details.html">
-                                                                    <img class="poster_film responsive-image" src="~/Assets/img/home/poster_film/mat-biet.jpg" alt="Images">
-                                                                </a>
-                                                            </div>
-                                                            <div class="content" style=" width: 100%; height: 100px;">
-                                                                <div class="text-age-name">
-                                                                    <div><button class="btn-age btn btn-success">P</button></div>
-                                                                    <span><a class="text-name-film" href="room-details.html">Cô Ba Sài Gòn</a></span>
-                                                                </div>
-                                                                <div class="text-time-rating">
-                                                                    <div class="col-lg-6 text-poster">120 phút</div>
-                                                                    <span class="col-lg-6 star-rating ">
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star-half'></i>
-
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @*Row2*@
-                                                <div class="row">
-                                                    @*Poster 5*@
-                                                    <div class="col-lg-3 col-md-4 col-sm-6">
-                                                        <div class="room-card">
-                                                            <div>
-                                                                <a href="room-details.html">
-                                                                    <img class="poster_film responsive-image" src="~/Assets/img/home/poster_film/mat-biet.jpg" alt="Images">
-                                                                </a>
-                                                            </div>
-                                                            <div class="content" style=" width: 100%; height: 100px;">
-                                                                <div class="text-age-name">
-                                                                    <div><button class="btn-age btn btn-success">P</button></div>
-                                                                    <span><a class="text-name-film" href="room-details.html">Cô Ba Sài Gòn</a></span>
-                                                                </div>
-                                                                <div class="text-time-rating">
-                                                                    <div class="col-lg-6 text-poster">120 phút</div>
-                                                                    <span class="col-lg-6 star-rating ">
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star-half'></i>
-
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    @*Poster 6*@
-                                                    <div class="col-lg-3 col-md-4 col-sm-6">
-                                                        <div class="room-card">
-                                                            <div>
-                                                                <a href="room-details.html">
-                                                                    <img class="poster_film responsive-image" src="~/Assets/img/home/poster_film/mat-biet.jpg" alt="Images">
-                                                                </a>
-                                                            </div>
-                                                            <div class="content" style=" width: 100%; height: 100px;">
-                                                                <div class="text-age-name">
-                                                                    <div><button class="btn-age btn btn-success">P</button></div>
-                                                                    <span><a class="text-name-film" href="room-details.html">Cô Ba Sài Gòn</a></span>
-                                                                </div>
-                                                                <div class="text-time-rating">
-                                                                    <div class="col-lg-6 text-poster">120 phút</div>
-                                                                    <span class="col-lg-6 star-rating ">
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star-half'></i>
-
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    @*Poster 7*@
-                                                    <div class="col-lg-3 col-md-4 col-sm-6">
-                                                        <div class="room-card">
-                                                            <div>
-                                                                <a href="room-details.html">
-                                                                    <img class="poster_film responsive-image" src="~/Assets/img/home/poster_film/mat-biet.jpg" alt="Images">
-                                                                </a>
-                                                            </div>
-                                                            <div class="content" style=" width: 100%; height: 100px;">
-                                                                <div class="text-age-name">
-                                                                    <div><button class="btn-age btn btn-success">P</button></div>
-                                                                    <span><a class="text-name-film" href="room-details.html">Cô Ba Sài Gòn</a></span>
-                                                                </div>
-                                                                <div class="text-time-rating">
-                                                                    <div class="col-lg-6 text-poster">120 phút</div>
-                                                                    <span class="col-lg-6 star-rating ">
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star-half'></i>
-
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    @*Poster 8*@
-                                                    <div class="col-lg-3 col-md-4 col-sm-6">
-                                                        <div class="room-card">
-                                                            <div>
-                                                                <a href="room-details.html">
-                                                                    <img class="poster_film responsive-image" src="~/Assets/img/home/poster_film/mat-biet.jpg" alt="Images">
-                                                                </a>
-                                                            </div>
-                                                            <div class="content" style=" width: 100%; height: 100px;">
-                                                                <div class="text-age-name">
-                                                                    <div><button class="btn-age btn btn-success">P</button></div>
-                                                                    <span><a class="text-name-film" href="room-details.html">Cô Ba Sài Gòn</a></span>
-                                                                </div>
-                                                                <div class="text-time-rating">
-                                                                    <div class="col-lg-6 text-poster">120 phút</div>
-                                                                    <span class="col-lg-6 star-rating ">
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star-half'></i>
-
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
 
                                         </div>
                                         <div class="carousel-item">
@@ -832,87 +598,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    @*Poster 6*@
-                                                    <div class="col-lg-3 col-md-4 col-sm-6">
-                                                        <div class="room-card">
-                                                            <div>
-                                                                <a href="room-details.html">
-                                                                    <img class="poster_film responsive-image" src="~/Assets/img/home/poster_film/mat-biet.jpg" alt="Images">
-                                                                </a>
-                                                            </div>
-                                                            <div class="content" style=" width: 100%; height: 100px;">
-                                                                <div class="text-age-name">
-                                                                    <div><button class="btn-age btn btn-success">P</button></div>
-                                                                    <span><a class="text-name-film" href="room-details.html">Cô Ba Sài Gòn</a></span>
-                                                                </div>
-                                                                <div class="text-time-rating">
-                                                                    <div class="col-lg-6 text-poster">120 phút</div>
-                                                                    <span class="col-lg-6 star-rating ">
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star-half'></i>
 
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    @*Poster 7*@
-                                                    <div class="col-lg-3 col-md-4 col-sm-6">
-                                                        <div class="room-card">
-                                                            <div>
-                                                                <a href="room-details.html">
-                                                                    <img class="poster_film responsive-image" src="~/Assets/img/home/poster_film/mat-biet.jpg" alt="Images">
-                                                                </a>
-                                                            </div>
-                                                            <div class="content" style=" width: 100%; height: 100px;">
-                                                                <div class="text-age-name">
-                                                                    <div><button class="btn-age btn btn-success">P</button></div>
-                                                                    <span><a class="text-name-film" href="room-details.html">Cô Ba Sài Gòn</a></span>
-                                                                </div>
-                                                                <div class="text-time-rating">
-                                                                    <div class="col-lg-6 text-poster">120 phút</div>
-                                                                    <span class="col-lg-6 star-rating ">
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star-half'></i>
-
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    @*Poster 8*@
-                                                    <div class="col-lg-3 col-md-4 col-sm-6">
-                                                        <div class="room-card">
-                                                            <div>
-                                                                <a href="room-details.html">
-                                                                    <img class="poster_film responsive-image" src="~/Assets/img/home/poster_film/mat-biet.jpg" alt="Images">
-                                                                </a>
-                                                            </div>
-                                                            <div class="content" style=" width: 100%; height: 100px;">
-                                                                <div class="text-age-name">
-                                                                    <div><button class="btn-age btn btn-success">P</button></div>
-                                                                    <span><a class="text-name-film" href="room-details.html">Cô Ba Sài Gòn</a></span>
-                                                                </div>
-                                                                <div class="text-time-rating">
-                                                                    <div class="col-lg-6 text-poster">120 phút</div>
-                                                                    <span class="col-lg-6 star-rating ">
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star'></i>
-                                                                        <i class='bx bxs-star-half'></i>
-
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                 </div>
 
                                             </div>
@@ -937,7 +623,7 @@
 </div>
 <!--Film End Area-->
 <!--News Start Area-->
-<div class="container">
+<div class="container" id="news-page">
     @*Header of News*@
     <div class="text-header">
         Tin tức - Ưu đãi
@@ -1017,5 +703,16 @@
                 console.log('Đây vẫn là Guest user');
             }
         });
+    }
+
+    function convertTimeToMinutes(timeString) {
+        var timeParts = timeString.split(':');
+        var hours = parseInt(timeParts[0], 10);
+        var minutes = parseInt(timeParts[1], 10);
+        var seconds = parseInt(timeParts[2], 10);
+
+        var totalMinutes = (hours * 60) + minutes + Math.round(seconds / 60);
+
+        return totalMinutes;
     }
 </script>

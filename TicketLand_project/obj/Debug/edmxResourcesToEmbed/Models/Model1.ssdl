@@ -75,6 +75,7 @@ warning 6013: The table/view 'QUANLYXEMPHIM.dbo.booking_detail' does not have a 
     <Property Name="movie_director" Type="nvarchar" MaxLength="20" />
     <Property Name="movie_status" Type="int" />
     <Property Name="rate" Type="float" />
+    <Property Name="movie_banner" Type="text" />
   </EntityType>
   <EntityType Name="news">
     <Key>
@@ -121,7 +122,7 @@ warning 6013: The table/view 'QUANLYXEMPHIM.dbo.booking_detail' does not have a 
     <Property Name="seat_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="seat_type" Type="nvarchar" MaxLength="20" />
     <Property Name="room_id" Type="int" />
-    <Property Name="row" Type="text" />
+    <Property Name="row" Type="varchar" MaxLength="1" />
     <Property Name="number" Type="int" />
     <Property Name="seats_status" Type="bit" />
   </EntityType>
