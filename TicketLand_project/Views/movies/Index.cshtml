@@ -1,0 +1,106 @@
+﻿@model IEnumerable<TicketLand_project.Models.movy>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.movie_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.movie_description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.movie_trailer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.movie_cens)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.movie_genres)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.movie_release)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.movie_duration)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.movie_format)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.movie_poster)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.movie_actor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.movie_director)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.movie_status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.rate)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.movie_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.movie_description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.movie_trailer)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.movie_cens)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.movie_genres)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.movie_release)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.movie_duration)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.movie_format)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.movie_poster)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.movie_actor)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.movie_director)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.movie_status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.rate)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.movie_id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.movie_id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.movie_id })
+        </td>
+    </tr>
+}
+
+</table>

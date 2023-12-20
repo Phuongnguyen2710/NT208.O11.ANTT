@@ -91,7 +91,7 @@ function initializeSeats(data) {
 
 
 
-// Hàm để lưu thông tin ghế khi nhấn nút SET
+// Hàm để lưu thông tin ghế khi nhấn nút SET Ajax
 function saveSeats() {
     // Tạo một mảng để lưu trữ thông tin về các ghế được chọn
     let selectedSeats = [];
@@ -138,6 +138,9 @@ function saveSeats() {
         },
 
     });
+
+
+
 
 
     //Hàm load data seat từ controller

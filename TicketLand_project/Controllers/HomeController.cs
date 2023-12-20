@@ -20,7 +20,7 @@ namespace TicketLand_project.Controllers
         {
             if (Session["Username"] != null)
             {
-                return View();
+                return View(objModel.movies.ToList());
             }
 
             return RedirectToAction("Login");
@@ -138,7 +138,7 @@ namespace TicketLand_project.Controllers
                     ViewBag.Message = "Vui lòng nhập thông tin tài khoản";
                 }
             }
-            return View();
+            return RedirectToAction("Index","movies");
         }
 
         //Lấy thông tin session để hiển thị ra session storage

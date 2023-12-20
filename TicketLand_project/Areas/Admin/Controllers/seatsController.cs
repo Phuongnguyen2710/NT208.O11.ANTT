@@ -10,6 +10,8 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
 using TicketLand_project.Models;
+using PagedList;
+using System.Web.UI;
 
 namespace TicketLand_project.Areas.Admin.Controllers
 {
@@ -19,11 +21,49 @@ namespace TicketLand_project.Areas.Admin.Controllers
         private QUANLYXEMPHIMEntities db = new QUANLYXEMPHIMEntities();
 
         // GET: Admin/seats
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            var seats = db.seats.Include(s => s.room);
-            return View(seats.ToList());
+            var username = Session["Username"] as string;
+            var idMember = Session["idMember"] as string;
+            int Idmember;
+
+            // Covert sang int
+            int.TryParse(idMember, out Idmember);
+
+            var member = db.members.SingleOrDefault(m => m.member_id == Idmember);
+
+            if (member == null || member.role_id == 2)
+            {
+                return RedirectToAction("Login", "Home", new { area = "" });
+            }
+
+            if (page == null)
+                page = 1;
+
+            int pageSize = 11;
+            int pageNumber = (page ?? 1);
+
+            // Lấy dữ liệu từ cơ sở dữ liệu
+            var seatsData = db.seats.ToList();
+
+            // Sắp xếp dữ liệu sử dụng hàm GetRowOrder đã tính toán
+            var links = seatsData
+                .OrderBy(x => x.room_id)
+                .ThenBy(x => GetRowOrder(x.row))
+                .ThenBy(x => x.number)
+                .ToPagedList(pageNumber, pageSize);
+
+            return View(links);
         }
+
+        int GetRowOrder(string row)
+        {
+            // Chuyển đổi chữ cái thành số bằng cách sử dụng mã ASCII
+            int rowNumber = (int)row.ToUpper()[0] - (int)'A' + 1;
+
+            return rowNumber;
+        }
+
 
         // GET: Admin/seats/Details/5
         public ActionResult Details(int? id)
@@ -41,12 +81,29 @@ namespace TicketLand_project.Areas.Admin.Controllers
         }
 
         // GET: Admin/seats/Create
-        public ActionResult Create(string roomSlug)
+        public ActionResult Create()
         {
             ViewBag.room_id = new SelectList(db.rooms, "room_id", "room_name");
             ViewBag.room_capacity = new SelectList(db.rooms, "room_id", "capacity");
             return View();
         }
+
+
+        //// POST: seats/Create
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public JsonResult Create([Bind(Include = "seat_id,seat_type,room_id,row,number,seats_status")] seat seat)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.seats.Add(seat);
+        //        db.SaveChanges();
+        //        return Json(new { success = true, message = "Lưu thành công" });
+        //    }
+
+        //    ViewBag.room_id = new SelectList(db.rooms, "room_id", "room_name", seat.room_id);
+        //    return Json(new { success = false, message = "Lưu không thành công" });
+        //}
 
         [HttpGet]
         public JsonResult GetRoomCapacity(int roomId)
@@ -152,36 +209,21 @@ namespace TicketLand_project.Areas.Admin.Controllers
         }
 
         // POST: Admin/seats/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "seat_id,seat_type,room_id,row,number,seats_status")] seat seat)
+        public JsonResult Edit([Bind(Include = "seat_id,seat_type,room_id,row,number,seats_status")] seat seat)
         {
+
             if (ModelState.IsValid)
             {
+
                 db.Entry(seat).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return Json(new { success = true, message = "Thay đổi thành công" });
             }
             ViewBag.room_id = new SelectList(db.rooms, "room_id", "room_name", seat.room_id);
-            return View(seat);
+            return Json(new { success = false, message = "Chỉnh sửa thất bại" });
         }
 
-        //// GET: Admin/seats/Delete/5
-        //public ActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    seat seat = db.seats.Find(id);
-        //    if (seat == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(seat);
-        //}
 
         // POST: Admin/seats/Delete/5
         [HttpPost, ActionName("Delete")]

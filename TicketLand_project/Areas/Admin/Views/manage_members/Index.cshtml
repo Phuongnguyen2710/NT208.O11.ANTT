@@ -1,6 +1,7 @@
-﻿@model IEnumerable<TicketLand_project.Models.member>
-
-
+﻿<!-- Thêm thư viện -->
+@model PagedList.IPagedList<TicketLand_project.Models.member>
+@using PagedList.Mvc;
+<!-- Kết thúc-->
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
@@ -60,31 +61,31 @@
                         @Html.DisplayFor(modelItem => item.username)
                     </td>
                     @*<td class="password-cell">
-                            @{
-                                string password = item.password; // Lấy giá trị password từ model
-                                string displayedPassword = "";
+                        @{
+                            string password = item.password; // Lấy giá trị password từ model
+                            string displayedPassword = "";
 
-                                if (password.Length > 10)
-                                {
-                                    displayedPassword = password.Substring(0, 8) + "...";
-                                }
-                                else
-                                {
-                                    displayedPassword = password;
-                                }
-                            }
-
-                            <span class="short-text">
-                                @Html.Raw(displayedPassword.Replace(Environment.NewLine, "<br>"))
-                            </span>
-                            @if (password.Length > 8)
+                            if (password.Length > 10)
                             {
-                                <button class="expand-button" onclick="togglePassword(this)">Xem thêm</button>
-                                <span class="full-text" style="display: none;">
-                                    @Html.Raw(password.Replace(Environment.NewLine, "<br>"))
-                                </span>
+                                displayedPassword = password.Substring(0, 8) + "...";
                             }
-                        </td>*@
+                            else
+                            {
+                                displayedPassword = password;
+                            }
+                        }
+
+                        <span class="short-text">
+                            @Html.Raw(displayedPassword.Replace(Environment.NewLine, "<br>"))
+                        </span>
+                        @if (password.Length > 8)
+                        {
+                            <button class="expand-button" onclick="togglePassword(this)">Xem thêm</button>
+                            <span class="full-text" style="display: none;">
+                                @Html.Raw(password.Replace(Environment.NewLine, "<br>"))
+                            </span>
+                        }
+                    </td>*@
 
                     <td>
                         @{
@@ -115,6 +116,7 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.ROLE.role_name)
                     </td>
+                    <!-- Button Action -->
                     <td>
                         <button class="btn btn-xs btn-primary " onclick="location.href='@Url.Action("Edit", new { id = item.member_id })'">
                             <i class="fa fa-edit custom_i"></i>
@@ -162,27 +164,67 @@
                 </tr>
             }
         </table>
+        <br />
+
+
+        Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <!-- Pagination on the right -->
+            <div>
+                <div class="pagination custom-pagination" style="margin-right: 150px">
+
+                    @if (Model.HasPreviousPage)
+                    {
+                        <a href="@Url.Action("Index", new { page = Model.PageNumber - 1 })" class="page-link prev @(Model.PageNumber == 1 ? "current-page" : "")">&laquo; Previous</a>
+                    }
+                    else
+                    {
+                        <span class="page-link disabled">&laquo; Previous</span>
+                    }
+
+                    @for (int i = 1; i <= Model.PageCount; i++)
+                    {
+                        <a href="@Url.Action("Index", new { page = i })" class="page-link number @(i == Model.PageNumber ? "current-page" : "")">@i</a>
+                    }
+
+                    @if (Model.HasNextPage)
+                    {
+                        <a href="@Url.Action("Index", new { page = Model.PageNumber + 1 })" class="page-link next">Next &raquo;</a>
+                    }
+                    else
+                    {
+                        <span class="page-link disabled">Next &raquo;</span>
+                    }
+                </div>
+            </div>
+
+            <!-- Kết thúc -->
+        </div>
     </div>
 
 </div>
 
 
 
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
 
 
-<script>
-    // Thêm sự kiện click cho nút "Xác nhận" trong modal
-    document.getElementById("confirmDelete").addEventListener("click", function () {
-        // Lấy seat_id từ hidden input trong modal
-        var deleteId = document.getElementById("deleteId").value;
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
 
-        // Đặt giá trị vào input hidden trong form
-        document.getElementById("deleteForm").elements["id"].value = deleteId;
 
-        // Submit form
-        $("#deleteForm").submit();
-    });
+    <script>
+        // Thêm sự kiện click cho nút "Xác nhận" trong modal
+        document.getElementById("confirmDelete").addEventListener("click", function () {
+            // Lấy seat_id từ hidden input trong modal
+            var deleteId = document.getElementById("deleteId").value;
 
-</script>
+            // Đặt giá trị vào input hidden trong form
+            document.getElementById("deleteForm").elements["id"].value = deleteId;
+
+            // Submit form
+            $("#deleteForm").submit();
+        });
+
+    </script>
