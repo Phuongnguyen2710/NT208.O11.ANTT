@@ -188,23 +188,12 @@ namespace TicketLand_project.Controllers
             return RedirectToAction("Login");
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
+ 
         public ActionResult ScrollToPosition()
         {
             return RedirectToAction("Index");
         }
+
 
     }
 }
