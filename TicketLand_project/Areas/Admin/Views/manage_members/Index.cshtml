@@ -18,13 +18,13 @@
     <hr />
     <div class="row">
         <div class="col-md-10">
-            <p>
-                <button type="button" class="btn btn-success" onclick="location.href='@Url.Action("Create")'">Create New +</button>
-            </p>
+    <p>
+        <button type="button" class="btn btn-success" onclick="location.href='@Url.Action("Create")'">Create New +</button>
+    </p>
         </div>
 
         @*<div class="custom_search col-md-2">
-                <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
                 <br />
             </div>*@
     </div>
@@ -61,31 +61,31 @@
                         @Html.DisplayFor(modelItem => item.username)
                     </td>
                     @*<td class="password-cell">
-                        @{
-                            string password = item.password; // Lấy giá trị password từ model
-                            string displayedPassword = "";
+                            @{
+                                string password = item.password; // Lấy giá trị password từ model
+                                string displayedPassword = "";
 
-                            if (password.Length > 10)
-                            {
-                                displayedPassword = password.Substring(0, 8) + "...";
+                                if (password.Length > 10)
+                                {
+                                    displayedPassword = password.Substring(0, 8) + "...";
+                                }
+                                else
+                                {
+                                    displayedPassword = password;
+                                }
                             }
-                            else
-                            {
-                                displayedPassword = password;
-                            }
-                        }
 
-                        <span class="short-text">
-                            @Html.Raw(displayedPassword.Replace(Environment.NewLine, "<br>"))
-                        </span>
-                        @if (password.Length > 8)
-                        {
-                            <button class="expand-button" onclick="togglePassword(this)">Xem thêm</button>
-                            <span class="full-text" style="display: none;">
-                                @Html.Raw(password.Replace(Environment.NewLine, "<br>"))
+                            <span class="short-text">
+                                @Html.Raw(displayedPassword.Replace(Environment.NewLine, "<br>"))
                             </span>
-                        }
-                    </td>*@
+                            @if (password.Length > 8)
+                            {
+                                <button class="expand-button" onclick="togglePassword(this)">Xem thêm</button>
+                                <span class="full-text" style="display: none;">
+                                    @Html.Raw(password.Replace(Environment.NewLine, "<br>"))
+                                </span>
+                            }
+                        </td>*@
 
                     <td>
                         @{
@@ -132,20 +132,20 @@
 
                         <!-- Delete Modal -->
                         <div class="modal fade" id="DeleteModal_@item.member_id" tabindex="-1" role="dialog" aria-labelledby="DeleteLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="DeleteLabel">Xác nhận xóa</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        Bạn có chắc chắn muốn xóa đối tượng này không?
-                                        <input type="hidden" id="deleteId" value="" />
-                                    </div>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="DeleteLabel">Xác nhận xóa</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Bạn có chắc chắn muốn xóa đối tượng này không?
+                    <input type="hidden" id="deleteId" value="" />
+                </div>
 
-                                    <div class="modal-footer">
+                <div class="modal-footer">
                                         @using (Html.BeginForm("Delete", "manage_members", FormMethod.Post, new { id = "confirmDelete" }))
                                         {
                                             @Html.AntiForgeryToken()
@@ -197,20 +197,20 @@
             </div>
 
             <!-- Kết thúc -->
-        </div>
-    </div>
+                </div>
+            </div>
 
-</div>
-
-
+        </div>                           
 
 
 
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
 
 
-    <script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+
+
+<script>
         // Thêm sự kiện click cho nút "Xác nhận" trong modal
         document.getElementById("confirmDelete").addEventListener("click", function () {
             // Lấy seat_id từ hidden input trong modal
@@ -223,4 +223,4 @@
             $("#deleteForm").submit();
         });
 
-    </script>
+</script>

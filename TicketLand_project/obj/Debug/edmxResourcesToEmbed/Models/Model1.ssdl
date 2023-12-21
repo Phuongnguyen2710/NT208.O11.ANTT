@@ -110,6 +110,7 @@ warning 6013: The table/view 'QUANLYXEMPHIM.dbo.booking_detail' does not have a 
     <Property Name="schedule_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="movie_id" Type="int" />
     <Property Name="room_id" Type="int" />
+    <Property Name="schedule_date_start" Type="time" Precision="7" />
     <Property Name="schedule_date_end" Type="time" Precision="7" />
     <Property Name="time_start" Type="time" Precision="7" />
     <Property Name="time_end" Type="time" Precision="7" />

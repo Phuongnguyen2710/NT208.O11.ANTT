@@ -123,7 +123,7 @@ namespace TicketLand_project.Areas.Admin.Controllers
             string pattern = @"^Phòng \d+$";
             return Regex.IsMatch(roomName, pattern);
         }
-        
+
         public PartialViewResult GetRooms(int? page)
         {
             int pageSize = 10; // Set your desired page size
@@ -132,8 +132,10 @@ namespace TicketLand_project.Areas.Admin.Controllers
             var rooms = db.rooms.ToList().ToPagedList(pageNumber, pageSize);
 
             return PartialView("Room_partial", rooms);
-        }
+            }
 
+            return View(room);
+        }
 
         // GET: Admin/rooms/Edit/5
         public ActionResult Edit(int? id)
@@ -151,6 +153,8 @@ namespace TicketLand_project.Areas.Admin.Controllers
         }
 
         // POST: Admin/rooms/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         public JsonResult Edit([Bind(Include = "room_id,room_name,capacity")] room room)
         {
@@ -278,6 +282,15 @@ namespace TicketLand_project.Areas.Admin.Controllers
             }
         }
 
+
+        public ActionResult GetModalContent(int roomId)
+        {
+            // Lấy dữ liệu phòng từ cơ sở dữ liệu hoặc từ nơi nào đó
+            var room = db.rooms.Find(roomId);// Lấy thông tin phòng dựa trên roomId;
+
+            // Trả về PartialView của modal với dữ liệu của phòng
+            return PartialView("DeletePartialView", room);
+        }
 
 
         protected override void Dispose(bool disposing)

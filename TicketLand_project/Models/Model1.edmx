@@ -30,7 +30,7 @@ warning 6013: The table/view 'QUANLYXEMPHIM.dbo.booking_detail' does not have a 
           <Property Name="member_id" Type="int" />
           <Property Name="movie_id" Type="int" />
           <Property Name="content" Type="ntext" />
-          <Property Name="comment_date" Type="datetime" />
+          <Property Name="comment_date" Type="date" />
           <Property Name="comment_star" Type="float" />
         </EntityType>
         <EntityType Name="event">
@@ -115,6 +115,7 @@ warning 6013: The table/view 'QUANLYXEMPHIM.dbo.booking_detail' does not have a 
           <Property Name="schedule_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="movie_id" Type="int" />
           <Property Name="room_id" Type="int" />
+          <Property Name="schedule_date_start" Type="time" Precision="7" />
           <Property Name="schedule_date_end" Type="time" Precision="7" />
           <Property Name="time_start" Type="time" Precision="7" />
           <Property Name="time_end" Type="time" Precision="7" />
@@ -336,7 +337,7 @@ error 6004: The table 'QUANLYXEMPHIM.dbo.booking_detail' is referenced by a rela
           <Property Name="member_id" Type="Int32" />
           <Property Name="movie_id" Type="Int32" />
           <Property Name="content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="comment_date" Type="DateTime" Precision="3" />
+          <Property Name="comment_date" Type="DateTime" Precision="0" />
           <Property Name="comment_star" Type="Double" />
           <NavigationProperty Name="member" Relationship="Self.FK__comment__member___76969D2E" FromRole="comment" ToRole="members" />
           <NavigationProperty Name="movy" Relationship="Self.FK__comment__movie_i__778AC167" FromRole="comment" ToRole="movies" />
@@ -435,6 +436,7 @@ error 6004: The table 'QUANLYXEMPHIM.dbo.booking_detail' is referenced by a rela
           <Property Name="schedule_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="movie_id" Type="Int32" />
           <Property Name="room_id" Type="Int32" />
+          <Property Name="schedule_date_start" Type="Time" Precision="7" />
           <Property Name="schedule_date_end" Type="Time" Precision="7" />
           <Property Name="time_start" Type="Time" Precision="7" />
           <Property Name="time_end" Type="Time" Precision="7" />
@@ -745,6 +747,7 @@ error 6004: The table 'QUANLYXEMPHIM.dbo.booking_detail' is referenced by a rela
                 <ScalarProperty Name="schedule_id" ColumnName="schedule_id" />
                 <ScalarProperty Name="movie_id" ColumnName="movie_id" />
                 <ScalarProperty Name="room_id" ColumnName="room_id" />
+                <ScalarProperty Name="schedule_date_start" ColumnName="schedule_date_start" />
                 <ScalarProperty Name="schedule_date_end" ColumnName="schedule_date_end" />
                 <ScalarProperty Name="time_start" ColumnName="time_start" />
                 <ScalarProperty Name="time_end" ColumnName="time_end" />

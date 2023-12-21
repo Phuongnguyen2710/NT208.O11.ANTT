@@ -120,6 +120,7 @@
     <Property Name="schedule_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="movie_id" Type="Int32" />
     <Property Name="room_id" Type="Int32" />
+    <Property Name="schedule_date_start" Type="Time" Precision="7" />
     <Property Name="schedule_date_end" Type="Time" Precision="7" />
     <Property Name="time_start" Type="Time" Precision="7" />
     <Property Name="time_end" Type="Time" Precision="7" />

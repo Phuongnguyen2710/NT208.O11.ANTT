@@ -103,7 +103,7 @@ nav:hover {
 
 /* Container chung */
 .container_custom {
-    /*    box-shadow: 0 0 7px rgba(15, 35, 21, 11.1);*/
+/*    box-shadow: 0 0 7px rgba(15, 35, 21, 11.1);*/
     padding: 6px; /* Thêm khoảng cách bên trong container */
     margin: 0px auto; /* Tự căn giữa */
     max-width: 100%; /* Điều chỉnh giới hạn độ rộng theo nhu cầu */
@@ -126,7 +126,7 @@ nav:hover {
     border-collapse: collapse;
     width: 100%;
     /*    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);*/
-
+    
     text-align: center;
     border: groove;
     border-collapse: collapse;
@@ -265,6 +265,6 @@ nav:hover {
         border: 1px solid #007bff;
         border-radius: 5px;
         text-decoration: none;
-    }
+}
 
 /*  Kết thúc   */

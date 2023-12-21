@@ -159,6 +159,8 @@ namespace TicketLand_project.Areas.Admin.Controllers
         }
 
         // POST: Admin/manage_members/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "member_id,member_name,username,password,gender,date_of_birth,email,city,phone,role_id,member_point")] member member, HttpPostedFileBase imageFile)

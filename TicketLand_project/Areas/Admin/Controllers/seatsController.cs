@@ -35,7 +35,7 @@ namespace TicketLand_project.Areas.Admin.Controllers
             if (member == null || member.role_id == 2)
             {
                 return RedirectToAction("Login", "Home", new { area = "" });
-            }
+        }
 
             if (page == null)
                 page = 1;
@@ -153,8 +153,14 @@ namespace TicketLand_project.Areas.Admin.Controllers
                         return Json(new { success = false, message = "Ghế đã được set up!" });
                     }
 
+                    // Thêm mới ghế vào cơ sở dữ liệu
+                    //if (db.seats.Any(x => x.row == newSeat.row && x.number == newSeat.number))
+                    //{
+                    //    return Json(new { success = false, message = "Ghế đã được cài đặt" });
+                    //}
                     db.seats.Add(newSeat);
                 }
+
                 // Lưu thay đổi vào cơ sở dữ liệu
                 db.SaveChanges();
 
@@ -209,6 +215,8 @@ namespace TicketLand_project.Areas.Admin.Controllers
         }
 
         // POST: Admin/seats/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         public JsonResult Edit([Bind(Include = "seat_id,seat_type,room_id,row,number,seats_status")] seat seat)
         {
@@ -224,6 +232,20 @@ namespace TicketLand_project.Areas.Admin.Controllers
             return Json(new { success = false, message = "Chỉnh sửa thất bại" });
         }
 
+        // GET: Admin/seats/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            seat seat = db.seats.Find(id);
+            if (seat == null)
+            {
+                return HttpNotFound();
+            }
+            return View(seat);
+        }
 
         // POST: Admin/seats/Delete/5
         [HttpPost, ActionName("Delete")]
