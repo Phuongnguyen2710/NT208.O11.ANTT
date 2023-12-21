@@ -231,6 +231,8 @@ nav:hover {
         border-radius: 5px;
         text-decoration: none;
         transition: background-color 0.3s;
+        width: 35px;
+        height: 35px;
 
     }
 

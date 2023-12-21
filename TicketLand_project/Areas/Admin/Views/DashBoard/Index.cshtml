@@ -4,7 +4,7 @@
 }
 
 
-<link href="~/Areas/Assets/css/Admin.css" rel="stylesheet" />
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +13,7 @@
     <title>Dashboard</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="~/Areas/Assets/css/Admin.css" rel="stylesheet" />
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
@@ -33,7 +34,7 @@
 
         .info-card {
             text-align: center;
-            padding: 30px 20px;
+            padding: 20px 20px;
             transition: transform 0.3s;
         }
 
@@ -62,37 +63,73 @@
 <body>
 
     <div class="container">
-        <h2 class="text-center mb-4">Dashboard</h2>
+        <h2 class="text-center mb-4"><b>Thống kê hệ thống</b></h2>
+        <div class="row">
 
-        <div class="card-deck">
-            <div class="card dashboard-card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="card info-card info-card-blue">
-                                <i class="fas fa-users"></i>
-                                <h5 class="card-title">Tổng số người dùng</h5>
-                                <p class="card-text" id="totalUsers">Loading...</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card info-card info-card-green">
-                                <i class="fas fa-user"></i>
-                                <h5 class="card-title">Số lượng người dùng</h5>
-                                <p class="card-text" id="regularUsers">Loading...</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card info-card info-card-orange">
-                                <i class="fas fa-user-shield"></i>
-                                <h5 class="card-title">Số lượng Admin</h5>
-                                <p class="card-text" id="adminUsers">Loading...</p>
-                            </div>
-                        </div>
+
+            <div class="col-md-3">
+                <div class="card info-card info-card-green">
+                    <div class="card-body">
+                        <i class="fas fa-user"></i>
+                        <h6 class="card-title">Số lượng User</h6>
+                        <p class="card-text" id="regularUsers">@ViewBag.UserCount</p>
+                    </div>
+                </div>
+                <br />
+                <div class="card info-card info-card-orange">
+                    <div class="card-body">
+                        <i class="fas fa-user-shield"></i>
+                        <h6 class="card-title">Số lượng Admin</h6>
+                        <p class="card-text" id="adminUsers">@ViewBag.AdminCount</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-3">
+                <div class="card info-card info-card-green">
+                    <div class="card-body">
+                        <i class="fas fa-film text-primary"></i>
+                        <h6 class="card-title text-primary">Phim đang chiếu</h6>
+                        <p class="card-text text-primary" id="adminNowShowingCount">@ViewBag.NowShowingCount</p>
+                    </div>
+                </div>
+                <br />
+                <div class="card info-card info-card-orange">
+                    <div class="card-body">
+                        <i class="fas fa-video text-success"></i>
+                        <h6 class="card-title text-success">Phim sắp chiếu</h6>
+                        <p class="card-text text-success" id="adminUpcomingCount">@ViewBag.UpcomingCount</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-3">
+                <div class="card info-card info-card-orange">
+                    <div class="card-body">
+                        <i class="fas fa-building"></i>
+                        <h6 class="card-title">Số lượng phòng</h6>
+                        <p class="card-text" id="adminRoom">@ViewBag.RoomCount</p>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="col-md-3">
+                <div class="card info-card info-card-orange">
+                    <div class="card-body">
+                        <i class="fas fa-building"></i>
+                        <h6 class="card-title">Số lượng vé đã đặt</h6>
+                        <p class="card-text" id="adminTicket"></p>
                     </div>
                 </div>
             </div>
         </div>
+
+        <br />
+
     </div>
 
     <!-- jQuery and Bootstrap JS -->
@@ -102,19 +139,6 @@
     <!-- Font Awesome JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
 
-    <!-- Your JavaScript logic to fetch and display user counts -->
-    <script>
-        // Simulate fetching user counts from your server
-        // Replace this with actual data fetching logic
-        const totalUsers = 100;
-        const regularUsers = 80;
-        const adminUsers = 20;
-
-        // Update the content of the cards
-        document.getElementById('totalUsers').textContent = totalUsers;
-        document.getElementById('regularUsers').textContent = regularUsers;
-        document.getElementById('adminUsers').textContent = adminUsers;
-    </script>
 </body>
 </html>
 

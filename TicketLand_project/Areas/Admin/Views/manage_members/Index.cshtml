@@ -165,23 +165,19 @@
             }
         </table>
         <br />
-
-
         Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
 
         <div class="d-flex justify-content-between align-items-center">
 
-            <!-- Pagination on the right -->
             <div>
                 <div class="pagination custom-pagination" style="margin-right: 150px">
-
                     @if (Model.HasPreviousPage)
                     {
-                        <a href="@Url.Action("Index", new { page = Model.PageNumber - 1 })" class="page-link prev @(Model.PageNumber == 1 ? "current-page" : "")">&laquo; Previous</a>
+                        <a href="@Url.Action("Index", new { page = Model.PageNumber - 1 })" class="page-link prev @(Model.PageNumber == 1 ? "current-page" : "")">&laquo; </a>
                     }
                     else
                     {
-                        <span class="page-link disabled">&laquo; Previous</span>
+                        <span class="page-link disabled">&laquo;</span>
                     }
 
                     @for (int i = 1; i <= Model.PageCount; i++)
@@ -191,11 +187,11 @@
 
                     @if (Model.HasNextPage)
                     {
-                        <a href="@Url.Action("Index", new { page = Model.PageNumber + 1 })" class="page-link next">Next &raquo;</a>
+                        <a href="@Url.Action("Index", new { page = Model.PageNumber + 1 })" class="page-link next">&raquo;</a>
                     }
                     else
                     {
-                        <span class="page-link disabled">Next &raquo;</span>
+                        <span class="page-link disabled">&raquo;</span>
                     }
                 </div>
             </div>

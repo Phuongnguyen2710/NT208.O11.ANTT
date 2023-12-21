@@ -82,11 +82,10 @@ $(document).ready(function () {
 });
 /*Kết thúc*/
 
-
 /*Ajax thay đổi*/
 $(document).ready(function () {
     // Bắt sự kiện click nút "Thay đổi" trong modal
-    $("#EditmovieForm").submit(function (e) {
+    $("#EditmovieForm button[type='submit']").click(function (e) {
         // Ngăn chặn hành vi mặc định của nút submit
         e.preventDefault();
 
@@ -95,27 +94,24 @@ $(document).ready(function () {
 
         // Access the data attribute from the modal
         var movieId = form.closest('.modal').data('movie-id');
-
-
         // Find input values within the form
         var moviename = form.find("#movie_name").val();
         var movieDescription = form.find("#movie_description").val();
         var movieTrailer = form.find("#movie_trailer").val();
         var movieCens = form.find("#movie_cens").val();
         var movieGenres = form.find("#movie_genres").val();
-        var movieRelease = form.find("#movie_release").val();
-        var movieDuration = form.find("#movie_duration").val();
+        var movieRelease = moment(form.find("#movie_release").val()).format("YYYY-MM-DDTHH:mm:ss.SSSSSSS");
         var movieFormat = form.find("#movie_format").val();
         var moviePoster = form.find("#movie_poster").val();
         var movieActor = form.find("#movie_actor").val();
         var movieDirector = form.find("#movie_director").val();
-        var movieStatus = form.find("#movie_status").val();
-        var rate = form.find("#rate").val();
+        var movieStatus = parseInt(form.find("#movie_status").val());
+        var rate = parseFloat(form.find("#rate").val());
         var movieBanner = form.find("#movie_banner").val();
-
+        var movieDuration = form.find("#movie_duration").val();
         // Log values for testing
         console.log(movieDuration);
-        console.log(movieRelease);
+/*        console.log(movieRelease);*/
 
         // Gửi Ajax request đến action Edit trong controller
         $.ajax({
@@ -142,4 +138,46 @@ $(document).ready(function () {
         });
     });
 });
+/*Kết thúc*/
+
+
+/*Ajax thêm mới*/
+$(document).ready(function () {
+    // Bắt sự kiện click nút "Thay đổi" trong modal
+    $("#addmovieForm button[type='submit']").click(function (e) {
+        // Ngăn chặn hành vi mặc định của nút submit
+        e.preventDefault();
+
+        // Use $(this).closest('form') to target the closest form element
+        var form = $(this).closest('form');
+
+        // Access the data attribute from the modal
+        var movieId = form.closest('.modal').data('movie-id');
+
+        // Create a FormData object to handle file uploads
+        var formData = new FormData(form[0]);
+
+        // Gửi Ajax request đến action Edit trong controller
+        $.ajax({
+            url: "/Admin/movies/Create/",
+            type: "POST",
+            contentType: false, // không sử dụng contentType khi sử dụng FormData
+            processData: false, // không xử lý dữ liệu gửi đi
+            data: formData,
+            success: function (response) {
+                console.log(response);
+                if (response.success) {
+                    // If the server reports success, close the modal and load rooms
+                    $("#addmovieModal").modal("hide");
+                    alert("Thành công");
+                    window.location.reload();
+                } else {
+                    // If the server reports failure, display an error message
+                    alert("Lỗi: " + response.message);
+                }
+            }
+        });
+    });
+});
+
 /*Kết thúc*/
