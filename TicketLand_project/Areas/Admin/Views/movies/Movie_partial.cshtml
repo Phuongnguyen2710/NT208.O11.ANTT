@@ -26,6 +26,17 @@
     #EditmovieForm .form-group {
         margin-bottom: 20px; /* Thêm khoảng cách dưới mỗi form-group (mỗi thông tin) */
     }
+
+    #addmovieModal label {
+        color: #e74c3c; /* Đổi màu title thành màu đỏ (#e74c3c) */
+        margin-bottom: 10px; /* Thêm khoảng cách dưới mỗi title */
+        font-weight: bold;
+    }
+
+    #addmovieModal .form-group {
+        margin-bottom: 20px; /* Thêm khoảng cách dưới mỗi form-group (mỗi thông tin) */
+    }
+
 </style>
 
 
@@ -75,15 +86,15 @@
                 <td>
                     @if (item.movie_status == 1)
                     {
-                        <div class="text-success">Đang chiếu</div>
+                        <div class="text-success"><b>Đang chiếu</b></div>
                     }
                     else if (item.movie_status == 2)
                     {
-                        <div class="text-warning">Sắp chiếu</div>
+                        <div class="text-warning"><b>Sắp chiếu</b></div>
                     }
                     else if (item.movie_status == 0)
                     {
-                        <div class="text-danger">Dừng chiếu</div>
+                        <div class="text-danger"><b>Dừng chiếu</b></div>
                     }
                 </td>
 
@@ -153,7 +164,7 @@
                                         </dd>
 
                                         <dt>Poster Link</dt>
-                                        <dd>
+                                        <dd class="text-break">
                                             @Html.DisplayFor(model => item.movie_poster)
                                         </dd>
 
@@ -171,27 +182,23 @@
                                         <dd>
                                             @if (item.movie_status == 1)
                                             {
-                                                <div class="text-success">Đang chiếu</div>
+                                                <div class="text-success"><b>Đang chiếu</b></div>
                                             }
                                             else if (item.movie_status == 2)
                                             {
-                                                <div class="text-primary">Sắp chiếu</div>
+                                                <div class="text-warning"><b>Sắp chiếu</b></div>
                                             }
                                             else if (item.movie_status == 0)
                                             {
-                                                <div class="text-danger">Dừng chiếu</div>
+                                                <div class="text-danger"><b>Dừng chiếu</b></div>
                                             }
                                         </dd>
 
                                         <dt>Đánh giá</dt>
-                                        <dd>
-                                            @Html.DisplayFor(model => item.rate)
-                                        </dd>
+                                        <dd>@Html.DisplayFor(model => item.rate)</dd>
 
                                         <dt>Banner Link</dt>
-                                        <dd>
-                                            @Html.DisplayFor(model => item.movie_banner)
-                                        </dd>
+                                        <dd class="text-break" >@Html.DisplayFor(model => item.movie_banner)</dd>
 
                                     </dl>
                                 </div>
@@ -275,12 +282,12 @@
 
                                         <div class="form-group">
                                             <label for="movie_release">Ngày phát hành:</label>
-                                            <input type="text" class="form-control" id="movie_release" name="movie_release" value="@item.movie_release" />
+                                            <input type="date" class="form-control" id="movie_release" name="movie_release" value="@item.movie_release" />
                                         </div>
 
                                         <div class="form-group">
                                             <label for="movie_duration">Thời lượng:</label>
-                                            <input type="text" class="form-control" id="movie_duration" name="movie_duration" value="@item.movie_duration" />
+                                            <input type="text" pattern="[0-2][0-9]:[0-5][0-9]:[0-5][0-9]" class="form-control" id="movie_duration" name="movie_duration" value="@item.movie_duration" />
                                         </div>
 
                                         <div class="form-group">
@@ -332,6 +339,84 @@
                     </div>
 
 
+                    <!-- Add Modal -->
+                    <div class="modal fade" id="addmovieModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Thêm Phim Mới</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="addmovieForm">
+                                        <div class="form-group">
+                                            <label for="movie_name">Tên phim:</label>
+                                            <input type="text" class="form-control" id="movie_name" name="movie_name" required />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_description">Mô tả phim:</label>
+                                            <input type="text" class="form-control" id="movie_description" name="movie_description" required />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_trailer">Trailer:</label>
+                                            <input type="text" class="form-control" id="movie_trailer" name="movie_trailer" required />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_cens">Độ tuổi xem:</label>
+                                            <input type="text" class="form-control" id="movie_cens" name="movie_cens" required />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_genres">Thể loại:</label>
+                                            <input type="text" class="form-control" id="movie_genres" name="movie_genres" required />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_release">Ngày phát hành:</label>
+                                            <input type="date" class="form-control" id="movie_release" name="movie_release" required />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_duration">Thời lượng:</label>
+                                            <input type="text" pattern="[0-2][0-9]:[0-5][0-9]:[0-5][0-9]" required class="form-control" id="movie_duration" name="movie_duration" placeholder="VD:01:46:00 " />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_format">Định dạng:</label>
+                                            <input type="text" class="form-control" id="movie_format" name="movie_format" required />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_poster">Poster File:</label>
+                                            <input type="file" accept="image/*" class="form-control" id="movie_poster" name="movie_poster" required />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_actor">Diễn viên:</label>
+                                            <input type="text" class="form-control" id="movie_actor" name="movie_actor" required />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_director">Đạo diễn:</label>
+                                            <input type="text" class="form-control" id="movie_director" name="movie_director" required />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_banner">Banner Link:</label>
+                                            <input type="file" accept="image/*" class="form-control" id="movie_banner" name="movie_banner" required />
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary">Lưu</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </td>
             </tr>
         }
@@ -339,8 +424,8 @@
     </table>
 </div>
 
+    <!--    Phân trang  -->
     Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
-
     <div class="d-flex justify-content-between align-items-center">
         <div>
             <div class="pagination custom-pagination" style="margin-right: 150px">
@@ -369,8 +454,9 @@
                 }
             </div>
         </div>
-        <!-- Kết thúc -->
+
     </div>
+    <!--    Kết thúc    -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
