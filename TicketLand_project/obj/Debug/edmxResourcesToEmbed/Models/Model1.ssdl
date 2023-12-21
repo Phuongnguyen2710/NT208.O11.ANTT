@@ -70,12 +70,12 @@ warning 6013: The table/view 'QUANLYXEMPHIM.dbo.booking_detail' does not have a 
     <Property Name="movie_release" Type="date" />
     <Property Name="movie_duration" Type="time" Precision="7" />
     <Property Name="movie_format" Type="text" />
-    <Property Name="movie_poster" Type="text" />
+    <Property Name="movie_poster" Type="nvarchar(max)" />
     <Property Name="movie_actor" Type="nvarchar" MaxLength="30" />
     <Property Name="movie_director" Type="nvarchar" MaxLength="20" />
     <Property Name="movie_status" Type="int" />
     <Property Name="rate" Type="float" />
-    <Property Name="movie_banner" Type="text" />
+    <Property Name="movie_banner" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="news">
     <Key>
@@ -86,7 +86,7 @@ warning 6013: The table/view 'QUANLYXEMPHIM.dbo.booking_detail' does not have a 
     <Property Name="news_title" Type="nvarchar" MaxLength="100" />
     <Property Name="news_content" Type="ntext" />
     <Property Name="news_img" Type="text" />
-    <Property Name="news_release" Type="time" Precision="7" />
+    <Property Name="news_release" Type="date" />
   </EntityType>
   <EntityType Name="ROLE">
     <Key>
@@ -110,10 +110,8 @@ warning 6013: The table/view 'QUANLYXEMPHIM.dbo.booking_detail' does not have a 
     <Property Name="schedule_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="movie_id" Type="int" />
     <Property Name="room_id" Type="int" />
-    <Property Name="schedule_date_end" Type="time" Precision="7" />
     <Property Name="time_start" Type="time" Precision="7" />
     <Property Name="time_end" Type="time" Precision="7" />
-    <Property Name="schedule_date_start" Type="time" Precision="7" />
     <Property Name="show_date" Type="date" />
   </EntityType>
   <EntityType Name="seats">

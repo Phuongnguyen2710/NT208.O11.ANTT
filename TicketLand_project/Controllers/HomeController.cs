@@ -33,13 +33,12 @@ namespace TicketLand_project.Controllers
                 return View(movies);
                 //return View(objModel.movies.ToList());
             }
-            else if (Session["username"].ToString() == "Phương")
+
+            else
             {
                 return View();
             }
 
-
-            return RedirectToAction("Login");
         }
 
         public static int ConvertTimeToMinutes(string time)
@@ -146,7 +145,14 @@ namespace TicketLand_project.Controllers
                         Session["Username"] = data.FirstOrDefault().username;
                         Session["idMember"] = data.FirstOrDefault().member_id.ToString();
                         Session["IsLoggedIn"] = "1";
-                        Session["Avartar"] = data.FirstOrDefault().member_avatar.ToString();
+                        if (string.IsNullOrEmpty(data.FirstOrDefault().member_avatar?.ToString()))
+                        {
+                            Session["Avartar"] = null;
+                        }
+                        else
+                        {
+                            Session["Avartar"] = data.FirstOrDefault().member_avatar.ToString();
+                        }
                         // 2: user, 1: admin
                         if (data.FirstOrDefault().role_id == 2)
                         {

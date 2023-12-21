@@ -175,7 +175,7 @@
                                                                 <span class="col-lg-6 star-rating">
                                                                     @{
                                                                         double? temp = Model.ElementAt(movie_current[i]).rate;
-                                                                        int rate_overal = (int)System.Math.Truncate(temp.Value);
+                                                                        int rate_overal = temp.HasValue ? (int)temp.Value : 0;
                                                                     }
                                                                     @for (int n = 0; n < rate_overal; n++)
                                                                     {

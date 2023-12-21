@@ -1,0 +1,59 @@
+﻿@model TicketLand_project.Models.news
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>news</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.news_title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.news_title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.news_content)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.news_content)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.news_img)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.news_img)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.news_release)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.news_release)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.movy.movie_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.movy.movie_name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.news_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -23,7 +23,7 @@ namespace TicketLand_project.Models
             this.news = new HashSet<news>();
             this.schedules = new HashSet<schedule>();
         }
-    
+
         public int movie_id { get; set; }
         public string movie_name { get; set; }
         public string movie_description { get; set; }

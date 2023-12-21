@@ -1,0 +1,65 @@
+﻿@model TicketLand_project.Models.news
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>news</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.news_title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.news_title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.news_content)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.news_content)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.news_img)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.news_img)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.news_release)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.news_release)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.movy.movie_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.movy.movie_name)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

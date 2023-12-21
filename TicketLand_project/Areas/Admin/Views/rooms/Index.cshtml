@@ -5,12 +5,7 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-</head>
-<body>
+
     <h1 class="custom_h1"><b>THÔNG TIN PHÒNG CHIẾU PHIM </b></h1>
 
     <div class="container_custom">
@@ -19,11 +14,10 @@
                 <i class="fa fa-plus custom_i"></i> Tạo phòng
             </button>
         </p>
-        <div class="box_shadow">
             <div id="roomListContainer">
                 @Html.Partial("~/Areas/Admin/Views/rooms/Room_partial.cshtml", Model)
             </div>
-        </div>
+    
     </div>
 
     <!-- jQuery -->
@@ -37,6 +31,3 @@
 
     <script src="~/Areas/Assets/js/Room.js"></script>
 
-
-</body>
-</html>

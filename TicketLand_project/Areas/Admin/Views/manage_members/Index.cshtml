@@ -14,19 +14,12 @@
     <div class="custom_h1">
         <h1><b>QUẢN LÝ TÀI KHOẢN</b></h1>
     </div>
-
-    <hr />
     <div class="row">
         <div class="col-md-10">
             <p>
                 <button type="button" class="btn btn-success" onclick="location.href='@Url.Action("Create")'">Create New +</button>
             </p>
         </div>
-
-        @*<div class="custom_search col-md-2">
-                <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
-                <br />
-            </div>*@
     </div>
 
 
@@ -60,32 +53,6 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.username)
                     </td>
-                    @*<td class="password-cell">
-                        @{
-                            string password = item.password; // Lấy giá trị password từ model
-                            string displayedPassword = "";
-
-                            if (password.Length > 10)
-                            {
-                                displayedPassword = password.Substring(0, 8) + "...";
-                            }
-                            else
-                            {
-                                displayedPassword = password;
-                            }
-                        }
-
-                        <span class="short-text">
-                            @Html.Raw(displayedPassword.Replace(Environment.NewLine, "<br>"))
-                        </span>
-                        @if (password.Length > 8)
-                        {
-                            <button class="expand-button" onclick="togglePassword(this)">Xem thêm</button>
-                            <span class="full-text" style="display: none;">
-                                @Html.Raw(password.Replace(Environment.NewLine, "<br>"))
-                            </span>
-                        }
-                    </td>*@
 
                     <td>
                         @{
@@ -164,42 +131,41 @@
                 </tr>
             }
         </table>
-        <br />
-        Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
 
-        <div class="d-flex justify-content-between align-items-center">
-
-            <div>
-                <div class="pagination custom-pagination" style="margin-right: 150px">
-                    @if (Model.HasPreviousPage)
-                    {
-                        <a href="@Url.Action("Index", new { page = Model.PageNumber - 1 })" class="page-link prev @(Model.PageNumber == 1 ? "current-page" : "")">&laquo; </a>
-                    }
-                    else
-                    {
-                        <span class="page-link disabled">&laquo;</span>
-                    }
-
-                    @for (int i = 1; i <= Model.PageCount; i++)
-                    {
-                        <a href="@Url.Action("Index", new { page = i })" class="page-link number @(i == Model.PageNumber ? "current-page" : "")">@i</a>
-                    }
-
-                    @if (Model.HasNextPage)
-                    {
-                        <a href="@Url.Action("Index", new { page = Model.PageNumber + 1 })" class="page-link next">&raquo;</a>
-                    }
-                    else
-                    {
-                        <span class="page-link disabled">&raquo;</span>
-                    }
-                </div>
-            </div>
-
-            <!-- Kết thúc -->
-        </div>
     </div>
+    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
 
+    <div class="d-flex justify-content-between align-items-center">
+
+        <div>
+            <div class="pagination custom-pagination" style="margin-right: 150px">
+                @if (Model.HasPreviousPage)
+                {
+                    <a href="@Url.Action("Index", new { page = Model.PageNumber - 1 })" class="page-link prev @(Model.PageNumber == 1 ? "current-page" : "")">&laquo; </a>
+                }
+                else
+                {
+                    <span class="page-link disabled">&laquo;</span>
+                }
+
+                @for (int i = 1; i <= Model.PageCount; i++)
+                {
+                    <a href="@Url.Action("Index", new { page = i })" class="page-link number @(i == Model.PageNumber ? "current-page" : "")">@i</a>
+                }
+
+                @if (Model.HasNextPage)
+                {
+                    <a href="@Url.Action("Index", new { page = Model.PageNumber + 1 })" class="page-link next">&raquo;</a>
+                }
+                else
+                {
+                    <span class="page-link disabled">&raquo;</span>
+                }
+            </div>
+        </div>
+
+        <!-- Kết thúc -->
+    </div>
 </div>
 
 
@@ -208,19 +174,5 @@
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+    <script src="~/Areas/Assets/js/manage_member.js"></script>
 
-
-    <script>
-        // Thêm sự kiện click cho nút "Xác nhận" trong modal
-        document.getElementById("confirmDelete").addEventListener("click", function () {
-            // Lấy seat_id từ hidden input trong modal
-            var deleteId = document.getElementById("deleteId").value;
-
-            // Đặt giá trị vào input hidden trong form
-            document.getElementById("deleteForm").elements["id"].value = deleteId;
-
-            // Submit form
-            $("#deleteForm").submit();
-        });
-
-    </script>

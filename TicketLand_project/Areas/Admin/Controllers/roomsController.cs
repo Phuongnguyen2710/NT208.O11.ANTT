@@ -95,26 +95,31 @@ namespace TicketLand_project.Areas.Admin.Controllers
         //}
 
         //// POST: Admin/rooms/Create
-        //[HttpPost]
-        //public JsonResult Create([Bind(Include = "room_id,room_name,capacity")] room room)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        // Kiểm tra định dạng của room_name (ví dụ: Phòng 3)
-        //        if (IsValidRoomNameFormat(room.room_name))
-        //        {
-        //            db.rooms.Add(room);
-        //            db.SaveChanges();
-        //            return Json(new { success = true, message = "Lưu thành công" });
-        //        }
-        //        else
-        //        {
-        //            return Json(new { success = false, message = "Định dạng room_name không hợp lệ" });
-        //        }
-        //    }
+        [HttpPost]
+        public JsonResult Create([Bind(Include = "room_id,room_name,capacity")] room room)
+        {
+            if (ModelState.IsValid)
+            {
+                // Kiểm tra định dạng của room_name (ví dụ: Phòng 3)
+                if (IsValidRoomNameFormat(room.room_name))
+                {
+                    bool check_room = db.rooms.Any(x=>x.room_name == room.room_name);
+                    if (!check_room)
+                    {
+                        db.rooms.Add(room);
+                        db.SaveChanges();
+                        return Json(new { success = true, message = "Lưu thành công" });
+                    }
+                    return Json(new { success = false, message = "Phòng đã tồn tại!" });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Định dạng room_name không hợp lệ" });
+                }
+            }
 
-        //    return Json(new { success = false, message = "Lưu không thành công" });
-        //}
+            return Json(new { success = false, message = "Lưu không thành công" });
+        }
 
         //Kiểm tra nhập phòng
         private bool IsValidRoomNameFormat(string roomName)
