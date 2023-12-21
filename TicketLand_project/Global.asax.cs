@@ -25,7 +25,5 @@ namespace TicketLand_project
             Session["Username"] = "Guest";
             Session["idMember"] = "-1";
         }
-
-
     }
 }
