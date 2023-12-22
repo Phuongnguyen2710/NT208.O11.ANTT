@@ -7,59 +7,64 @@
 
 <h2>Edit</h2>
 
-@using (Html.BeginForm("Edit", "news", FormMethod.Post, new { enctype = "multipart/form-data", id = "EditForm" }))
-{
-    <h1 class="custom_h1"><b class="text-danger">SỬA TIN TỨC</b></h1>
-    <div class="container mt-5">
-        <div class="row justify-content-center text-center">
-            <div class="col-md-6">
-                @Html.AntiForgeryToken()
 
+{
+<h1 class="custom_h1"><b class="text-danger" >SỬA TIN TỨC</b></h1>
+<div class="container mt-5">
+    <div class="row justify-content-center text-center">
+        <div class="col-md-6">
+            @Html.AntiForgeryToken()
+            <form>
                 <div class="form-horizontal">
                     <hr />
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     @Html.HiddenFor(model => model.news_id)
 
                     <div class="form-group">
-                        <b class="text-danger">Tên Phim</b>
+                        <b class="text-danger" style="font-weight:bold">Tên Phim</b>
                         <div class="col-md-12">
                             @Html.DropDownList("movie_id", null, htmlAttributes: new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.movie_id, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <b class="text-danger"r />
+                    <br />
+                    <b class="text-danger" />
                     <div class="form-group">
-                        <b class="text-danger">Tiêu đề tin tức</b>
+                        <b class="text-danger" style="font-weight: bold">Tiêu đề tin tức</b>
                         <div class="col-md-12">
                             @Html.EditorFor(model => model.news_title, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.news_title, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <b class="text-danger"r />
+                    <br />
+                    <b class="text-danger" />
                     <div class="form-group">
-                        <b class="text-danger">Nội dung tin tức</b>
+                        <b class="text-danger" style="font-weight: bold">Nội dung tin tức</b>
                         <div class="col-md-12">
                             @Html.EditorFor(model => model.news_content, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.news_content, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <b class="text-danger"r />
+                    <br />
+                    <b class="text-danger" />
                     <div class="form-group">
-                        <b class="text-danger">Link hình ảnh</b>
+                        <b class="text-danger" style="font-weight: bold">Link hình ảnh</b>
                         <div class="col-md-12">
                             @Html.EditorFor(model => model.news_img, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.news_img, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <b class="text-danger"r />
+                    <br />
+                    <b class="text-danger" />
                     <div class="form-group">
-                        <b class="text-danger">Ngày công bố</b>
+                        <b class="text-danger" style="font-weight: bold">Ngày công bố</b>
                         <div class="col-md-12">
                             @Html.EditorFor(model => model.news_release, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.news_release, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <b class="text-danger"r />
+                    <br />
+                    <b class="text-danger" />
 
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-12">
@@ -67,42 +72,26 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
+
         </div>
     </div>
+</div>
 }
 
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
 
-script{
-    <script>
-         $(document).ready(function () {
-        $("#editButton").click(function (e) {
-            e.preventDefault(); // Ngăn chặn sự kiện mặc định của form
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-            // Lấy dữ liệu từ form
-            var formData = new FormData($("#EditForm")[0]);
+<!-- Popper.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 
-            // Gửi dữ liệu bằng Ajax
-            $.ajax({
-                url: "@Url.Action("Edit", "news")",
-                type: "POST",
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function (result) {
-                    // Xử lý kết quả thành công
-                    console.log(result);
-                    alert(result);
-                },
-                error: function (xhr, status, error) {
-                    // Xử lý lỗi
-                    console.error(xhr.responseText);
-                }
-            });
-        });
-         });
-    </script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script src="~/Areas/Assets/js/news.js"></script>
+
 

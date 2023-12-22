@@ -1,0 +1,54 @@
+﻿@model IEnumerable<TicketLand_project.Models.schedule>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div class="container_custom">
+    <div class="box_shadow">
+        <table class="tableStyle">
+            <tr>
+                <th>Suất chiếu</th>
+                <th>
+                    Tên phim
+                </th>
+                <th>Action</th>
+            </tr>
+
+            @{
+                var count = 1;
+            }
+
+            @{
+                var movies = Model.Select(item => item.movy).Distinct();
+            }
+
+            @foreach (var movie in movies)
+            {
+                <tr>
+                    <td>
+                        @count
+                        @{
+                            count++;
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => movie.movie_name)
+                    </td>
+                    <td colspan="6">
+                        @Html.ActionLink("Detail", "Detail", "schedules", new { id = movie.movie_id }, null)
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+    </div>
+   
+ 

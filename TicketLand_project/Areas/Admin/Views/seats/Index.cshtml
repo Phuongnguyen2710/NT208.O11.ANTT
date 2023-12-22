@@ -14,20 +14,30 @@
     <div class="box_shadow">
         <table class="tableStyle">
             <tr>
-                <th>Loại ghế</th>
+                <th>STT</th>
+                <th>Tên phòng</th>
                 <th>Hàng</th>
                 <th>Cột</th>
-                <th>Tên phòng</th>
+                <th>Loại ghế</th>
                 <th>Action</th>
             </tr>
 
+            @{
+                var count = 1;
+            }
             @foreach (var item in Model)
             {
                 <tr>
-
                     <td>
-                        @Html.DisplayFor(modelItem => item.seat_type)
+                        @count
+                        @{
+                            count++;
+                        }
                     </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.room.room_name)
+                    </td>
+
                     <td>
                         @Html.DisplayFor(modelItem => item.row)
                     </td>
@@ -35,9 +45,8 @@
                         @Html.DisplayFor(modelItem => item.number)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.room.room_name)
+                        @Html.DisplayFor(modelItem => item.seat_type)
                     </td>
-
                     <td>
                         <button class="btn btn-xs btn-primary " data-toggle="modal" data-target="#EditModal_@item.seat_id">
                             <i class="fa fa-edit custom_i"></i>

@@ -43,6 +43,7 @@
 <div class="box_shadow">
     <table class="tableStyle">
         <tr>
+            <th>STT</th>
             <th>Tên phim</th>
             <th>Giới hạn độ tuổi</th>
             <th>Thể loại</th>
@@ -54,10 +55,19 @@
             <th>Trạng thái</th>
             <th>Action</th>
         </tr>
-
+        @{
+            var count = 1;
+        }
         @foreach (var item in Model)
         {
             <tr>
+                <td>
+                    @count
+                    @{
+                        count++;
+                    }
+                </td>
+
                 <td>
                     @Html.DisplayFor(modelItem => item.movie_name)
                 </td>
@@ -198,7 +208,7 @@
                                         <dd>@Html.DisplayFor(model => item.rate)</dd>
 
                                         <dt>Banner Link</dt>
-                                        <dd class="text-break" >@Html.DisplayFor(model => item.movie_banner)</dd>
+                                        <dd class="text-break">@Html.DisplayFor(model => item.movie_banner)</dd>
 
                                     </dl>
                                 </div>

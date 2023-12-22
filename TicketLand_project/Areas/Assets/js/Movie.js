@@ -179,5 +179,14 @@ $(document).ready(function () {
         });
     });
 });
-
 /*Kết thúc*/
+
+
+function ConvertDateFormat(dateString) {
+    var parts = dateString.split("-");
+    var formattedDate = parts[2] + "-" + parts[1] + "-" + parts[0];
+    return formattedDate;
+}
+
+var inputDate = document.getElementById("movie_release");
+inputDate.value = ConvertDateFormat(inputDate.value);

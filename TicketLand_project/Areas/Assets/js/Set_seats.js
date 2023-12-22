@@ -130,6 +130,7 @@ function saveSeats() {
                 console.log(response.message);
                 $("#successAlert").fadeIn().delay(5000).fadeOut();
                 // Thực hiện các thao tác khác khi thành công
+                loadSeatsData();
             } else {
                 console.error(response.message);
                 $("#errorAlert").fadeIn().delay(5000).fadeOut();
@@ -144,37 +145,38 @@ function saveSeats() {
 
 
     //Hàm load data seat từ controller
-    //function loadSeatsData() {
-    //    $.ajax({
-    //        url: '/Admin/seats/LoadSeatsData_',
-    //        type: 'GET',
-    //        success: function (data) {
-    //            // Xử lý dữ liệu đã tải lên
-    //            if (data) {
-    //                console.log('Seats data loaded:', data);
+    function loadSeatsData() {
+        $.ajax({
+            url: '/Admin/seats/LoadSeatsData_',
+            type: 'GET',
+            success: function (data) {
+                // Xử lý dữ liệu đã tải lên
+                if (data) {
+                    console.log('Seats data loaded:', data);
 
-    //                // Lặp qua mỗi ghế để set lại cho page
-    //                data.seats.forEach(seat => {
-    //                    let seatId = `${seat.seatRow}${seat.seatNumber}`;
-    //                    let checkbox = document.getElementById(seat.seatId);
-    //                    let seatRoomId = document.getElementById(seat.room_id);
-    //                    let room_Id = seat.Room.room_id;
-    //                    if (seatRoomId === room_Id) {
-    //                        if (checkbox && seat.status) {
-    //                            checkbox.checked = true;
-    //                            checkbox.nextElementSibling.classList.add('booked');
-    //                        }
-    //                    }
-    //                }); 
-    //            } else {
-    //                console.error('Error loading seats data:', data.message);
-    //            }
-    //        },
-    //        error: function (error) {
-    //            console.error('Error loading seats data:', error);
-    //        }
-    //    });
+                    // Lặp qua mỗi ghế để set lại cho page
+                    data.seats.forEach(seat => {
+                        let seatId = `${seat.seatRow}${seat.seatNumber}`;
+                        let checkbox = document.getElementById(seat.seatId);
+                        let seatRoomId = document.getElementById(seat.room_id);
+                        let room_Id = seat.Room.room_id;
+                        if (seatRoomId === room_Id) {
+                            if (checkbox && seat.status) {
+                                checkbox.checked = true;
+                                checkbox.nextElementSibling.classList.add('booked');
+                            }
+                        }
+                    });
+                } else {
+                    console.error('Error loading seats data:', data.message);
+                }
+            },
+            error: function (error) {
+                console.error('Error loading seats data:', error);
+            }
+        });
     }
+}
 
   
     

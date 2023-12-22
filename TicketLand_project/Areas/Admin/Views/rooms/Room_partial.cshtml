@@ -6,14 +6,24 @@
 <div class="box_shadow">
     <table class="tableStyle">
         <tr>
+            <th>STT</th>
             <th>Tên Phòng</th>
             <th>Sức chứa</th>
             <th>Action</th>
         </tr>
+        @{
+            var count = 1;
+        }
 
         @foreach (var item in Model)
         {
             <tr>
+                <td>
+                    @count
+                    @{
+                        count++;
+                    }
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.room_name)
                 </td>

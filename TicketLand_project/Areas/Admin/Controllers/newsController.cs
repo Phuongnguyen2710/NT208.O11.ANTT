@@ -109,7 +109,7 @@ namespace TicketLand_project.Areas.Admin.Controllers
 
         // POST: Admin/news/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
+ 
         public JsonResult Edit([Bind(Include = "news_id,movie_id,news_title,news_content,news_img,news_release")] news news)
         {
             if (ModelState.IsValid)

@@ -32,7 +32,7 @@ namespace TicketLand_project.Models
         public string movie_genres { get; set; }
 
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> movie_release { get; set; }
         public Nullable<System.TimeSpan> movie_duration { get; set; }
         public string movie_format { get; set; }

@@ -150,6 +150,7 @@
     <Compile Include="Areas\Admin\Controllers\moviesController.cs" />
     <Compile Include="Areas\Admin\Controllers\newsController.cs" />
     <Compile Include="Areas\Admin\Controllers\roomsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\schedulesController.cs" />
     <Compile Include="Areas\Admin\Controllers\seatsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\moviesController.cs" />
@@ -391,10 +392,13 @@
     <Content Include="Areas\Admin\Views\movies\Movie_partial.cshtml" />
     <Content Include="Areas\Admin\Views\DashBoard\Index.cshtml" />
     <Content Include="Areas\Admin\Views\news\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\news\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\news\Details.cshtml" />
     <Content Include="Areas\Admin\Views\news\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\news\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\schedules\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\schedules\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\schedules\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\schedules\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\schedules\Detail.cshtml" />
     <None Include="Assets\js\jquery-3.7.1.intellisense.js" />
     <Content Include="Assets\js\jquery-3.7.1.js" />
     <Content Include="Assets\js\jquery-3.7.1.min.js" />

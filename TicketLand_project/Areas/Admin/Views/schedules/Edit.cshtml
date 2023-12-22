@@ -1,0 +1,40 @@
+﻿@model TicketLand_project.Models.schedule
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+}
+
+<h2>Details</h2>
+
+<div class="container_custom">
+    <div class="box_shadow">
+        <table class="tableStyle">
+            <tr>
+                <th>Thời gian bắt đầu</th>
+                <th>Thời gian kết thúc</th>
+                <th>Ngày chiếu</th>
+                <th>Phòng chiếu</th>
+                <th></th>
+            </tr>
+                <tr>
+                    <td>
+                        @Html.EditorFor(modelItem => Model.time_start)
+                    </td>
+                    <td>
+                        @Html.EditorFor(modelItem => Model.time_end)
+                    </td>
+                    <td>
+                        @Html.EditorFor(modelItem => Model.show_date)
+                    </td>
+                    <td>
+                        @Html.EditorFor(modelItem => Model.room.room_name)
+                    </td>
+                    <td>
+                        
+                    </td>
+                </tr>
+            
+        </table>
+    </div>
+</div>

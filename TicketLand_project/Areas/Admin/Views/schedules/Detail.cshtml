@@ -1,0 +1,44 @@
+﻿@model IEnumerable<TicketLand_project.Models.schedule>
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+}
+
+<h2>Details</h2>
+
+<div class="container_custom">
+    <div class="box_shadow">
+        <table class="tableStyle">
+            <tr>
+                <th>Thời gian bắt đầu</th>
+                <th>Thời gian kết thúc</th>
+                <th>Ngày chiếu</th>
+                <th>Phòng chiếu</th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.time_start)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.time_end)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.show_date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.room.room_name)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.schedule_id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.schedule_id })
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
