@@ -1,33 +1,33 @@
 ﻿@model IEnumerable<TicketLand_project.Models.room>
-
+@using PagedList.Mvc;
 @{
     ViewBag.title = "Manage";
     Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
 }
 
 
-    <h1 class="custom_h1"><b>THÔNG TIN PHÒNG CHIẾU PHIM </b></h1>
+<h1 class="custom_h1"><b>THÔNG TIN PHÒNG CHIẾU PHIM </b></h1>
 
-    <div class="container_custom">
-        <p>
-            <button class="btn btn-xs btn-success" data-toggle="modal" data-target="#addRoomModal">
-                <i class="fa fa-plus custom_i"></i> Tạo phòng
-            </button>
-        </p>
-            <div id="roomListContainer">
-                @Html.Partial("~/Areas/Admin/Views/rooms/Room_partial.cshtml", Model)
-            </div>
-    
+<div class="container_custom">
+    <p>
+        <button class="btn btn-xs btn-success" data-toggle="modal" data-target="#addRoomModal">
+            <i class="fa fa-plus custom_i"></i> Tạo phòng
+        </button>
+    </p>
+    <div id="roomListContainer">
+        @Html.Partial("~/Areas/Admin/Views/rooms/Room_partial.cshtml", Model)
     </div>
 
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</div>
 
-    <!-- Popper.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-    <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Popper.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 
-    <script src="~/Areas/Assets/js/Room.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script src="~/Areas/Assets/js/Room.js"></script>
 

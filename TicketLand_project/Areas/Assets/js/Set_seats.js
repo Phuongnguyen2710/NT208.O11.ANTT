@@ -145,7 +145,7 @@ function saveSeats() {
 
 
     //Hàm load data seat từ controller
-    function loadSeatsData() {
+function loadSeatsData() {
         $.ajax({
             url: '/Admin/seats/LoadSeatsData_',
             type: 'GET',

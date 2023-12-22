@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using TicketLand_project.Areas.Admin;
 
 namespace TicketLand_project
 {
@@ -15,11 +16,24 @@ namespace TicketLand_project
 
             //routes.MapMvcAttributeRoutes();
 
+            //Route của Admin Site
             routes.MapRoute(
-                name: "MovieDetail",
-                url: "Admin/schedules/Detail/{id}",
+                name: "EditSchedule",
+                url: "Admin/schedule/Edit/{id}",
+                defaults: new { controller = "schedules", action = "Edit", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "DetailSchedule",
+                url: "Admin/schedule/Detail/{id}",
                 defaults: new { controller = "schedules", action = "Detail", id = UrlParameter.Optional }
             );
+            //Kết thúc
+
+
+            //Route của User
+            //Kết thúc
+
 
             routes.MapRoute(
                 name: "Default",

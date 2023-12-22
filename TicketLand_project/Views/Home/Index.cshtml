@@ -153,7 +153,7 @@
                                                 <div class="col-lg-3 col-md-4 col-sm-6">
                                                     <div class="room-card">
                                                         <div>
-                                                            <a href="room-details.html">
+                                                            <a href="@Url.Action("MovieDetail", "Home", new { id = Model.ElementAt(movie_current[i]).movie_id })">
                                                                 <img class="poster_film responsive-image" src="@Model.ElementAt(movie_current[i]).movie_poster" alt="Images" />
                                                             </a>
                                                         </div>
@@ -168,20 +168,20 @@
                                                                     <div><button class="btn-age btn btn-danger">@Model.ElementAt(movie_current[i]).movie_cens</button></div>
                                                                 }
 
-                                                                <span><a class="text-name-film" href="room-details.html">@Model.ElementAt(movie_current[i]).movie_name</a></span>
+                                                                <span><a class="text-name-film" href="@Url.Action("MovieDetails", "Movie", new { id = Model.ElementAt(movie_current[i]).movie_id })">@Model.ElementAt(movie_current[i]).movie_name</a></span>
                                                             </div>
                                                             <div class="text-time-rating">
                                                                 <div class="col-lg-6 text-poster">@Model.ElementAt(movie_current[i]).DurationInMinutes phút</div>
                                                                 <span class="col-lg-6 star-rating">
                                                                     @{
                                                                         double? temp = Model.ElementAt(movie_current[i]).rate;
-                                                                        int rate_overal = temp.HasValue ? (int)temp.Value : 0;
+                                                                        int rate_overall = temp.HasValue ? (int)temp.Value : 0;
                                                                     }
-                                                                    @for (int n = 0; n < rate_overal; n++)
+                                                                    @for (int n = 0; n < rate_overall; n++)
                                                                     {
                                                                         <i class='bx bxs-star' style="color:orange;"></i>
                                                                     }
-                                                                    @if (temp - rate_overal >= 0.5)
+                                                                    @if (temp - rate_overall >= 0.5)
                                                                     {
                                                                         <i class='bx bxs-star-half' style="color:orange;"></i>
                                                                     }
@@ -258,7 +258,7 @@
                                                 <div class="col-lg-3 col-md-4 col-sm-6">
                                                     <div class="room-card">
                                                         <div>
-                                                            <a href="room-details.html">
+                                                            <a href="@Url.Action("MovieDetail", "Home", new { id = Model.ElementAt(movie_coming[i]).movie_id })">
                                                                 <img class="poster_film responsive-image" src="@Model.ElementAt(movie_coming[i]).movie_poster" alt="Images" />
                                                             </a>
                                                         </div>
@@ -272,7 +272,7 @@
                                                                 {
                                                                     <div><button class="btn-age btn btn-danger">@Model.ElementAt(movie_current[i]).movie_cens</button></div>
                                                                 }
-                                                                <span><a class="text-name-film" href="room-details.html">@Model.ElementAt(movie_coming[i]).movie_name</a></span>
+                                                                <span><a class="text-name-film" href="@Url.Action("MovieDetails", "Movie", new { id = Model.ElementAt(movie_coming[i]).movie_id })">@Model.ElementAt(movie_coming[i]).movie_name</a></span>
                                                             </div>
                                                             <div class="text-time-rating">
                                                                 <div class="col-lg-4 text-poster">@Model.ElementAt(movie_coming[i]).DurationInMinutes phút</div>
@@ -312,59 +312,60 @@
                         </div>
                     </div>
                 </div>
-                </div>
-                </div>
-                </div>
-                <!--Film End Area-->
-                <!--News Start Area-->
-                <div class="container" id="news-page">
-                    @*Header of News*@
-                    <div class="text-header">
-                        Tin tức - Ưu đãi
-                    </div>
-                    @*Body News*@
-                    <div class="row mt-4">
-                        <div class="col-lg-4 col-md-4 col-sm-4  news">
-                            <img class="responsive-image  news" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4  news">
-                            <img class="responsive-image" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4  news">
-                            <img class="responsive-image" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
-                        </div>
-                    </div>
+            </div>
+        </div>
+    </div>
+    <!--Film End Area-->
+    <!--News Start Area-->
+    <div class="container" id="news-page">
+        @*Header of News*@
+        <div class="text-header">
+            Tin tức - Ưu đãi
+        </div>
+        @*Body News*@
+        <div class="row mt-4">
+            <div class="col-lg-4 col-md-4 col-sm-4  news">
+                <img class="responsive-image  news" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4  news">
+                <img class="responsive-image" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4  news">
+                <img class="responsive-image" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
+            </div>
+        </div>
 
-                    <div class="row mt-4">
-                        <div class="col-lg-3 col-md-3 col-sm-3  news">
-                            <img class="responsive-image  news" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3  news">
-                            <img class="responsive-image" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3  news">
-                            <img class="responsive-image" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3  news">
-                            <img class="responsive-image" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
-                        </div>
-                    </div>
+        <div class="row mt-4">
+            <div class="col-lg-3 col-md-3 col-sm-3  news">
+                <img class="responsive-image  news" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3  news">
+                <img class="responsive-image" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3  news">
+                <img class="responsive-image" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3  news">
+                <img class="responsive-image" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
+            </div>
+        </div>
 
-                    <div class="row mt-4 mb-5">
-                        <div class="col-lg-6 col-md-6 col-sm-6  news">
-                            <img class="responsive-image  news" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6  news">
-                            <img class="responsive-image" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
-                        </div>
-                    </div>
+        <div class="row mt-4 mb-5">
+            <div class="col-lg-6 col-md-6 col-sm-6  news">
+                <img class="responsive-image  news" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6  news">
+                <img class="responsive-image" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
+            </div>
+        </div>
+    </div>
 
-                </div>
-                <!--News End Area-->
-                <!--Java Script-->
-           
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script>
+
+
+    <!--News End Area-->
+    <!--Java Script-->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
   // Kiểm tra xem key "Username" đã tồn tại trong sessionStorage hay chưa
     if (!sessionStorage.getItem("Username")) {
         // Nếu không tồn tại, thực hiện AJAX để lấy thông tin đăng nhập từ máy chủ
@@ -373,6 +374,7 @@
             type: 'GET',
             success: function (data) {
                 // Cập nhật sessionStorage với thông tin đăng nhập
+                console.log(data.Username, data.IdMember);
                 sessionStorage.setItem("Username", data.Username);
                 sessionStorage.setItem("idMember", data.IdMember);
                 sessionStorage.setItem("isLogin", data.IsLogin);
@@ -388,6 +390,7 @@
             type: 'GET',
             success: function (data) {
                 // Cập nhật sessionStorage với thông tin đăng nhập
+                console.log(data);
                 sessionStorage.setItem("Username", data.Username);
                 sessionStorage.setItem("idMember", data.IdMember);
                 sessionStorage.setItem("isLogin", data.IsLogin);
@@ -408,4 +411,4 @@
 
         return totalMinutes;
     }
-</script>
+    </script>

@@ -7,7 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TicketLand_project.Models;
-
+using PagedList;
 namespace TicketLand_project.Areas.Admin.Controllers
 {
     public class schedulesController : Controller
@@ -15,10 +15,44 @@ namespace TicketLand_project.Areas.Admin.Controllers
         private QUANLYXEMPHIMEntities db = new QUANLYXEMPHIMEntities();
 
         // GET: Admin/schedules
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            var schedules = db.schedules.Include(s => s.movy).Include(s => s.room);
-            return View(schedules.ToList());
+            var username = Session["Username"] as string;
+            var idMember = Session["idMember"] as string;
+            int Idmember;
+
+            // Covert sang int
+            int.TryParse(idMember, out Idmember);
+
+            var member = db.members.SingleOrDefault(m => m.member_id == Idmember);
+
+            if (member == null || member.role_id == 2)
+            {
+                return RedirectToAction("Login", "Home", new { area = "" });
+            }
+
+            // 1. Tham số int? dùng để thể hiện null và kiểu int
+            // page có thể có giá trị là null và kiểu int.
+
+            // 2. Nếu page = null thì đặt lại là 1.
+            if (page == null) page = 1;
+
+            // 3. Tạo truy vấn, lưu ý phải sắp xếp theo trường nào đó, ví dụ OrderBy
+            // theo memberID mới có thể phân trang.
+            var _schedules = (from l in db.schedules
+                           select l).OrderBy(x => x.show_date);
+
+            // 4. Tạo kích thước trang (pageSize) hay là số Link hiển thị trên 1 trang
+            int pageSize = 11;
+
+            // 4.1 Toán tử ?? trong C# mô tả nếu page khác null thì lấy giá trị page, còn
+            // nếu page = null thì lấy giá trị 1 cho biến pageNumber.
+            int pageNumber = (page ?? 1);
+
+
+            ViewBag.movie_id = new SelectList(db.movies, "movie_id", "movie_name");
+            ViewBag.room_id = new SelectList(db.rooms, "room_id", "room_name");
+            return View(_schedules.ToPagedList(pageNumber, pageSize));
         }
 
         //// GET: Admin/schedules/Details/5
@@ -46,19 +80,15 @@ namespace TicketLand_project.Areas.Admin.Controllers
 
         // POST: Admin/schedules/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "schedule_id,movie_id,room_id,time_start,time_end,show_date")] schedule schedule)
+        public JsonResult Create([Bind(Include = "schedule_id,movie_id,room_id,time_start,time_end,show_date")] schedule schedule)
         {
             if (ModelState.IsValid)
             {
                 db.schedules.Add(schedule);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return Json(new { success = true, message = "Thêm thành công" });
             }
-
-            ViewBag.movie_id = new SelectList(db.movies, "movie_id", "movie_name", schedule.movie_id);
-            ViewBag.room_id = new SelectList(db.rooms, "room_id", "room_name", schedule.room_id);
-            return View(schedule);
+            return Json(new { success = false, message = "Thêm thất bại!" });
         }
 
         // GET: Admin/schedules/Edit/5
@@ -79,38 +109,24 @@ namespace TicketLand_project.Areas.Admin.Controllers
         }
 
 
-        //// POST: Admin/schedules/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit([Bind(Include = "schedule_id,movie_id,room_id,time_start,time_end,show_date")] schedule schedule)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        // Lấy suất chiếu từ cơ sở dữ liệu
-        //        var existingSchedule = db.schedules.Find(schedule.schedule_id);
+        // POST: Admin/schedules/Edit/5
+        [HttpPost]
+        public JsonResult Edit([Bind(Include = "schedule_id,movie_id,room_id,time_start,show_date")] schedule schedule)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(schedule).State = EntityState.Modified;
+                db.SaveChanges();
+                    return Json(new { success = true, message = "Thay đổi thành công" });
+                
+            }
 
-        //        // Kiểm tra xem suất chiếu thuộc cùng phim không
-        //        if (existingSchedule != null && existingSchedule.movie_id == schedule.movie_id)
-        //        {
-        //            // Cập nhật thông tin suất chiếu
-        //            existingSchedule.room_id = schedule.room_id;
-        //            existingSchedule.time_start = schedule.time_start;
-        //            existingSchedule.time_end = schedule.time_end;
-        //            existingSchedule.show_date = schedule.show_date;
+            // Load danh sách phim và danh sách phòng để hiển thị lại trong trường hợp lỗi
+            ViewBag.movie_id = new SelectList(db.movies, "movie_id", "movie_name", schedule.movie_id);
+            ViewBag.room_id = new SelectList(db.rooms, "room_id", "room_name", schedule.room_id);
 
-        //            // Lưu thay đổi vào cơ sở dữ liệu
-        //            db.SaveChanges();
-
-        //            return RedirectToAction("Index");
-        //        }
-        //    }
-
-        //    // Load danh sách phim và danh sách phòng để hiển thị lại trong trường hợp lỗi
-        //    ViewBag.movie_id = new SelectList(db.movies, "movie_id", "movie_name", schedule.movie_id);
-        //    ViewBag.room_id = new SelectList(db.rooms, "room_id", "room_name", schedule.room_id);
-
-        //    return View(schedule);
-        //}
+            return Json(new { success = true, message = "Thay đổi thất bại" });
+        }
 
 
 
@@ -147,7 +163,6 @@ namespace TicketLand_project.Areas.Admin.Controllers
             int roomNumber = int.Parse(numberPart);
             return roomNumber;
         }
-
 
         public ActionResult Detail(int? id)
         {

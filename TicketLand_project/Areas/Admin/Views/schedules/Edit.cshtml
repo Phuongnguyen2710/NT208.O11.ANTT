@@ -5,36 +5,115 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
 }
 
-<h2>Details</h2>
+<h1 class="custom_h1"><b class="text-danger">SỬA LỊCH CHIẾU</b></h1>
+<div class="container mt-5">
+    <div class="row justify-content-center text-center">
+        <div class="col-md-6">
+            <form>
+                <div class="form-horizontal">
 
-<div class="container_custom">
-    <div class="box_shadow">
-        <table class="tableStyle">
-            <tr>
-                <th>Thời gian bắt đầu</th>
-                <th>Thời gian kết thúc</th>
-                <th>Ngày chiếu</th>
-                <th>Phòng chiếu</th>
-                <th></th>
-            </tr>
-                <tr>
-                    <td>
-                        @Html.EditorFor(modelItem => Model.time_start)
-                    </td>
-                    <td>
-                        @Html.EditorFor(modelItem => Model.time_end)
-                    </td>
-                    <td>
-                        @Html.EditorFor(modelItem => Model.show_date)
-                    </td>
-                    <td>
-                        @Html.EditorFor(modelItem => Model.room.room_name)
-                    </td>
-                    <td>
-                        
-                    </td>
-                </tr>
-            
-        </table>
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.schedule_id)
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.movie_id)
+
+                    <br />
+                    <b class="text-danger" />
+                    <div class="form-group">
+                        <b class="text-danger" style="font-weight: bold">Thời gian bắt đầu</b>
+                        <br />
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.time_start, new { htmlAttributes = new { @class = "form-control text-center", @type = "time", @id = "time_start" } })
+                            @Html.ValidationMessageFor(model => model.time_start, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+
+                    <b class="text-danger" />
+                    <div class="form-group">
+                        <b class="text-danger" style="font-weight: bold">Thời gian kết thúc</b>
+                        <br />
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.time_end, new { htmlAttributes = new { @class = "form-control text-center", @type = "time", @id = "time_start" } })
+                            @Html.ValidationMessageFor(model => model.time_end, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <br />
+
+
+
+                    <br />
+                    <b class="text-danger" />
+                    <div class="form-group">
+                        <b class="text-danger" style="font-weight: bold">Ngày chiếu</b>
+                        <br />
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.show_date, new { htmlAttributes = new { @class = "form-control text-center", @type = "date", @id = "show_date" } })
+                            @Html.ValidationMessageFor(model => model.time_end, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+
+                    <b class="text-danger" />
+                    <div class="form-group">
+                        <b class="text-danger" style="font-weight: bold">Phòng chiếu</b>
+                        <br />
+                        <div class="col-md-12">
+                            @Html.DropDownListFor(model => model.room_id, (IEnumerable<SelectListItem>)ViewBag.Rooms, new { @class = "form-control text-center", @id = "room_id" })
+                            @Html.ValidationMessageFor(model => model.time_end, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-12">
+                            <input type="submit" value="Save" id="editButton" class="btn btn-success" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
     </div>
 </div>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<!-- Popper.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+/*Ajax edit*/
+$(document).ready(function () {
+    // Intercept the form submission event
+    $("form").submit(function (event) {
+        // Prevent the default form submission
+        event.preventDefault();
+
+        var formData = $(this).serialize();
+       
+
+        $.ajax({
+            url: '@Url.Action("Edit", "schedules")', 
+            type: 'POST',
+            data: formData,
+            success: function (result) {
+            // Xử lý kết quả sau khi post thành công
+            alert("Thành công")
+                console.log(result);
+            },
+            error: function (error) {
+            // Xử lý lỗi nếu có
+            console.log(error);
+            }
+            });
+            });
+            });
+</script>

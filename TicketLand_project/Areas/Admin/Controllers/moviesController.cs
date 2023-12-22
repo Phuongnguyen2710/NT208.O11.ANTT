@@ -88,6 +88,7 @@ namespace TicketLand_project.Areas.Admin.Controllers
         //    return View();
         //}
 
+        // Tạo slug lưu ảnh
         public static string GenerateSlug(string title)
         {
             string slug = Regex.Replace(title, @"[^a-zA-Z0-9-]","-");
@@ -213,27 +214,6 @@ namespace TicketLand_project.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Check thời gian phim sắp chiếu. Nếu nó > thời gian hiện tại -> lỗi
-                var _status = movy.movie_status;
-                if (movy.movie_release < DateTime.Today)
-                {
-                    return Json(new { success = false, message = "Phim sắp chiếu phải có thời gian lớn hơn thời gian hiện tại" });
-                }
-                else if (movy.movie_release > DateTime.Today)
-                {
-                    movy.movie_status = 2;
-                }
-                else
-                {
-                    movy.movie_status = 1;
-                }
-
-                // Thêm điều kiện để kiểm tra và đặt giá trị status thành 0 nếu nó là 2 hoặc 1
-                if (_status == 2 || _status == 1)
-                {
-                    movy.movie_status = 0;
-                }
-
                 db.Entry(movy).State = EntityState.Modified;
                 db.SaveChanges();
 

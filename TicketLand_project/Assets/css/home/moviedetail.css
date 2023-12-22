@@ -1,0 +1,102 @@
+﻿button[type="submit"] {
+    background-color: #000; /* Màu đen */
+    color: #fff; /* Màu chữ trắng */
+    border: none; /* Loại bỏ đường viền */
+    padding: 10px 20px; /* Kích thước nút */
+    border-radius: 5px; /* Bo góc */
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+    /* Hover effect (nếu muốn) */
+    button[type="submit"]:hover {
+        background-color: #333; /* Màu đen đậm khi hover */
+    }
+.comment {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 8px;
+    margin: 15px auto; /* Căn giữa theo chiều ngang và đặt margin top/bottom */
+    max-width: 700px; /* Giảm chiều rộng tối đa của comment */
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.member-name {
+    font-weight: bold;
+}
+
+.comment-date {
+    color: #888;
+}
+
+.comment-rating {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.star-rating {
+    margin-right: 8px;
+}
+
+/* CSS để làm hình tròn và kích thước nhỏ cho avatar */
+.member-avatar {
+    width: 40px; /* Đặt kích thước mong muốn */
+    height: 40px;
+    border-radius: 50%; /* Làm hình tròn */
+    margin-right: -450px; /* Khoảng cách giữa avatar và tên thành viên */
+}
+/* CSS cho nút tab */
+.btntab {
+    padding: 10px 20px; /* Kích thước padding của nút */
+    margin: 0 5px; /* Khoảng cách giữa các nút */
+    border: 1px solid #ccc; /* Viền của nút */
+    background-color: #f8f8f8; /* Màu nền của nút */
+    cursor: pointer;
+    color: #333; /* Màu chữ của nút */
+}
+
+    /* CSS cho nút tab kích hoạt */
+    .btn-tab.active {
+        background-color: #fff; /* Màu nền của nút khi kích hoạt */
+        border: 1px solid #007bff; /* Viền của nút khi kích hoạt */
+        border-bottom: none; /* Loại bỏ đường viền dưới */
+        color: #007bff; /* Màu chữ của nút khi kích hoạt */
+    }
+
+    /* Hover effect cho nút tab */
+    .btn-tab:hover {
+        background-color: #e9e9e9; /* Màu nền khi di chuột qua nút */
+    }
+
+.list-group-item .list-group-item-action{
+    border: 1px solid lightgray;
+}
+
+.list-group-item + .list-group-item {
+    border-top-width: 1px;
+}
+/* CSS cho lớp có tên là 'selected' */
+.list-group-item.selected {
+    background-color: lightgray;
+    color:black;
+}
+
+.movie-item {
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    margin-bottom: 10px; /* Khoảng cách giữa các mục phim */
+}
+
+.btn-age {
+    margin-right: 10px; /* Khoảng cách giữa nút "P" và tên phim */
+}

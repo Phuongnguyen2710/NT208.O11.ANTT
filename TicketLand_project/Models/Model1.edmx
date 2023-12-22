@@ -115,9 +115,9 @@ warning 6013: The table/view 'QUANLYXEMPHIM.dbo.booking_detail' does not have a 
           <Property Name="schedule_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="movie_id" Type="int" />
           <Property Name="room_id" Type="int" />
-          <Property Name="time_start" Type="time" Precision="7" />
+          <Property Name="time_start" Type="time" Precision="7" Nullable="false" />
           <Property Name="time_end" Type="time" Precision="7" />
-          <Property Name="show_date" Type="date" />
+          <Property Name="show_date" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="seats">
           <Key>
@@ -433,9 +433,9 @@ error 6004: The table 'QUANLYXEMPHIM.dbo.booking_detail' is referenced by a rela
           <Property Name="schedule_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="movie_id" Type="Int32" />
           <Property Name="room_id" Type="Int32" />
-          <Property Name="time_start" Type="Time" Precision="7" />
+          <Property Name="time_start" Type="Time" Nullable="false" Precision="7" />
           <Property Name="time_end" Type="Time" Precision="7" />
-          <Property Name="show_date" Type="DateTime" Precision="0" />
+          <Property Name="show_date" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="bookings" Relationship="Self.FK__booking__schedul__73BA3083" FromRole="schedule" ToRole="booking" />
           <NavigationProperty Name="movy" Relationship="Self.FK__schedule__movie___70DDC3D8" FromRole="schedule" ToRole="movies" />
           <NavigationProperty Name="room" Relationship="Self.FK__schedule__room_i__71D1E811" FromRole="schedule" ToRole="rooms" />

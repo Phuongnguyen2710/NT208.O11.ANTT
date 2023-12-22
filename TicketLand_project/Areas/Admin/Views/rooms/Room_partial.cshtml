@@ -43,9 +43,10 @@
                         <i class="fa fa-trash custom_i"></i>
                     </button>
 
-                    <button class="btn btn-xs btn-warning" onclick="location.href='@Url.Action("Create", "seats", new { roomId = item.room_id })'" data-capacity="@Html.DisplayFor(modelItem => item.capacity)">
+                    <button class="btn btn-xs btn-warning" onclick="location.href='@Url.RouteUrl(new { controller = "Seats", action = "Create", roomId = item.room_id })'" data-capacity="@Html.DisplayFor(modelItem => item.capacity)">
                         <i class="fa fa-plus custom_i"></i> Tạo ghế
                     </button>
+
 
                     <!-- Info Modal-->
                     <div class="modal fade" id="roomModal_@item.room_id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
