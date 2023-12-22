@@ -97,10 +97,19 @@
                                     }
                                     else
                                     {
-                                        <li class="nav-item text-center">
-                                            <img src="data:image/png;base64, @Session["Avartar"]" class="img_avartar" style="border-radius: 50%; height: 48px; width: 48px;" />
-                                            Hello, @Session["Username"]
-                                        </li>
+
+
+                                <li class="nav-item text-center">
+                                    @if (!string.IsNullOrEmpty((string)Session["Avartar"]))
+                                    {
+                                        <img src="@Url.Content((string)Session["Avartar"])" class="img_avartar" style="border-radius: 50%; height: 48px; width: 48px;" />
+                                    }
+                                    else
+                                    {
+                                        <span>No image available</span>
+                                    }
+                                    Hello, @Session["Username"]
+                                </li>
 
                                         <li class="nav-item text-danger">
                                             @Html.ActionLink("Đăng xuất", "Logout", "Home", new { area = "" }, new { @class = "nav-link" })
@@ -113,7 +122,7 @@
                                         </li>
 
                                         <li class="nav-item">
-                                            <a href="services-2.html" class="nav-link">
+                                            <a href="#" class="nav-link">
                                                 Chi tiết tài khoản
                                             </a>
                                         </li>

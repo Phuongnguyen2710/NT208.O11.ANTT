@@ -551,6 +551,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Assets\Dangnhap_css\" />
+    <Folder Include="Assets\img\home\avatar_member\" />
     <Folder Include="Assets\img\home\banner_film\" />
     <Folder Include="Assets\img\home\news\" />
     <Folder Include="Assets\Public_img\Dangki_img\" />

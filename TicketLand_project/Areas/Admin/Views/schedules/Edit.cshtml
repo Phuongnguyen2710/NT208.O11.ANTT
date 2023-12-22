@@ -108,6 +108,8 @@ $(document).ready(function () {
             // Xử lý kết quả sau khi post thành công
             alert("Thành công")
                 console.log(result);
+                // Chuyển hướng người dùng về trang trước
+                window.history.back();
             },
             error: function (error) {
             // Xử lý lỗi nếu có

@@ -78,10 +78,14 @@
                         @Html.DisplayFor(modelItem => item.phone)
                     </td>
                     <td>
-                        @{
-                            var imageDataUrl = "data:image/png;base64," + item.member_avatar;
+                        @if (!string.IsNullOrEmpty(item.member_avatar))
+                        {
+                            <img src="@Url.Content(item.member_avatar)" style="width: 50px; height: 50px" />
                         }
-                        <img src="@imageDataUrl" style="width: 50px; height: 50px" />
+                        else
+                        {
+                            <span>No image available</span>
+                        }
                     </td>
 
                     <td>

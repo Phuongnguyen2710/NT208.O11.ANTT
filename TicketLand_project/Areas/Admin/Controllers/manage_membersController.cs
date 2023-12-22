@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
@@ -158,6 +159,14 @@ namespace TicketLand_project.Areas.Admin.Controllers
             return View(member);
         }
 
+        public static string GenerateSlug(string title)
+        {
+            string slug = Regex.Replace(title, @"[^a-zA-Z0-9-]", "-");
+            slug = Regex.Replace(slug, @"-{2,}", "-");
+            slug = slug.Trim('-').ToLower();
+            return slug;
+        }
+
         // POST: Admin/manage_members/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -167,15 +176,36 @@ namespace TicketLand_project.Areas.Admin.Controllers
             {
                 db.Entry(member).State = EntityState.Modified;
 
-                // Xử lý hình ảnh
+                //// Xử lý hình ảnh
+                //if (imageFile != null && imageFile.ContentLength > 0)
+                //{
+                //    using (var binaryReader = new BinaryReader(imageFile.InputStream))
+                //    {
+                //        byte[] imageData = binaryReader.ReadBytes(imageFile.ContentLength);
+                //        member.member_avatar = Convert.ToBase64String(imageData);
+                //    }
+                //}
+
+                // Xử lý trường input kiểu file (avatar)
                 if (imageFile != null && imageFile.ContentLength > 0)
                 {
-                    using (var binaryReader = new BinaryReader(imageFile.InputStream))
+                    var slug = GenerateSlug(member.username);
+                    var memberFileName = Path.GetFileName(imageFile.FileName);
+                    var extension = Path.GetExtension(memberFileName);
+                    var new_file_name = $"{slug}{extension}";
+                    var relativePosterPath = "\\Assets\\img\\home\\avatar_member\\" + new_file_name;
+                    var absolutePosterPath = Path.Combine(Server.MapPath("~/Assets/img/home/avatar_member/"), new_file_name);
+
+                    member.member_avatar = relativePosterPath;
+
+                    // Lưu file vào máy chủ với tên mới
+                    using (var fileStream = new FileStream(absolutePosterPath, FileMode.Create))
                     {
-                        byte[] imageData = binaryReader.ReadBytes(imageFile.ContentLength);
-                        member.member_avatar = Convert.ToBase64String(imageData);
+                        imageFile.InputStream.Seek(0, SeekOrigin.Begin);
+                        imageFile.InputStream.CopyTo(fileStream);
                     }
                 }
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

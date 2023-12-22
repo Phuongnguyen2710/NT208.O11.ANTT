@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
@@ -63,7 +64,13 @@ namespace TicketLand_project.Controllers
             return View();
         }
 
-
+        public static string GenerateSlug(string title)
+        {
+            string slug = Regex.Replace(title, @"[^a-zA-Z0-9-]", "-");
+            slug = Regex.Replace(slug, @"-{2,}", "-");
+            slug = slug.Trim('-').ToLower();
+            return slug;
+        }
 
         // Chức năng đăng kí
         //POST: Register
@@ -79,13 +86,22 @@ namespace TicketLand_project.Controllers
                     //Mã hóa mật khẩu
                     _user.password = GetMD5(_user.password);
 
-                    // Xử lý hình ảnh
                     if (imageFile != null && imageFile.ContentLength > 0)
                     {
-                        using (var binaryReader = new BinaryReader(imageFile.InputStream))
+                        var slug = GenerateSlug(_user.member_name);
+                        var memberFileName = Path.GetFileName(imageFile.FileName);
+                        var extension = Path.GetExtension(memberFileName);
+                        var new_file_name = $"{slug}{extension}";
+                        var relativePosterPath = "\\Assets\\img\\home\\avatar_member\\" + new_file_name;
+                        var absolutePosterPath = Path.Combine(Server.MapPath("~/Assets/img/home/avatar_member/"), new_file_name);
+
+                        _user.member_avatar = relativePosterPath;
+
+                        // Lưu file vào máy chủ với tên mới
+                        using (var fileStream = new FileStream(absolutePosterPath, FileMode.Create))
                         {
-                            byte[] imageData = binaryReader.ReadBytes(imageFile.ContentLength);
-                            _user.member_avatar = Convert.ToBase64String(imageData);
+                            imageFile.InputStream.Seek(0, SeekOrigin.Begin);
+                            imageFile.InputStream.CopyTo(fileStream);
                         }
                     }
                     _user.role_id = 2;
