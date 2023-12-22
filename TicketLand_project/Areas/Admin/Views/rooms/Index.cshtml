@@ -1,62 +1,33 @@
 ﻿@model IEnumerable<TicketLand_project.Models.room>
-
+@using PagedList.Mvc;
 @{
     ViewBag.title = "Manage";
     Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-</head>
-<body>
-    <h1 class="custom_h1"><b>THÔNG TIN PHÒNG CHIẾU PHIM </b></h1>
 
-    <div class="container_custom">
-        <p>
-            <button class="btn btn-xs btn-success" data-toggle="modal" data-target="#addRoomModal">
-                <i class="fa fa-plus custom_i"></i> Tạo phòng
-            </button>
-        </p>
-        <div class="box_shadow">
-            <div id="roomListContainer">
-                @Html.Partial("~/Areas/Admin/Views/rooms/Room_partial.cshtml", Model)
-                                        </div>
-                                        <div class="modal-body">
-                                            <dl class="dl-horizontal">
-                                                <dt>Tên Phòng</dt>
-                                                <dd>
-                                                    @Html.DisplayFor(model => item.room_name)
-                                                </dd>
+<h1 class="custom_h1"><b>THÔNG TIN PHÒNG CHIẾU PHIM </b></h1>
 
-                                                <dt>Sức chứa</dt>
-                                                <dd>
-                                                    @Html.DisplayFor(model => item.capacity)
-                                                </dd>
-                                            </dl>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary" location.href="@Url.Action("Edit", new {id = item.room_id})">Edit</button>
-                                            @*@Html.ActionLink("Edit", "Edit", new { id = item.room_id }, new { @class = "btn btn-primary" })*@
-                                            @Html.ActionLink("Back to List", "Index", new { @class = "btn btn-secondary" })
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+<div class="container_custom">
+    <p>
+        <button class="btn btn-xs btn-success" data-toggle="modal" data-target="#addRoomModal">
+            <i class="fa fa-plus custom_i"></i> Tạo phòng
+        </button>
+    </p>
+    <div id="roomListContainer">
+        @Html.Partial("~/Areas/Admin/Views/rooms/Room_partial.cshtml", Model)
+    </div>
 
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</div>
 
-    <!-- Popper.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-    <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Popper.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 
-    <script src="~/Areas/Assets/js/Room.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+<script src="~/Areas/Assets/js/Room.js"></script>
 
-</body>
-</html>

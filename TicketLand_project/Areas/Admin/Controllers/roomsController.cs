@@ -95,26 +95,31 @@ namespace TicketLand_project.Areas.Admin.Controllers
         //}
 
         //// POST: Admin/rooms/Create
-        //[HttpPost]
-        //public JsonResult Create([Bind(Include = "room_id,room_name,capacity")] room room)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        // Kiểm tra định dạng của room_name (ví dụ: Phòng 3)
-        //        if (IsValidRoomNameFormat(room.room_name))
-        //        {
-        //            db.rooms.Add(room);
-        //            db.SaveChanges();
-        //            return Json(new { success = true, message = "Lưu thành công" });
-        //        }
-        //        else
-        //        {
-        //            return Json(new { success = false, message = "Định dạng room_name không hợp lệ" });
-        //        }
-        //    }
+        [HttpPost]
+        public JsonResult Create([Bind(Include = "room_id,room_name,capacity")] room room)
+        {
+            if (ModelState.IsValid)
+            {
+                // Kiểm tra định dạng của room_name (ví dụ: Phòng 3)
+                if (IsValidRoomNameFormat(room.room_name))
+                {
+                    bool check_room = db.rooms.Any(x=>x.room_name == room.room_name);
+                    if (!check_room)
+                    {
+                        db.rooms.Add(room);
+                        db.SaveChanges();
+                        return Json(new { success = true, message = "Lưu thành công" });
+                    }
+                    return Json(new { success = false, message = "Phòng đã tồn tại!" });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Định dạng room_name không hợp lệ" });
+                }
+            }
 
-        //    return Json(new { success = false, message = "Lưu không thành công" });
-        //}
+            return Json(new { success = false, message = "Lưu không thành công" });
+        }
 
         //Kiểm tra nhập phòng
         private bool IsValidRoomNameFormat(string roomName)
@@ -123,7 +128,7 @@ namespace TicketLand_project.Areas.Admin.Controllers
             string pattern = @"^Phòng \d+$";
             return Regex.IsMatch(roomName, pattern);
         }
-
+        
         public PartialViewResult GetRooms(int? page)
         {
             int pageSize = 10; // Set your desired page size
@@ -132,10 +137,8 @@ namespace TicketLand_project.Areas.Admin.Controllers
             var rooms = db.rooms.ToList().ToPagedList(pageNumber, pageSize);
 
             return PartialView("Room_partial", rooms);
-            }
-
-            return View(room);
         }
+
 
         // GET: Admin/rooms/Edit/5
         public ActionResult Edit(int? id)
@@ -153,8 +156,6 @@ namespace TicketLand_project.Areas.Admin.Controllers
         }
 
         // POST: Admin/rooms/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         public JsonResult Edit([Bind(Include = "room_id,room_name,capacity")] room room)
         {
@@ -282,15 +283,6 @@ namespace TicketLand_project.Areas.Admin.Controllers
             }
         }
 
-
-        public ActionResult GetModalContent(int roomId)
-        {
-            // Lấy dữ liệu phòng từ cơ sở dữ liệu hoặc từ nơi nào đó
-            var room = db.rooms.Find(roomId);// Lấy thông tin phòng dựa trên roomId;
-
-            // Trả về PartialView của modal với dữ liệu của phòng
-            return PartialView("DeletePartialView", room);
-        }
 
 
         protected override void Dispose(bool disposing)

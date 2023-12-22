@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using TicketLand_project.Models;
 using PagedList;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace TicketLand_project.Areas.Admin.Controllers
 {
@@ -82,9 +83,18 @@ namespace TicketLand_project.Areas.Admin.Controllers
         }
 
         // GET: Admin/movies/Create
-        public ActionResult Create()
+        //public ActionResult Create()
+        //{
+        //    return View();
+        //}
+
+        // Tạo slug lưu ảnh
+        public static string GenerateSlug(string title)
         {
-            return View();
+            string slug = Regex.Replace(title, @"[^a-zA-Z0-9-]","-");
+            slug = Regex.Replace(slug, @"-{2,}","-");
+            slug = slug.Trim('-').ToLower();
+            return slug;
         }
 
         // POST: Admin/movies/Create
@@ -112,38 +122,41 @@ namespace TicketLand_project.Areas.Admin.Controllers
                         // Xử lý trường input kiểu file (poster)
                         if (movie_poster != null && movie_poster.ContentLength > 0)
                         {
-                            // Lấy tên tệp tin
+                            var slug = GenerateSlug(movy.movie_name);
                             var posterFileName = Path.GetFileName(movie_poster.FileName);
+                            var extension = Path.GetExtension(posterFileName);
+                            var new_file_name = $"{slug}{extension}";
+                            var relativePosterPath = "\\Assets\\img\\home\\poster_film\\" + new_file_name;
+                            var absolutePosterPath = Path.Combine(Server.MapPath("~/Assets/img/home/poster_film/"), new_file_name);
 
-                            // Tạo đường dẫn tương đối
-                            var relativePosterPath = "\\Assets\\img\\home\\poster_film\\" + posterFileName;
-
-                            // Lưu đường dẫn tương đối của tệp tin vào thuộc tính movie_poster của đối tượng movy
                             movy.movie_poster = relativePosterPath;
 
-                            var new_file_name = Guid.NewGuid();
-                            var extension = Path.GetExtension(movie_poster.FileName);
-                            string newfile = new_file_name + extension;
-                            // Lưu tệp tin vào thư mục trên máy chủ (ví dụ: "Assets/img/home/poster_film")
-                            string path = Path.Combine(Server.MapPath("~/Assets/img/home/poster_film/"), newfile);
-                            movie_poster.SaveAs(path);
+                            // Lưu file vào máy chủ với tên mới
+                            using (var fileStream = new FileStream(absolutePosterPath, FileMode.Create))
+                            {
+                                movie_poster.InputStream.Seek(0, SeekOrigin.Begin);
+                                movie_poster.InputStream.CopyTo(fileStream);
+                            }
                         }
 
                         // Xử lý trường input kiểu file (banner)
                         if (movie_banner != null && movie_banner.ContentLength > 0)
                         {
-                            // Lấy tên tệp tin
+                            var slug = GenerateSlug(movy.movie_name);
                             var bannerFileName = Path.GetFileName(movie_banner.FileName);
+                            var extension = Path.GetExtension(bannerFileName);
+                            var new_file_name_banner = $"{slug}{extension}";
+                            var relativePosterPath_banner = "\\Assets\\img\\home\\banner_film\\" + new_file_name_banner;
+                            var absolutePosterPath_banner = Path.Combine(Server.MapPath("~/Assets/img/home/banner_film/"), new_file_name_banner);
 
-                            // Tạo đường dẫn tương đối
-                            var relativeBannerPath = "\\Assets\\img\\home\\banner_film\\" + bannerFileName;
+                            movy.movie_banner = relativePosterPath_banner;
 
-                            // Lưu đường dẫn tương đối của tệp tin vào thuộc tính movie_banner của đối tượng movy
-                            movy.movie_banner = relativeBannerPath;
-
-                            // Lưu tệp tin vào thư mục trên máy chủ (ví dụ: "Assets/img/home/banner_film")
-                            string path_banner = Path.Combine(Server.MapPath("~/Assets/img/home/banner_film/"), bannerFileName);
-                            movie_banner.SaveAs(path_banner);
+                            // Lưu file vào máy chủ với tên mới
+                            using (var fileStream = new FileStream(absolutePosterPath_banner, FileMode.Create))
+                            {
+                                movie_poster.InputStream.Seek(0, SeekOrigin.Begin);
+                                movie_poster.InputStream.CopyTo(fileStream);
+                            }
 
                         }
 
@@ -196,32 +209,20 @@ namespace TicketLand_project.Areas.Admin.Controllers
             return View(movy);
         }
 
-        // POST: Admin/movies/Edit/5
         [HttpPost]
         public JsonResult Edit([Bind(Include = "movie_id,movie_name,movie_description,movie_trailer,movie_cens,movie_genres,movie_release,movie_duration,movie_format,movie_poster,movie_actor,movie_director,movie_status,rate, movie_banner")] movy movy)
         {
             if (ModelState.IsValid)
             {
-                //Check thời gian phim sắp chiếu. Nếu nó > thời gian hiện tại -> lỗi
-                if (movy.movie_release <  DateTime.Today)
-                {
-                    return Json(new { success = false, message = "Phim sắp chiếu phải có thời gian lớn hơn thời gian hiện tại" });
-
-                }
-                else if (movy.movie_release >  DateTime.Today)
-                {
-                    movy.movie_status = 2;
-                }
-                else
-                {
-                    movy.movie_status = 1;
-                }
                 db.Entry(movy).State = EntityState.Modified;
                 db.SaveChanges();
+
                 return Json(new { success = true, message = "Sửa thành công" });
             }
+
             return Json(new { success = false, message = "Sửa thất bại" });
         }
+
 
         // GET: Admin/movies/Delete/5
         public ActionResult Delete(int? id)

@@ -1,0 +1,41 @@
+﻿body {
+    background-color: #ecf0f1;
+}
+
+.container {
+    margin-top: 50px;
+}
+
+.dashboard-card {
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.info-card {
+    text-align: center;
+    padding: 20px 20px;
+    transition: transform 0.3s;
+}
+
+    .info-card:hover {
+        transform: scale(1.05);
+    }
+
+    .info-card i {
+        font-size: 36px;
+        margin-bottom: 10px;
+    }
+
+.info-card-blue {
+    color: #3498db;
+}
+
+.info-card-green {
+    color: #2ecc71;
+}
+
+.info-card-orange {
+    color: #e67e22;
+}

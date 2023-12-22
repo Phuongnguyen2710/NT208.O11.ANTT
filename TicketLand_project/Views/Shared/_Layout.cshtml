@@ -79,31 +79,47 @@
                                     Chúng tôi
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    Tài khoản
+                                    <i class='bx bx-chevron-down'></i>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    @if (Session["IsLoggedIn"] == null)
+                                    {
+                                        <li class="nav-item">
+                                            @Html.ActionLink("Đăng nhập", "Login", "Home", new { area = "" }, new { @class = "nav-link" })
+                                        </li>
 
+                                        <li class="nav-item">
+                                            @Html.ActionLink("Đăng kí", "Register", "Home", new { area = "" }, new { @class = "nav-link" })
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="nav-item text-center">
+                                            <img src="data:image/png;base64, @Session["Avartar"]" class="img_avartar" style="border-radius: 50%; height: 48px; width: 48px;" />
+                                            Hello, @Session["Username"]
+                                        </li>
 
-                            @if (Session["IsLoggedIn"] == null)
-                            {
-                                <li class="nav-item col-lg-2">
-                                    @Html.ActionLink("Đăng nhập", "Login", "Home", new { area = "" }, new { @class = "nav-link" })
-                                </li>
+                                        <li class="nav-item text-danger">
+                                            @Html.ActionLink("Đăng xuất", "Logout", "Home", new { area = "" }, new { @class = "nav-link" })
+                                        </li>
 
-                                <li class="nav-item col-lg-2">
+                                        <li class="nav-item">
+                                            <a href="services-2.html" class="nav-link">
+                                                Lịch sử đặt vé
+                                            </a>
+                                        </li>
 
-                                    @Html.ActionLink("Đăng kí", "Register", "Home", new { area = "" }, new { @class = "nav-link" })
-                                </li>
-                            }
-                            else
-                            {
-                                <!-- Optionally, you can show the user's name or a "Đăng xuất" (Logout) link -->
-                                <li class="nav-item" style="color:red;">
-                                    Xin chào, @Session["Username"]
-
-                                </li>
-
-                                <li class="nav-item">
-                                    @Html.ActionLink("Đăng xuất", "Logout", "Home", new { area = "" }, new { @class = "nav-link" })
-                                </li>
-                            }
+                                        <li class="nav-item">
+                                            <a href="services-2.html" class="nav-link">
+                                                Chi tiết tài khoản
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
 
                         </ul>
                         <div class="col-lg-2 nav-btn text-normal">
@@ -309,4 +325,5 @@
             behavior: 'smooth'
         });
     }
+
 </script>

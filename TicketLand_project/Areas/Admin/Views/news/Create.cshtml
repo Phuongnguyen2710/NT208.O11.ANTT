@@ -1,0 +1,110 @@
+﻿@model TicketLand_project.Models.news
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+}
+<h1 class="custom_h1"><b>THÊM MỚI TIN TỨC</b></h1>
+@using (Html.BeginForm("Create", "news", FormMethod.Post, new { enctype = "multipart/form-data", id = "createForm" }))
+{
+    @Html.AntiForgeryToken()
+<form>
+    <div class="container mt-5">
+        <div class="row justify-content-center text-center">
+            <div class="col-md-6">
+                <div class="form-horizontal">
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-group text-center">
+                        <label class="control-label col-md-2 text-center">Tên phim</label>
+                        <div class="col-md-12">
+                            <div class="text-center">
+                                @Html.DropDownList("movie_id", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.movie_id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group text-center">
+                        <label class="control-label col-md-2 text-center">Tên tin tức</label>
+                        <div class="col-md-12">
+                            <div class="text-center text-break">
+                                @Html.EditorFor(model => model.news_title, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.news_title, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group text-center">
+                        <label class="control-label col-md-2 text-center">Tên nội dung</label>
+                        <div class="col-md-12">
+                            <div class="text-center text-break">
+                                @Html.EditorFor(model => model.news_content, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.news_content, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group text-center">
+                        <label class="control-label col-md-2 text-center">Link Hình ảnh</label>
+                        <div class="col-md-12">
+                            <div class="text-center text-break">
+                                <input type="file" name="news_img" class="form-control" accept=".png, .jpg, .jpeg" />
+                                @Html.ValidationMessageFor(model => model.news_img, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group text-center">
+                        <label class="control-label col-md-3 text-center">Ngày phát hành</label>
+                        <div class="col-md-12">
+                            <div class="text-center">
+                                @Html.EditorFor(model => model.news_release, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                                @Html.ValidationMessageFor(model => model.news_release, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group text-center">
+                        <div class="col-md-offset-2 col-md-12">
+                            <input type="submit" value="Create" id="createButton" class="btn btn-success" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+}
+
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+
+<script>
+       $(document).ready(function () {
+    $("#createButton").click(function () {
+        // Lấy dữ liệu từ form
+        var formData = new FormData($("#createForm")[0]);
+        formData.append('news_img', $('#news_img')[0].files[0]);
+        // Gửi dữ liệu bằng Ajax
+        $.ajax({
+            url: "@Url.Action("Create", "news")",
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                // Xử lý kết quả thành công
+                alert(result);
+
+            },
+            error: function (xhr, status, error) {
+                // Xử lý lỗi
+                console.log(xhr.responseText);
+            }
+        });
+    });
+});
+</script>

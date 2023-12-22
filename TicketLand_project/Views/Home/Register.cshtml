@@ -36,128 +36,126 @@
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 @Html.AntiForgeryToken()
 
-                <div class="form-horizontal">
-                    <br />
+        <div class="form-horizontal">
+            <br />
             <!-- Họ và tên -->
-                    <div class="fadeIn second">
-                        <div class="col-md-10">
-                            <input type="text" name="member_name" placeholder="Họ và tên" />
-                            <br />
-                            @Html.ValidationMessageFor(model => model.member_name, "", new { @class = "custom-validation-message" })
-                        </div>
-                    </div>
+            <div class="fadeIn second">
+                <div class="col-md-10">
+                    <input type="text" name="member_name" placeholder="Họ và tên" />
                     <br />
+                    @Html.ValidationMessageFor(model => model.member_name, "", new { @class = "custom-validation-message" })
+                </div>
+            </div>
+            <br />
 
             <!-- Username -->
-                    <div class="fadeIn second">
-                        <div class="col-md-10">
-                            <input type="text" class="form-control" name="username" placeholder="Tên tài khoản" />
-                            <br />
-                            @Html.ValidationMessageFor(model => model.username, "", new { @class = "custom-validation-message" })
-                        </div>
-                    </div>
+            <div class="fadeIn second">
+                <div class="col-md-10">
+                    <input type="text" class="form-control" name="username" placeholder="Tên tài khoản" />
                     <br />
+                    @Html.ValidationMessageFor(model => model.username, "", new { @class = "custom-validation-message" })
+                </div>
+            </div>
+            <br />
 
             <!-- Password -->
-                    <div class="fadeIn second">
-                        <div class="col-md-10">
-                            <input type="password" class="form-control" name="password" placeholder="Mật khẩu" />
-                            <br />
-                            <div>
-                                @Html.ValidationMessageFor(model => model.password, "", new { @class = "custom-validation-message" })
-                            </div>
-
-                        </div>
-                    </div>
+            <div class="fadeIn second">
+                <div class="col-md-10">
+                    <input type="password" class="form-control" name="password" placeholder="Mật khẩu" />
                     <br />
-
-            <!-- Giới tính -->
-                    <div class="fadeIn second">
-                        <div class="row">
-                            <div class="form-check form-check-inline">
-                                <label>Giới Tính</label>
-                                <label class="form-check-label">
-                                    @Html.RadioButtonFor(model => model.gender, true, new { @class = "form-check-input" })
-                                    Nam
-                                </label>
-
-                                <label class="form-check-label">
-                                    @Html.RadioButtonFor(model => model.gender, false, new { @class = "form-check-input" })
-                                    Nữ
-                                </label>
-
-                                @Html.ValidationMessageFor(model => model.gender, "", new { @class = "custom-validation-message" })
-                            </div>
-                        </div>
-                    </div>
-
-                    <br />
-
-            <!-- Ngày sinh -->
-                    <div class="fadeIn second">
-                        <div class="col-md-10">
-                            Ngày sinh <input type="date" name="date_of_birth" placeholder="Ngày sinh" />
-                            <br />
-                            @Html.ValidationMessageFor(model => model.date_of_birth, "", new { @class = "custom-validation-message" })
-                        </div>
-                    </div>
-                    <br />
-
-            <!-- Email -->
-                    <div class="fadeIn second">
-                        <div class="col-md-10">
-                            <input type="email" name="email" placeholder="Email" />
-                            <br />
-                            @Html.ValidationMessageFor(model => model.email, "", new { @class = "custom-validation-message" })
-                        </div>
-                    </div>
-                    <br />
-
-            <!-- City -->
-                    <div class="fadeIn second">
-                        <div class="col-md-10">
-                            <input type="text" class="form-control" name="city" placeholder="Thành phố" />
-                            <br />
-                            @Html.ValidationMessageFor(model => model.city, "", new { @class = "custom-validation-message" })
-                        </div>
-                    </div>
-                    <br />
-
-            <!-- Phone-->
-                    <div class="fadeIn second">
-                        <div class="col-md-10">
-                            <input type="tel" class="form-control" name="phone" placeholder="Số điện thoại" />
-                            <br />
-                            @Html.ValidationMessageFor(model => model.phone, "", new { @class = "custom-validation-message" })
-                        </div>
-                    </div>
-
-                    <br />
-
-            <!-- Hình ảnh Avatar-->
-                    <div class="form-group fadeIn second">
-                        <div class="col-md-10">
-                            <input type="file"
-                                   class="custom-file-input"
-                                   name="imageFile"
-                                   placeholder="Hình ảnh"
-                                   accept=".png, .jpg, .jpeg" />
-                        </div>
-                    </div>
-
-
-                    <br />
-
-            <!-- Hoàn tất Btn-->
-                    <div class="form-group fadeIn second">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Hoàn tất" class="fadeIn third" />
-                        </div>
+                    <div>
+                        @Html.ValidationMessageFor(model => model.password, "", new { @class = "custom-validation-message" })
                     </div>
 
                 </div>
-            }
+            </div>
+            <br />
 
+            <!-- Giới tính -->
+            <div class="fadeIn second">
+                <div class="row">
+                    <div class="form-check form-check-inline">
+                        <label>Giới Tính</label>
+                        <label class="form-check-label">
+                            @Html.RadioButtonFor(model => model.gender, true, new { @class = "form-check-input" })
+                            Nam
+                        </label>
+
+                        <label class="form-check-label">
+                            @Html.RadioButtonFor(model => model.gender, false, new { @class = "form-check-input" })
+                            Nữ
+                        </label>
+
+                        @Html.ValidationMessageFor(model => model.gender, "", new { @class = "custom-validation-message" })
+                    </div>
+                </div>
+            </div>
+
+            <br />
+
+            <!-- Ngày sinh -->
+            <div class="fadeIn second">
+                <div class="col-md-10">
+                    Ngày sinh <input type="date" name="date_of_birth" placeholder="Ngày sinh" />
+                    <br />
+                    @Html.ValidationMessageFor(model => model.date_of_birth, "", new { @class = "custom-validation-message" })
+                </div>
+            </div>
+            <br />
+
+            <!-- Email -->
+            <div class="fadeIn second">
+                <div class="col-md-10">
+                    <input type="email" name="email" placeholder="Email" />
+                    <br />
+                    @Html.ValidationMessageFor(model => model.email, "", new { @class = "custom-validation-message" })
+                </div>
+            </div>
+            <br />
+
+            <!-- City -->
+            <div class="fadeIn second">
+                <div class="col-md-10">
+                    <input type="text" class="form-control" name="city" placeholder="Thành phố" />
+                    <br />
+                    @Html.ValidationMessageFor(model => model.city, "", new { @class = "custom-validation-message" })
+                </div>
+            </div>
+            <br />
+
+            <!-- Phone-->
+            <div class="fadeIn second">
+                <div class="col-md-10">
+                    <input type="tel" class="form-control" name="phone" placeholder="Số điện thoại" />
+                    <br />
+                    @Html.ValidationMessageFor(model => model.phone, "", new { @class = "custom-validation-message" })
+                </div>
+            </div>
+
+            <br />
+
+            <!-- Hình ảnh Avatar-->
+            <div class="form-group fadeIn second">
+                <div class="col-md-10">
+                    <input type="file"
+                           class="custom-file-input"
+                           name="imageFile"
+                           placeholder="Hình ảnh"
+                           accept=".png, .jpg, .jpeg" />
+                </div>
+            </div>
+
+            <br />
+
+            <!-- Hoàn tất Btn-->
+            <div class="form-group fadeIn second">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Hoàn tất" class="fadeIn third" />
+                </div>
+            </div>
+
+        </div>
+            }
 
         </div>
     </div>

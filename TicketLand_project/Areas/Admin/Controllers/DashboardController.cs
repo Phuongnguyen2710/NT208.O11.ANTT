@@ -28,10 +28,10 @@ namespace TicketLand_project.Areas.Admin.Controllers
             }
 
             // Đếm số lượng admin
-            int adminCount = db.members.Count(a => a.member_id == 1);
+            int adminCount = db.members.Count(a => a.role_id == 1);
 
             // Đếm số lượng user
-            int userCount = db.members.Count(u => u.member_id != 1);
+            int userCount = db.members.Count(u => u.role_id != 1);
 
             // Truyền số liệu đếm vào View
             ViewBag.AdminCount = adminCount;

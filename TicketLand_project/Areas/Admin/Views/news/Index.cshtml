@@ -1,0 +1,135 @@
+﻿@model IEnumerable<TicketLand_project.Models.news>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+}
+
+<h1 class="custom_h1"><b>QUẢN LÝ TIN TỨC </b></h1>
+
+<div class="container_custom">
+    <p>
+        <button type="button" class="btn btn-success" onclick="location.href='@Url.Action("Create")'">Create New +</button>
+    </p>
+    <div class="box_shadow">
+        <div>
+            <table class="tableStyle ">
+                <tr>
+                    <th>Tiêu đề tin tức</th>
+                    <th>Nội dung</th>
+                    <th>Hình ảnh</th>
+                    <th>Ngày công bố</th>
+                    <th>Tên phim liên quan</th>
+                    <th>Action</th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td style="word-wrap: break-word; white-space:unset;">
+                            @Html.DisplayFor(modelItem => item.news_title)
+                        </td>
+                        <td style="word-wrap: break-word; white-space: unset;">
+                            @Html.DisplayFor(modelItem => item.news_content)
+                        </td>
+                        <td style="word-wrap: break-word; white-space: unset; ">
+                            @Html.DisplayFor(modelItem => item.news_img)
+                        </td>
+                        <td style="word-wrap: break-word; white-space: unset;"> 
+                            @Html.DisplayFor(modelItem => item.news_release)
+                        </td>
+                        <td style="word-wrap: break-word; white-space: unset; ">
+                            @Html.DisplayFor(modelItem => item.movy.movie_name)
+
+                        </td>
+                        <td>
+                            <button class="btn btn-xs btn-primary" onclick="location.href='@Url.Action("Edit", new { id = item.news_id })'">
+                                <i class="fa fa-edit custom_i"></i>
+                            </button>
+
+                            <button class="btn btn-xs btn-danger" data-toggle="modal" data-target="#DeleteModal_@item.news_id">
+                                <i class="fa fa-trash custom_i"></i>
+                            </button>
+
+                            <!-- Delete Modal -->
+                            <div class="modal fade" data-new-id="@item.news_id" id="DeleteModal_@item.news_id" tabindex="-1" role="dialog" aria-labelledby="DeleteLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="DeleteLabel">Xác nhận xóa</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Bạn có chắc chắn muốn xóa đối tượng này không?
+                                            <input type="hidden" id="deleteId" value="" />
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <form id="DeleteForm">
+                                                <input type="hidden" id="deleteId_" name="id" value="@item.news_id" />
+                                                <div class="form-actions no-color text-center">
+                                                    <button type="submit" class="btn btn-danger" id="btnDelete">Xóa</button>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                    
+
+                        </td>
+                    </tr>
+
+                }
+
+            </table>
+        </div>
+    </div>
+    </div>
+
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <!-- Popper.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        /*Ajax Xóa*/
+        $(document).ready(function () {
+            $("#DeleteForm button[type='submit']").click(function () {
+                // Lấy giá trị id cần xóa
+                var form = $(this).closest('form');
+                var newId = parseInt(form.closest('.modal').data('new-id'));
+                console.log(newId);
+                // Gửi Ajax request
+                $.ajax({
+                    url: '/Admin/news/Delete/' + newId,
+                    type: 'POST',
+                    data: { id: newId },
+                    success: function (result) {
+                        // Xử lý kết quả sau khi xóa thành công
+                        console.log(result);
+
+                        // Đóng modal nếu xóa thành công
+                        $('#deleteForm').closest('.modal').modal('hide');
+                    },
+                    error: function (error) {
+                        // Xử lý lỗi nếu có
+                        console.log(error);
+                    }
+                });
+            });
+        });
+        /*Kết thúc*/
+
+
+    </script>
+

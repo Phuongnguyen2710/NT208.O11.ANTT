@@ -1,0 +1,109 @@
+﻿@model IEnumerable<TicketLand_project.Models.schedule>
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+}
+
+<h1 class="custom_h1"><b>Details</b></h1>
+
+<div class="container_custom">
+    <div class="box_shadow">
+        <table class="tableStyle">
+            <tr>
+                <th>Ngày chiếu</th>
+                <th>Thời gian suất chiếu bắt đầu</th>
+                <th>Phòng chiếu</th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => item.show_date, new { htmlAttributes = new { @class = "form-control text-center", @type = "time", @id = "show-date" } })
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(model => item.time_start, new { htmlAttributes = new { @class = "form-control text-center", @type = "time", @id = "time_start" } })
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.room.room_name)
+                    </td>
+
+                    <td>
+                        <button class="btn btn-warning" onclick="location.href='@Url.Action("Edit","schedules",new { id = item.schedule_id })'">
+                            <i class="fa fa-edit custom_i"></i> Sửa
+                        </button>
+
+                        <button class="btn btn-xs btn-danger" data-toggle="modal" data-target="#DeleteModal_@item.schedule_id">
+                            <i class="fa fa-trash custom_i"></i> Xóa
+                        </button>
+
+
+                        <!-- Delete Modal -->
+                        <div class="modal fade" id="DeleteModal_@item.schedule_id" tabindex="-1" role="dialog" aria-labelledby="DeleteLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="DeleteLabel">Xác nhận xóa</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Bạn có chắc chắn muốn xóa đối tượng này không?
+                                        <input type="hidden" id="deleteId" value="" />
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        @using (Html.BeginForm("Delete", "schedules", "item.schedule_id", FormMethod.Post, new { id = "confirmDelete" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" id="deleteId" name="id" value="@item.schedule_id" />
+                                            <div class="form-actions no-color text-center">
+                                                <input type="submit" value="Xóa" class="btn btn-danger" />
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </td>
+
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<!-- Popper.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    /*Sự kiện xóa*/
+    document.getElementById("confirmDelete").addEventListener("click", function () {
+        // Lấy seat_id từ hidden input trong modal
+        var deleteId = document.getElementById("deleteId").value;
+
+        // Đặt giá trị vào input hidden trong form
+        document.getElementById("deleteForm").elements["id"].value = deleteId;
+
+        // Submit form
+        $("#deleteForm").submit();
+    });
+    /*Kết thúc*/
+
+
+
+</script>

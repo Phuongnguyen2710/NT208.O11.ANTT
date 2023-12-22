@@ -3,173 +3,184 @@
 @using PagedList.Mvc;
 <!-- Kết thúc-->
 
-
-<table class="tableStyle">
-    <tr>
-        <th>Tên Phòng</th>
-        <th>Sức chứa</th>
-        <th>Action</th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+<div class="box_shadow">
+    <table class="tableStyle">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.room_name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.capacity)
-            </td>
-            <td>
-                <button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#EditModal_@item.room_id">
-                    <i class="fa fa-edit custom_i"></i>
-                </button>
-
-                <button class="btn btn-xs btn-info" data-toggle="modal" data-target="#roomModal_@item.room_id">
-                    <i class="fa fa-info-circle custom_i"></i>
-                </button>
-
-                <button class="btn btn-xs btn-danger" data-toggle="modal" data-target="#DeleteModal_@item.room_id">
-                    <i class="fa fa-trash custom_i"></i>
-                </button>
-
-                <button class="btn btn-xs btn-warning" onclick="location.href='@Url.Action("Create", "seats", new { roomId = item.room_id })'" data-capacity="@Html.DisplayFor(modelItem => item.capacity)">
-                    <i class="fa fa-plus custom_i"></i> Tạo ghế
-                </button>
-
-                <!-- Info Modal-->
-                <div class="modal fade" id="roomModal_@item.room_id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <!-- Modal header -->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">THÔNG TIN PHÒNG</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <!-- Modal Body -->
-                            <div class="modal-body">
-                                <dl class="dl-horizontal">
-                                    <dt>Tên Phòng</dt>
-                                    <dd>
-                                        @Html.DisplayFor(model => item.room_name)
-                                    </dd>
-
-                                    <dt>Sức chứa</dt>
-                                    <dd>
-                                        @Html.DisplayFor(model => item.capacity, new { id = "Capacity" })
-                                    </dd>
-                                </dl>
-                            </div>
-                            <!-- Modal footer -->
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                @*<button type="button" class="btn btn-primary" location.href="@Url.Action("Edit", new {id = item.room_id})">Edit</button>*@
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <!-- Delete Modal -->
-                <div class="modal fade" id="DeleteModal_@item.room_id" tabindex="-1" role="dialog" aria-labelledby="DeleteLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="DeleteLabel">Xác nhận xóa</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                Bạn có chắc chắn muốn xóa đối tượng này không?
-                                <input type="hidden" id="deleteId" value="" />
-                            </div>
-
-                            <div class="modal-footer">
-                                @using (Html.BeginForm("Delete", "rooms", "item.room_id", FormMethod.Post, new { id = "confirmDelete" }))
-                                {
-                                    @Html.AntiForgeryToken()
-                                    <input type="hidden" id="deleteId" name="id" value="@item.room_id" />
-                                    <div class="form-actions no-color text-center">
-                                        <input type="submit" value="Xóa" class="btn btn-danger" />
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <!-- Edit Modal -->
-                <div class="modal fade" id="EditModal_@item.room_id" data-room-id="@item.room_id" tabindex="-1" role="dialog" aria-labelledby="EditLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Chỉnh Sửa Thông Tin Phòng</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="EditRoomForm" onsubmit="submitForm(e)">
-                                    <div class="form-group">
-                                        <label for="room_name">Tên Phòng:</label>
-                                        <input type="text" class="form-control" id="_room_name__" name="_room_name_" value="@item.room_name" disabled />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="capacity">Sức Chứa:</label>
-                                        <input type="number" class="form-control" id="capacity_" name="capacity_" value="@item.capacity" />
-                                    </div>
-                                    <!-- Add other fields as needed -->
-                                    <!-- Submit button -->
-                                    <button type="submit" class="btn btn-primary">Thay đổi</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Add Modal -->
-                <div class="modal fade" id="addRoomModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Thêm Phòng Mới</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <!-- Form to input room information -->
-                                <form id="addRoomForm">
-                                    <div class="form-group">
-                                        <label for="room_name">Tên Phòng:</label>
-                                        <input type="text" class="form-control" id="_room_name_" name="room_name" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="capacity">Sức Chứa:</label>
-                                        <input type="number" class="form-control" id="capacity" name="capacity" />
-                                    </div>
-                                    <!-- Add other fields as needed -->
-                                    <!-- Submit button -->
-                                    <button type="submit" class="btn btn-primary">Lưu</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-            </td>
+            <th>STT</th>
+            <th>Tên Phòng</th>
+            <th>Sức chứa</th>
+            <th>Action</th>
         </tr>
-    }
-</table>
-     Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
-     <div id="currentPage" data-page="@Model.PageNumber"></div>
+        @{
+            var count = 1;
+        }
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @count
+                    @{
+                        count++;
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.room_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.capacity)
+                </td>
+                <td>
+                    <button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#EditModal_@item.room_id">
+                        <i class="fa fa-edit custom_i"></i>
+                    </button>
+
+                    <button class="btn btn-xs btn-info" data-toggle="modal" data-target="#roomModal_@item.room_id">
+                        <i class="fa fa-info-circle custom_i"></i>
+                    </button>
+
+                    <button class="btn btn-xs btn-danger" data-toggle="modal" data-target="#DeleteModal_@item.room_id">
+                        <i class="fa fa-trash custom_i"></i>
+                    </button>
+
+                    <button class="btn btn-xs btn-warning" onclick="location.href='@Url.RouteUrl(new { controller = "Seats", action = "Create", roomId = item.room_id })'" data-capacity="@Html.DisplayFor(modelItem => item.capacity)">
+                        <i class="fa fa-plus custom_i"></i> Tạo ghế
+                    </button>
+
+
+                    <!-- Info Modal-->
+                    <div class="modal fade" id="roomModal_@item.room_id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <!-- Modal header -->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">THÔNG TIN PHÒNG</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <!-- Modal Body -->
+                                <div class="modal-body">
+                                    <dl class="dl-horizontal">
+                                        <dt>Tên Phòng</dt>
+                                        <dd>
+                                            @Html.DisplayFor(model => item.room_name)
+                                        </dd>
+
+                                        <dt>Sức chứa</dt>
+                                        <dd>
+                                            @Html.DisplayFor(model => item.capacity, new { id = "Capacity" })
+                                        </dd>
+                                    </dl>
+                                </div>
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    @*<button type="button" class="btn btn-primary" location.href="@Url.Action("Edit", new {id = item.room_id})">Edit</button>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Delete Modal -->
+                    <div class="modal fade" id="DeleteModal_@item.room_id" tabindex="-1" role="dialog" aria-labelledby="DeleteLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="DeleteLabel">Xác nhận xóa</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Bạn có chắc chắn muốn xóa đối tượng này không?
+                                    <input type="hidden" id="deleteId" value="" />
+                                </div>
+
+                                <div class="modal-footer">
+                                    @using (Html.BeginForm("Delete", "rooms", "item.room_id", FormMethod.Post, new { id = "confirmDelete" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" id="deleteId" name="id" value="@item.room_id" />
+                                        <div class="form-actions no-color text-center">
+                                            <input type="submit" value="Xóa" class="btn btn-danger" />
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Edit Modal -->
+                    <div class="modal fade" id="EditModal_@item.room_id" data-room-id="@item.room_id" tabindex="-1" role="dialog" aria-labelledby="EditLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Chỉnh Sửa Thông Tin Phòng</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="EditRoomForm" onsubmit="submitForm(e)">
+                                        <div class="form-group">
+                                            <label for="room_name">Tên Phòng:</label>
+                                            <input type="text" class="form-control" id="_room_name__" name="_room_name_" value="@item.room_name" disabled />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="capacity">Sức Chứa:</label>
+                                            <input type="number" class="form-control" id="capacity_" name="capacity_" value="@item.capacity" />
+                                        </div>
+                                        <!-- Add other fields as needed -->
+                                        <!-- Submit button -->
+                                        <button type="submit" class="btn btn-primary">Thay đổi</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add Modal -->
+                    <div class="modal fade" id="addRoomModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Thêm Phòng Mới</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Form to input room information -->
+                                    <form id="addRoomForm">
+                                        <div class="form-group">
+                                            <label for="room_name">Tên Phòng:</label>
+                                            <input type="text" class="form-control" id="_room_name_" name="room_name" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="capacity">Sức Chứa:</label>
+                                            <input type="number" class="form-control" id="capacity" name="capacity" />
+                                        </div>
+                                        <!-- Add other fields as needed -->
+                                        <!-- Submit button -->
+                                        <button type="submit" class="btn btn-primary">Lưu</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+<br />
+    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+    <div id="currentPage" data-page="@Model.PageNumber"></div>
 
     <div class="d-flex justify-content-between align-items-center">
 

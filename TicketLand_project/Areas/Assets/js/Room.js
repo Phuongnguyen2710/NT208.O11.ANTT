@@ -41,13 +41,12 @@ $(document).ready(function () {
                     loadRooms();
                 } else {
                     // Xử lý khi lưu không thành công (hiển thị thông báo lỗi, v.v.)
-                    console.log(response.message);
+                    alert(response.message)
                 }
             },
             error: function (error) {
                 // Xử lý lỗi (nếu cần)
-                alert(error.message)
-                console.log(error);
+                alert(error.message);
             }
         });
     });
