@@ -19,7 +19,7 @@ namespace TicketLand_project.Models
         public string news_title { get; set; }
         public string news_content { get; set; }
         public string news_img { get; set; }
-        public Nullable<System.TimeSpan> news_release { get; set; }
+        public Nullable<System.DateTime> news_release { get; set; }
     
         public virtual movy movy { get; set; }
     }

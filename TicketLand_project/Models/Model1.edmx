@@ -75,12 +75,12 @@ warning 6013: The table/view 'QUANLYXEMPHIM.dbo.booking_detail' does not have a 
           <Property Name="movie_release" Type="date" />
           <Property Name="movie_duration" Type="time" Precision="7" />
           <Property Name="movie_format" Type="text" />
-          <Property Name="movie_poster" Type="text" />
+          <Property Name="movie_poster" Type="nvarchar(max)" />
           <Property Name="movie_actor" Type="nvarchar" MaxLength="30" />
           <Property Name="movie_director" Type="nvarchar" MaxLength="20" />
           <Property Name="movie_status" Type="int" />
           <Property Name="rate" Type="float" />
-          <Property Name="movie_banner" Type="text" />
+          <Property Name="movie_banner" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="news">
           <Key>
@@ -91,7 +91,7 @@ warning 6013: The table/view 'QUANLYXEMPHIM.dbo.booking_detail' does not have a 
           <Property Name="news_title" Type="nvarchar" MaxLength="100" />
           <Property Name="news_content" Type="ntext" />
           <Property Name="news_img" Type="text" />
-          <Property Name="news_release" Type="time" Precision="7" />
+          <Property Name="news_release" Type="date" />
         </EntityType>
         <EntityType Name="ROLE">
           <Key>
@@ -115,9 +115,9 @@ warning 6013: The table/view 'QUANLYXEMPHIM.dbo.booking_detail' does not have a 
           <Property Name="schedule_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="movie_id" Type="int" />
           <Property Name="room_id" Type="int" />
-          <Property Name="time_start" Type="time" Precision="7" />
-          <Property Name="time_end" Type="time" Precision="7" />
-          <Property Name="show_date" Type="date" />
+          <Property Name="time_start" Type="time" Precision="7" Nullable="false" />
+          <Property Name="time_end" Type="time" Precision="7" Nullable="false" />
+          <Property Name="show_date" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="seats">
           <Key>
@@ -385,12 +385,12 @@ error 6004: The table 'QUANLYXEMPHIM.dbo.booking_detail' is referenced by a rela
           <Property Name="movie_release" Type="DateTime" Precision="0" />
           <Property Name="movie_duration" Type="Time" Precision="7" />
           <Property Name="movie_format" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="movie_poster" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="movie_poster" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="movie_actor" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="movie_director" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="movie_status" Type="Int32" />
           <Property Name="rate" Type="Double" />
-          <Property Name="movie_banner" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="movie_banner" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="comments" Relationship="Self.FK__comment__movie_i__778AC167" FromRole="movies" ToRole="comment" />
           <NavigationProperty Name="events" Relationship="Self.FK__event__movie_id__787EE5A0" FromRole="movies" ToRole="event" />
           <NavigationProperty Name="news" Relationship="Self.FK__news__movie_id__797309D9" FromRole="movies" ToRole="news" />
@@ -405,7 +405,7 @@ error 6004: The table 'QUANLYXEMPHIM.dbo.booking_detail' is referenced by a rela
           <Property Name="news_title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="news_content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="news_img" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="news_release" Type="Time" Precision="7" />
+          <Property Name="news_release" Type="DateTime" Precision="0" />
           <NavigationProperty Name="movy" Relationship="Self.FK__news__movie_id__797309D9" FromRole="news" ToRole="movies" />
         </EntityType>
         <EntityType Name="ROLE">
@@ -433,9 +433,9 @@ error 6004: The table 'QUANLYXEMPHIM.dbo.booking_detail' is referenced by a rela
           <Property Name="schedule_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="movie_id" Type="Int32" />
           <Property Name="room_id" Type="Int32" />
-          <Property Name="time_start" Type="Time" Precision="7" />
-          <Property Name="time_end" Type="Time" Precision="7" />
-          <Property Name="show_date" Type="DateTime" Precision="0" />
+          <Property Name="time_start" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="time_end" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="show_date" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="bookings" Relationship="Self.FK__booking__schedul__73BA3083" FromRole="schedule" ToRole="booking" />
           <NavigationProperty Name="movy" Relationship="Self.FK__schedule__movie___70DDC3D8" FromRole="schedule" ToRole="movies" />
           <NavigationProperty Name="room" Relationship="Self.FK__schedule__room_i__71D1E811" FromRole="schedule" ToRole="rooms" />

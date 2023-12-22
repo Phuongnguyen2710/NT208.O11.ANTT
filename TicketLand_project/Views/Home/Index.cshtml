@@ -1,11 +1,9 @@
-﻿@{
+﻿@model IEnumerable<TicketLand_project.Models.movy>
+@{
     ViewBag.Title = "Home Page";
-}
-<head>
-    <link rel="stylesheet" href="~/Assets/css/home/home.css">
-</head>
-<!-- Banner Area -->
 
+}
+<!-- Banner Area -->
 <div class="banner-area">
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
@@ -52,16 +50,14 @@
 
                     <div class="col-lg-3 col-md-2 form-group">
                         <div class="d-flex justify-content-center align-items-center">
-                            <div style="padding-right: 70px;">
+                            <div class="col-7">
                                 <label style="margin-bottom: 0; white-space: nowrap;">Ngày chiếu</label>
                             </div>
-                            <div class="input-group_1" style="margin-top: 0;">
+                            <div class="col-5 input-group_1">
                                 <input id="datetimepicker-check" type="text" class="form-control" placeholder="11/02/2020">
                                 <span class="input-group-addon"></span>
                             </div>
-                            <div>
-                                <span class='bx bxs-chevron-down'></span>
-                            </div>
+
                         </div>
                     </div>
                     <div class="col-lg-1 col-md-3 form-group">
@@ -69,7 +65,7 @@
                     </div>
                     <div class="col-lg-2 col-md-2">
                         <div class="dropdown">
-                            <button class="btn btn-outline-secondary border-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <button class="btn btn-outline-secondary border-0 dropdown-toggle" style="font-weight:bold;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Xuất chiếu
                             </button>
                             <ul class="dropdown-menu">
@@ -83,9 +79,7 @@
                         <span class="border border-1 border-start"></span>
                     </div>
                     <div class="col-lg-1 col-md-1 form-group">
-                        <div class="banner_button">
-                            <button type="button" style="height: 50px; width: 50px; border-radius: 50%" class="btn btn-danger">GO</button>
-                        </div>
+                        <button type="button" class="banner-button btn btn-danger">GO</button>
                     </div>
                 </div>
             </form>
@@ -94,325 +88,138 @@
 </div>
 <!-- Banner Form Area End -->
 <!-- Film Area -->
-<div class="room-area pt-100 pb-70 section-bg">
-    <div class="container">
+<div id="schedule-page" class="room-area pt-70 pb-20 section-bg">
+    <div class="container mt-5">
         <div class="justify-content-between">
             <div class="row justify-content-center">
                 @*Two tab Đang chiếu/ Sắp chiếu*@
                 <div class="col-4">
                     <nav>
-                        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Đang chiếu</a>
+                        <div class="text-header nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link active " id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Đang chiếu</a>
                             <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Sắp chiếu</a>
                         </div>
                     </nav>
                 </div>
             </div>
+
+
             <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                     <div class="room-area pt-20 pb-20 section-bg">
                         <div class="container">
-                            <div class="row pt-45">
+                            <div class="row pt-10">
                                 <div id="carouselExample" class="carousel slide">
                                     <div class="carousel-inner">
-                                        <div class="carousel-item active">
-                                            @*Row1*@
-                                            <div class="row">
-                                                @*Poster 1*@
+                                        @{
+                                            List<int> movie_current = new List<int>();
+                                            List<int> movie_coming = new List<int>();
+
+                                            int postersPerRow = 4; // Số lượng poster trên mỗi dòng
+                                            int postersPerItem = 8; // Số lượng poster trên mỗi carousel-item
+                                            int itemIndex1 = 0; // Chỉ số của carousel-item
+                                        }
+                                        @for (int i = 0; i < Model.Count(); i++)
+                                        {
+                                            if (Model.ElementAt(i).movie_status == 1)
+                                            {
+                                                movie_current.Add(i);
+                                            }
+                                            if (Model.ElementAt(i).movie_status == 2)
+                                            {
+                                                movie_coming.Add(i);
+                                            }
+                                        }
+
+                                        @for (int i = 0; i < movie_current.Count(); i++)
+                                        {
+                                            if (i % postersPerItem == 0)
+                                            {
+                                                <text>
+                                                    <div class="carousel-item @(itemIndex1 == 0 ? "active" : "")">
+                                                        @{
+                                                            itemIndex1++;
+                                                        }
+                                                </text>
+                                            }
+                                            // Nếu là đầu dòng, tạo một row mới
+                                            if (i % postersPerRow == 0)
+                                            {
+                                                <text>
+                                                    <div class="row">
+                                                </text>
+                                            }
+                                            <text>
                                                 <div class="col-lg-3 col-md-4 col-sm-6">
                                                     <div class="room-card">
                                                         <div>
-                                                            <a href="room-details.html">
-                                                                <img src="~/Assets/img/home/poster_film/mat-biet.jpg" style="width: 100%; height: 350px;" alt="Images">
+                                                             <a href="@Url.Action("MovieDetail", "Home", new { id = Model.ElementAt(movie_current[i]).movie_id })">
+                                                                <img class="poster_film responsive-image" src="@Model.ElementAt(movie_current[i]).movie_poster" alt="Images" />
                                                             </a>
                                                         </div>
-                                                        <div class="content" style=" width: 100%; height: 100px;">
-                                                            <h4><a href="room-details.html">Cô Ba Sài Gòn</a></h4>
-                                                            <h4 class="fs-5">120 phút</h4>
-                                                            <div class="rating">
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star-half'></i>
+                                                        <div class="content" style="width: 100%; height: 100px;">
+                                                            <div class="text-age-name">
+                                                                @if (Model.ElementAt(movie_current[i]).movie_cens == "P")
+                                                                {
+                                                                    <div><button class="btn-age btn btn-success">P</button></div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div><button class="btn-age btn btn-danger">@Model.ElementAt(movie_current[i]).movie_cens</button></div>
+                                                                }
+
+                                                                <span><a class="text-name-film" href="@Url.Action("Details", "Movie", new { id = Model.ElementAt(movie_current[i]).movie_id })">@Model.ElementAt(movie_current[i]).movie_name</a></span>
+                                                            </div>
+                                                            <div class="text-time-rating">
+                                                                <div class="col-lg-6 text-poster">@Model.ElementAt(movie_current[i]).DurationInMinutes phút</div>
+                                                                <span class="col-lg-6 star-rating">
+                                                                    @{
+                                                                        double? temp = Model.ElementAt(movie_current[i]).rate;
+                                                                        int rate_overall = temp.HasValue ? (int)temp.Value : 0;
+                                                                    }
+                                                                    @for (int n = 0; n < rate_overall; n++)
+                                                                    {
+                                                                        <i class='bx bxs-star' style="color:orange;"></i>
+                                                                    }
+                                                                    @if (temp - rate_overall >= 0.5)
+                                                                    {
+                                                                        <i class='bx bxs-star-half' style="color:orange;"></i>
+                                                                    }
+
+
+                                                                </span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                @*Poster2*@
-                                                <div class="col-lg-3 col-md-4 col-sm-6">
-                                                    <div class="room-card">
-                                                        <div>
-                                                            <a href="room-details.html">
-                                                                <img src="~/Assets/img/home/poster_film/nha-ba-nu.jpg" style="width: 100%; height: 350px;" alt="Images">
-                                                            </a>
-                                                        </div>
-                                                        <div class="content" style=" width: 100%; height: 100px;">
-                                                            <h4><a href="room-details.html">Nhà Bà Nữ</a></h4>
-                                                            <h4>90 phút</h4>
-                                                            <div class="rating">
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star-half'></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @*Poster3*@
-                                                <div class="col-lg-3 col-md-4 col-sm-6">
-                                                    <div class="room-card">
-                                                        <a href="room-details.html">
-                                                            <img src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" style="width: 100%; height: 350px;" alt="Images">
-                                                        </a>
-                                                        <div class="content" style=" width: 100%; height: 100px;">
-                                                            <h4><a href="room-details.html">Tôi thấy hoa vàng trên cỏ xanh</a></h4>
-                                                            <h4>90 phút</h4>
-                                                            <div class="rating">
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star-half'></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @*Poster4*@
-                                                <div class="col-lg-3 col-md-4 col-sm-6">
-                                                    <div class="room-card">
-                                                        <a href="room-details.html">
-                                                            <img src="~/Assets/img/home/poster_film/black.jpg" style="width: 100%; height: 350px;" alt="Images">
-                                                        </a>
-                                                        <div class="content" style=" width: 100%; height: 100px;">
-                                                            <h4><a href="room-details.html">BACK PANTHER</a></h4>
-                                                            <h4>90 phút</h4>
-                                                            <div class="rating">
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star-half'></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            @*Row2*@
-                                            <div class="row">
-                                                @*Poster5*@
-                                                <div class="col-lg-3 col-md-4 col-sm-6">
-                                                    <div class="room-card">
-                                                        <a href="room-details.html">
-                                                            <img src="~/Assets/img/home/poster_film/phap-su-mu.jpg" style="width: 100%; height: 350px;" alt="Images">
-                                                        </a>
-                                                        <div class="content" style=" width: 100%; height: 100px;">
-                                                            <h4><a href="room-details.html">Pháp Sư mù</a></h4>
-                                                            <h4>90 phút</h4>
-                                                            <div class="rating">
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star-half'></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @*Poster6*@
-                                                <div class="col-lg-3 col-md-4 col-sm-6">
-                                                    <div class="room-card">
-                                                        <a href="room-details.html">
-                                                            <img src="~/Assets/img/home/poster_film/mat-biet.jpg" style="width: 100%; height: 350px;" alt="Images">
-                                                        </a>
-                                                        <div class="content" style=" width: 100%; height: 100px;">
-                                                            <h4><a href="room-details.html">Mắt biết</a></h4>
-                                                            <h4>127 phút</h4>
-                                                            <div class="rating">
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star-half'></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @*Poster7*@
-                                                <div class="col-lg-3 col-md-4 col-sm-6">
-                                                    <div class="room-card">
-                                                        <a href="room-details.html">
-                                                            <img src="~/Assets/img/home/poster_film/phap-su-mu.jpg" style="width: 100%; height: 350px;" alt="Images">
-                                                        </a>
-                                                        <div class="content" style=" width: 100%; height: 100px;">
-                                                            <h4><a href="room-details.html">Pháp Sư mù</a></h4>
-                                                            <h4>90 phút</h4>
-                                                            <div class="rating">
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star-half'></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @*Poster8*@
-                                                <div class="col-lg-3 col-md-4 col-sm-6">
-                                                    <div class="room-card">
-                                                        <a href="room-details.html">
-                                                            <img src="~/assets/img/home/poster_film/co-ba-sai-gon.jpg" style=" width: 100%; height: 350px;" alt="Images">
-                                                        </a>
-                                                        <div class="content" style=" width: 100%; height: 100px;">
-                                                            <h4><a href="room-details.html">Cô Ba Sài Gòn</a></h4>
-                                                            <h4>112 phút</h4>
-                                                            <div class="rating">
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star-half'></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="carousel-item">
-                                            <div class="row">
-                                                @*Poster 1*@
-                                                <div class="col-lg-3 col-md-4 col-sm-6">
-                                                    <div class="room-card">
-                                                        <div>
-                                                            <a href="room-details.html">
-                                                                <img src="~/Assets/img/home/poster_film/mat-biet.jpg" style="width: 100%; height: 350px;" alt="Images">
-                                                            </a>
-                                                        </div>
-                                                        <div class="content" style=" width: 100%; height: 100px;">
-                                                            <h4><a href="room-details.html">Cô Ba Sài Gòn</a></h4>
-                                                            <h4 class="fs-5">120 phút</h4>
-                                                            <div class="rating">
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star-half'></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @*Poster2*@
-                                                <div class="col-lg-3 col-md-4 col-sm-6">
-                                                    <div class="room-card">
-                                                        <div>
-                                                            <a href="room-details.html">
-                                                                <img src="~/Assets/img/home/poster_film/nha-ba-nu.jpg" style="width: 100%; height: 350px;" alt="Images">
-                                                            </a>
-                                                        </div>
-                                                        <div class="content" style=" width: 100%; height: 100px;">
-                                                            <h4><a href="room-details.html">Nhà Bà Nữ</a></h4>
-                                                            <h4>90 phút</h4>
-                                                            <div class="rating">
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star-half'></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @*Poster3*@
-                                                <div class="col-lg-3 col-md-4 col-sm-6">
-                                                    <div class="room-card">
-                                                        <a href="room-details.html">
-                                                            <img src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" style="width: 100%; height: 350px;" alt="Images">
-                                                        </a>
-                                                        <div class="content" style=" width: 100%; height: 100px;">
-                                                            <h4><a href="room-details.html">Tôi thấy hoa vàng trên cỏ xanh</a></h4>
-                                                            <h4>90 phút</h4>
-                                                            <div class="rating">
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star-half'></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @*Poster4*@
-                                                <div class="col-lg-3 col-md-4 col-sm-6">
-                                                    <div class="room-card">
-                                                        <a href="room-details.html">
-                                                            <img src="~/Assets/img/home/poster_film/black.jpg" style="width: 100%; height: 350px;" alt="Images">
-                                                        </a>
-                                                        <div class="content" style=" width: 100%; height: 100px;">
-                                                            <h4><a href="room-details.html">BACK PANTHER</a></h4>
-                                                            <h4>90 phút</h4>
-                                                            <div class="rating">
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star-half'></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                @*Poster3*@
-                                                <div class="col-lg-3 col-md-4 col-sm-6">
-                                                    <div class="room-card">
-                                                        <a href="room-details.html">
-                                                            <img src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" style="width: 100%; height: 350px;" alt="Images">
-                                                        </a>
-                                                        <div class="content" style=" width: 100%; height: 100px;">
-                                                            <h4><a href="room-details.html">Tôi thấy hoa vàng trên cỏ xanh</a></h4>
-                                                            <h4>90 phút</h4>
-                                                            <div class="rating">
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star-half'></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @*Poster4*@
-                                                <div class="col-lg-3 col-md-4 col-sm-6">
-                                                    <div class="room-card">
-                                                        <a href="room-details.html">
-                                                            <img src="~/Assets/img/home/poster_film/black.jpg" style="width: 100%; height: 350px;" alt="Images">
-                                                        </a>
-                                                        <div class="content" style=" width: 100%; height: 100px;">
-                                                            <h4><a href="room-details.html">BACK PANTHER</a></h4>
-                                                            <h4>90 phút</h4>
-                                                            <div class="rating">
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star-half'></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                            </text>
+                                            // Nếu là cuối dòng hoặc cuối carousel-item, đóng row hoặc carousel-item
+                                            if (i % postersPerRow == postersPerRow - 1 || i == movie_current.Count() - 1)
+                                            {
+                                                @Html.Raw("</div>")
+                                            }
+                                            // Nếu là cuối carousel-item, đóng carousel-item
+                                            if (i % postersPerItem == postersPerItem - 1 || i == movie_current.Count() - 1)
+                                            {
+                                                @Html.Raw("</div>")
+                                            }
+                                        }
+                                        }
+
+
                                     </div>
+
                                     <button class="carousel-control-prev" style="left: -10%; color: brown; font-size:2rem;" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
                                         <span class="fa-solid fa-circle-chevron-left" aria-hidden="true"></span>
                                         <span class="visually-hidden">Previous</span>
                                     </button>
-                                    <button class="carousel-control-next" style="right: 10%; color: brown; font-size: 2rem;" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                                    <button class="carousel-control-next" style="right: -10%; color: brown; font-size: 2rem;" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
                                         <span class="fa-solid fa-circle-chevron-right" aria-hidden="true"></span>
                                         <span class="visually-hidden" style="color:brown;">Next</span>
                                     </button>
                                 </div>
+
+
                             </div>
                         </div>
                     </div>
@@ -423,203 +230,140 @@
                             <div class="row pt-45">
                                 <div id="carouselExample2" class="carousel slide">
                                     <div class="carousel-inner">
-                                        <div class="carousel-item active">
+                                        @{
 
-                                            <div class="row">
-                                                @*Poster 1*@
-                                                <div class="col-lg-3 col-md-4 col-sm-6">
-                                                    <div class="room-card">
-                                                        <div>
-                                                            <a href="room-details.html">
-                                                                <img src="~/Assets/img/home/poster_film/mat-biet.jpg" style="width: 100%; height: 350px;" alt="Images">
-                                                            </a>
-                                                        </div>
-                                                        <div class="content" style=" width: 100%; height: 100px;">
-                                                            <h4><a href="room-details.html">Cô Ba Sài Gòn</a></h4>
-                                                            <h4 class="fs-5">120 phút</h4>
-                                                            <div class="rating">
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star-half'></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @*Poster2*@
-                                                <div class="col-lg-3 col-md-4 col-sm-6">
-                                                    <div class="room-card">
-                                                        <div>
-                                                            <a href="room-details.html">
-                                                                <img src="~/Assets/img/home/poster_film/nha-ba-nu.jpg" style="width: 100%; height: 350px;" alt="Images">
-                                                            </a>
-                                                        </div>
-                                                        <div class="content" style=" width: 100%; height: 100px;">
-                                                            <h4><a href="room-details.html">Nhà Bà Nữ</a></h4>
-                                                            <h4>90 phút</h4>
-                                                            <div class="rating">
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star-half'></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @*Poster3*@
-                                                <div class="col-lg-3 col-md-4 col-sm-6">
-                                                    <div class="room-card">
-                                                        <a href="room-details.html">
-                                                            <img src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" style="width: 100%; height: 350px;" alt="Images">
-                                                        </a>
-                                                        <div class="content" style=" width: 100%; height: 100px;">
-                                                            <h4><a href="room-details.html">Tôi thấy hoa vàng trên cỏ xanh</a></h4>
-                                                            <h4>90 phút</h4>
-                                                            <div class="rating">
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star-half'></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @*Poster4*@
-                                                <div class="col-lg-3 col-md-4 col-sm-6">
-                                                    <div class="room-card">
-                                                        <a href="room-details.html">
-                                                            <img src="~/Assets/img/home/poster_film/black.jpg" style="width: 100%; height: 350px;" alt="Images">
-                                                        </a>
-                                                        <div class="content" style=" width: 100%; height: 100px;">
-                                                            <h4><a href="room-details.html">BACK PANTHER</a></h4>
-                                                            <h4>90 phút</h4>
-                                                            <div class="rating">
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star-half'></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            int itemIndex2 = 0; // Chỉ số của carousel-item
+                                        }
+                                        @for (int i = 0; i < movie_coming.Count(); i++)
+                                        {
 
-
-                                        </div>
-                                        <div class="carousel-item">
-                                            <div class="row">
-                                                @*Poster 1*@
+                                            // Nếu là đầu carousel-item, đầu hàng hoặc đã đủ số lượng poster trên một item, tạo một carousel-item mới
+                                            if (i % postersPerItem == 0)
+                                            {
+                                                <text>
+                                                    <div class="carousel-item @(itemIndex2 == 0 ? "active" : "")">
+                                                        @{
+                                                            itemIndex2++;
+                                                        }
+                                                </text>
+                                            }
+                                            // Nếu là đầu dòng, tạo một row mới
+                                            if (i % postersPerRow == 0)
+                                            {
+                                                <text>
+                                                    <div class="row">
+                                                </text>
+                                            }
+                                            <text>
                                                 <div class="col-lg-3 col-md-4 col-sm-6">
                                                     <div class="room-card">
                                                         <div>
-                                                            <a href="room-details.html">
-                                                                <img src="~/Assets/img/home/poster_film/mat-biet.jpg" style="width: 100%; height: 350px;" alt="Images">
+                                                            <a href="@Url.Action("MovieDetail", "Home", new { id = Model.ElementAt(movie_current[i]).movie_id })">
+                                                                <img class="poster_film responsive-image" src="@Model.ElementAt(movie_coming[i]).movie_poster" alt="Images" />
                                                             </a>
                                                         </div>
-                                                        <div class="content" style=" width: 100%; height: 100px;">
-                                                            <h4><a href="room-details.html">Cô Ba Sài Gòn</a></h4>
-                                                            <h4 class="fs-5">120 phút</h4>
-                                                            <div class="rating">
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star-half'></i>
+                                                        <div class="content" style="width: 100%; height: 100px;">
+                                                            <div class="text-age-name">
+                                                                @if (Model.ElementAt(movie_current[i]).movie_cens == "P")
+                                                                {
+                                                                    <div><button class="btn-age btn btn-success">P</button></div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div><button class="btn-age btn btn-danger">@Model.ElementAt(movie_current[i]).movie_cens</button></div>
+                                                                }
+                                                                <span><a class="text-name-film" href="@Url.Action("Details", "Movie", new { id = Model.ElementAt(movie_current[i]).movie_id })">@Model.ElementAt(movie_coming[i]).movie_name</a></span>
+                                                            </div>
+                                                            <div class="text-time-rating">
+                                                                <div class="col-lg-4 text-poster">@Model.ElementAt(movie_coming[i]).DurationInMinutes phút</div>
+                                                                <span class="col-lg-8 text-poster" style="font-weight:bold;">
+                                                                    Khởi chiếu  @DateTime.Parse((Model.ElementAt(movie_coming[i]).movie_release).ToString()).ToString("dd/MM/yyyy")
+                                                                </span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                @*Poster2*@
-                                                <div class="col-lg-3 col-md-4 col-sm-6">
-                                                    <div class="room-card">
-                                                        <div>
-                                                            <a href="room-details.html">
-                                                                <img src="~/Assets/img/home/poster_film/nha-ba-nu.jpg" style="width: 100%; height: 350px;" alt="Images">
-                                                            </a>
-                                                        </div>
-                                                        <div class="content" style=" width: 100%; height: 100px;">
-                                                            <h4><a href="room-details.html">Nhà Bà Nữ</a></h4>
-                                                            <h4>90 phút</h4>
-                                                            <div class="rating">
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star-half'></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @*Poster3*@
-                                                <div class="col-lg-3 col-md-4 col-sm-6">
-                                                    <div class="room-card">
-                                                        <a href="room-details.html">
-                                                            <img src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" style="width: 100%; height: 350px;" alt="Images">
-                                                        </a>
-                                                        <div class="content" style=" width: 100%; height: 100px;">
-                                                            <h4><a href="room-details.html">Tôi thấy hoa vàng trên cỏ xanh</a></h4>
-                                                            <h4>90 phút</h4>
-                                                            <div class="rating">
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star-half'></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @*Poster4*@
-                                                <div class="col-lg-3 col-md-4 col-sm-6">
-                                                    <div class="room-card">
-                                                        <a href="room-details.html">
-                                                            <img src="~/Assets/img/home/poster_film/black.jpg" style="width: 100%; height: 350px;" alt="Images">
-                                                        </a>
-                                                        <div class="content" style=" width: 100%; height: 100px;">
-                                                            <h4><a href="room-details.html">BACK PANTHER</a></h4>
-                                                            <h4>90 phút</h4>
-                                                            <div class="rating">
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star'></i>
-                                                                <i class='bx bxs-star-half'></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                            </text>
+                                            // Nếu là cuối dòng hoặc cuối carousel-item, đóng row hoặc carousel-item
+                                            if (i % postersPerRow == postersPerRow - 1 || i == movie_coming.Count() - 1)
+                                            {
+                                                @Html.Raw("</div>")
+                                            }
+                                            // Nếu là cuối carousel-item, đóng carousel-item
+                                            if (i % postersPerItem == postersPerItem - 1 || i == movie_coming.Count() - 1)
+                                            {
+                                                @Html.Raw("</div>")
+                                            }
+                                        }
                                     </div>
-                                    <button class="carousel-control-prev" style="left: -10%; color: brown; font-size:2rem;" type="button" data-bs-target="#carouselExample2" data-bs-slide="prev">
+
+                                    <button class="carousel-control-prev" style="left: -10%; color: brown; font-size:2rem;" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
                                         <span class="fa-solid fa-circle-chevron-left" aria-hidden="true"></span>
                                         <span class="visually-hidden">Previous</span>
                                     </button>
-                                    <button class="carousel-control-next" style="right: -10%; color: brown; font-size: 2rem;" type="button" data-bs-target="#carouselExample2" data-bs-slide="next">
+                                    <button class="carousel-control-next" style="right: -10%; color: brown; font-size: 2rem;" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
                                         <span class="fa-solid fa-circle-chevron-right" aria-hidden="true"></span>
                                         <span class="visually-hidden" style="color:brown;">Next</span>
                                     </button>
                                 </div>
+
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
         </div>
     </div>
-</div>
+    <!--Film End Area-->
+    <!--News Start Area-->
+    <div class="container" id="news-page">
+        @*Header of News*@
+        <div class="text-header">
+            Tin tức - Ưu đãi
+        </div>
+        @*Body News*@
+        <div class="row mt-4">
+            <div class="col-lg-4 col-md-4 col-sm-4  news">
+                <img class="responsive-image  news" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4  news">
+                <img class="responsive-image" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4  news">
+                <img class="responsive-image" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
+            </div>
+        </div>
 
+        <div class="row mt-4">
+            <div class="col-lg-3 col-md-3 col-sm-3  news">
+                <img class="responsive-image  news" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3  news">
+                <img class="responsive-image" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3  news">
+                <img class="responsive-image" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3  news">
+                <img class="responsive-image" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
+            </div>
+        </div>
 
+        <div class="row mt-4 mb-5">
+            <div class="col-lg-6 col-md-6 col-sm-6  news">
+                <img class="responsive-image  news" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6  news">
+                <img class="responsive-image" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
+            </div>
+        </div>
 
-<!--Java Script-->
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script>
+    </div>
+    <!--News End Area-->
+    <!--Java Script-->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
   // Kiểm tra xem key "Username" đã tồn tại trong sessionStorage hay chưa
     if (!sessionStorage.getItem("Username")) {
         // Nếu không tồn tại, thực hiện AJAX để lấy thông tin đăng nhập từ máy chủ
@@ -654,4 +398,15 @@
             }
         });
     }
-</script>
+
+    function convertTimeToMinutes(timeString) {
+        var timeParts = timeString.split(':');
+        var hours = parseInt(timeParts[0], 10);
+        var minutes = parseInt(timeParts[1], 10);
+        var seconds = parseInt(timeParts[2], 10);
+
+        var totalMinutes = (hours * 60) + minutes + Math.round(seconds / 60);
+
+        return totalMinutes;
+    }
+    </script>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -24,15 +25,39 @@ namespace TicketLand_project.Controllers
         {
             if (Session["Username"] != null)
             {
-                return View();
+                var movies = objModel.movies.ToList();
+                int numberMoviesEnable = 0;
+                foreach (var movie in movies)
+                {
+                    movie.DurationInMinutes = ConvertTimeToMinutes(movie.movie_duration.ToString());
+                    if (movie.movie_status == 1) numberMoviesEnable++;
+                }
+                ViewBag.numberMoviesEnable = numberMoviesEnable;
+                return View(movies);
+                //return View(objModel.movies.ToList());
             }
             else if (Session["username"].ToString() == "Phương")
             {
                 return View();
             }
 
+
             return RedirectToAction("Login");
         }
+
+        public static int ConvertTimeToMinutes(string time)
+        {
+            TimeSpan timeSpan;
+            if (TimeSpan.TryParse(time, out timeSpan))
+            {
+                int minutes = timeSpan.Hours * 60 + timeSpan.Minutes;
+                return minutes;
+            }
+
+            // Nếu định dạng thời gian không hợp lệ hoặc không thể chuyển đổi thành TimeSpan, trả về giá trị mặc định hoặc ném ra một ngoại lệ tùy thuộc vào yêu cầu của bạn.
+            return 0; // Giá trị mặc định (hoặc bạn có thể trả về một giá trị khác)
+        }
+
 
         // GET: Register
         public ActionResult Register()
@@ -189,12 +214,12 @@ namespace TicketLand_project.Controllers
             return View();
         }
 
-        public ActionResult MovieDetail(string title)
+        public ActionResult MovieDetail(int id)
         {
             ViewBag.Message = "Movie Detail";
-            // Chuyển đổi từ URL an toàn về tên phim
+            
             //string decodedTitle = System.Web.HttpUtility.UrlDecode(title);
-            var movieEntity = objModel.movies.FirstOrDefault(m => m.movie_id == 13);
+            var movieEntity = objModel.movies.FirstOrDefault(m => m.movie_id == id);
             if (movieEntity != null)
             {
                 // Chuyển đổi từ Entity sang ViewModel
@@ -208,9 +233,10 @@ namespace TicketLand_project.Controllers
                     ReleaseDate = (DateTime)movieEntity.movie_release,
                     Description = movieEntity.movie_description,
                     PosterUrl = movieEntity.movie_poster,
-                    Trailer = movieEntity.movie_trailer,
+                    Trailer = GetDataAfterString(movieEntity.movie_trailer,".be/"),
                     Duration = movieEntity.movie_duration,
                     Format = movieEntity.movie_format,
+                    MovieCens = movieEntity.movie_cens,
                     Comments = movieEntity.comments.Select(c => new CommentViewModel
                     {
                         CommentId = c.comment_id,
@@ -219,11 +245,12 @@ namespace TicketLand_project.Controllers
                         CommentDate = (DateTime)c.comment_date,
                         MemberName = c.member.member_name,
                         MemberAvatar = c.member.member_avatar,
-                    }).ToList(),
+                    }).Reverse().ToList(),
                     AverageRating = /*(float)movieEntity.rate,*/
                    (float)Math.Round((double)(movieEntity.comments.Any() ? movieEntity.comments.Average(c => c.comment_star) : 0), 1),
                    
                     Schedules = objModel.schedules.Where(s=>s.movie_id == movieEntity.movie_id).ToList(),
+                    Rooms = objModel.rooms.ToList()
                 };
                 // Thêm các thông tin chi tiết khác của phim
             
@@ -258,13 +285,40 @@ namespace TicketLand_project.Controllers
                 comment_star = commentStar,
                 comment_date = DateTime.Now,
             };
-
             // Thêm đánh giá và bình luận mới vào cơ sở dữ liệu
             objModel.comments.Add(newComment);
             objModel.SaveChanges();
 
+            // Lấy thông tin phim và cập nhật AverageRating
+            var movie = objModel.movies.Find(movieId);
+
+            if (movie != null)
+            {
+                // Tính toán lại AverageRating dựa trên các đánh giá
+                movie.rate = (float)Math.Round((double)(movie.comments.Any() ? movie.comments.Average(c => c.comment_star) : 0), 1);
+
+                // Cập nhật bản ghi trong cơ sở dữ liệu
+                objModel.SaveChanges();
+            }
+            int id = movieId;
+
             // Chuyển hướng về trang chi tiết phim
-            return RedirectToAction("MovieDetail", new { movieId });
+            return RedirectToAction("MovieDetail", new { id });
+        }
+        private string GetDataAfterString(string input, string substring)
+        {
+            // Kiểm tra xem chuỗi có chứa dấu '=' không
+            int index = input.IndexOf(substring);
+
+            if (index != -1)
+            {
+                // Lấy các ký tự sau dấu '='
+                string dataAfterSubstring = input.Substring(index + substring.Length);
+                return dataAfterSubstring;
+            }
+
+            // Trả về null nếu không tìm thấy trong chuỗi
+            return null;
         }
         private int GetCurrentUserId()
         {
@@ -288,23 +342,34 @@ namespace TicketLand_project.Controllers
         public JsonResult GetDates(int roomNumber)
         {
             // Lấy danh sách các ngày chiếu từ cơ sở dữ liệu dựa trên phòng
+            //var dateString = objModel.schedule.Value.ToString("yyyy-MM-dd");
             var dates = objModel.schedules
                 .Where(s => s.room_id == roomNumber)
                 .Select(s => s.show_date)
                 .Distinct()
                 .ToList();
-
-            return Json(dates, JsonRequestBehavior.AllowGet);
+            var formattedDates = dates.Select(d => d.ToString("yyyy-MM-dd")).ToList();
+            return Json(formattedDates, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         public JsonResult GetShowtimes(int roomNumber, DateTime date)
         {
+            var targetDate = date.Date;
             // Lấy danh sách thời gian chiếu từ cơ sở dữ liệu dựa trên phòng và ngày
-            var showtimes = objModel.schedules
-                .Where(s => s.room_id == roomNumber && s.show_date == date)
+            var rawShowtimes = objModel.schedules
+                .Where(s => s.room_id == roomNumber && DbFunctions.TruncateTime(s.show_date) == targetDate)
                 .Select(s => new { StartTime = s.time_start, EndTime = s.time_end })
                 .ToList();
+
+            var showtimes = rawShowtimes
+             .Where(s => s.StartTime != null && s.EndTime != null)
+             .Select(s => new
+             {
+                 StartTime = ((TimeSpan)s.StartTime).ToString(@"hh\:mm"),
+                 EndTime = ((TimeSpan)s.EndTime).ToString(@"hh\:mm")
+             })
+             .ToList();
 
             return Json(showtimes, JsonRequestBehavior.AllowGet);
         }
