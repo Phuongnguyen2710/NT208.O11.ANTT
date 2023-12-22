@@ -196,7 +196,7 @@
                                             // Kiểm tra xem có thông tin phòng hay không
                                             if (roomInfo != null)
                                             {
-                                                <a href="#" class="list-group-item list-group-item-action" onclick="loadDates('@room.room_id'); return false;">
+                                                <a href="#" class="list-group-item list-group-item-action" onclick="loadDates('@room.room_id','@Model.Id'); return false;">
                                                     @roomInfo.room_name
                                                 </a>
 
@@ -246,44 +246,38 @@
                     // Thêm lớp 'selected' cho phần tử được click
                     $(this).addClass('selected');
                 });
-                        function loadDates(roomId) {
-                            // Gọi controller để lấy danh sách ngày chiếu cho phòng và phim cụ thể
-                            $.ajax({
-                                url: '@Url.Action("GetDates", "Home")',
-                                type: 'GET',
-                                data: { roomNumber: roomId },
-                                success: function (dates) {
-                                    var datesList = $('#dates-list');
-                                    datesList.empty(); // Xóa các ngày cũ trước khi thêm mới
-                                    var showtimeInfo = $('#showtimeInfo');
-                                    showtimeInfo.empty(); // Xóa thông tin giờ chiếu cũ trước khi thêm mới
-                                    // Thêm các ngày vào #dates-list
-                                    for (var i = 0; i < dates.length; i++) {
-                                        var date = dates[i];
-                                        var formattedDate = new Date(date).toLocaleDateString();
-                                        var listItem = $('<a href="#" class="list-group-item list-group-item-action" style="text-align:center" onclick="loadShowtimes(\'' + roomId + '\', \'' + date + '\')">' +  formattedDate + '</a>');
-                                       /* // Thêm sự kiện click vào mỗi ngày để ngăn chặn mặc định của sự kiện
-                                        listItem.on('click', function (event) {
-                                            event.preventDefault();
-                                            loadShowtimes(roomId, date);
-                                        });*/
-                                        datesList.append(listItem);
-                                    }
-                                },
-                                error: function () {
-                                    // Xử lý lỗi khi không thể tải danh sách ngày
-                                    alert('Không thể tải danh sách ngày.');
-                                }
-                            });
+                    function loadDates(roomId, movieId) {
+                    // Gọi controller để lấy danh sách ngày chiếu cho phòng và phim cụ thể
+                    $.ajax({
+                        url: '@Url.Action("GetDates", "Home")',
+                        type: 'GET',
+                        data: { roomNumber: roomId, movieId: movieId }, // Thêm movieId vào tham số truyền
+                        success: function (dates) {
+                            var datesList = $('#dates-list');
+                            datesList.empty(); // Xóa các ngày cũ trước khi thêm mới
+                            var showtimeInfo = $('#showtimeInfo');
+                            showtimeInfo.empty(); // Xóa thông tin giờ chiếu cũ trước khi thêm mới
+                            // Thêm các ngày vào #dates-list
+                            for (var i = 0; i < dates.length; i++) {
+                                var date = dates[i];
+                                var formattedDate = new Date(date).toLocaleDateString();
+                                var listItem = $('<a href="#" class="list-group-item list-group-item-action" style="text-align:center" onclick="return loadShowtimes(\'' + roomId + '\', \'' + movieId + '\', \'' + date + '\')">' + formattedDate + '</a>');
+                                datesList.append(listItem);
+                            }
+                        },
+                        error: function () {
+                            // Xử lý lỗi khi không thể tải danh sách ngày
+                            alert('Không thể tải danh sách ngày.');
                         }
-            
-                    function loadShowtimes(roomId, selectedDate) {
-                        // Thực hiện AJAX request để lấy danh sách giờ chiếu dựa trên phòng và ngày được chọn
-                        // Đây chỉ là một đoạn mã mẫu, bạn cần thay thế nó bằng logic tương ứng với ứng dụng của bạn
+                    });
+                   }
+
+                    function loadShowtimes(roomId, movieId, selectedDate) {
+                        // Thực hiện AJAX request để lấy danh sách giờ chiếu dựa trên phòng, phim và ngày được chọn
                         $.ajax({
                             url: '@Url.Action("GetShowTimes","Home")',
                             type: 'GET',
-                            data: { roomNumber: roomId, date: selectedDate },
+                            data: { roomNumber: roomId, movieId: movieId, date: selectedDate }, // Thêm movieId vào tham số truyền
                             success: function (showtimes) {
                                 var showtimeInfo = $('#showtimeInfo');
                                 showtimeInfo.empty(); // Xóa thông tin giờ chiếu cũ trước khi thêm mới
@@ -295,16 +289,17 @@
                                     var button = $('<button class="btn" style="margin-right:5px; margin-bottom:5px; color: #28a745; background-color: #ffffff; border: 1px solid #28a745;" onclick="selectShowtime(\'' + showtime.StartTime + '\', \'' + showtime.EndTime + '\')">' + showtime.StartTime + '~' + showtime.EndTime + '</button>');
                                     showtimeInfo.append(button);
                                 }
-
-                                // Mở modal hiển thị thông tin suất chiếu
-                                $('#showtimeModal').modal('show');
                             },
                             error: function () {
                                 // Xử lý lỗi khi không thể tải danh sách giờ chiếu
                                 alert('Không thể tải danh sách giờ chiếu.');
                             }
                         });
+                            return false;
                     }
+
+
+
             </script>
         </div>
     

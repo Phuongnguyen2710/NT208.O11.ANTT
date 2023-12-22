@@ -294,7 +294,7 @@ namespace TicketLand_project.Controllers
 
             if (movie != null)
             {
-                // Tính toán lại AverageRating dựa trên các đánh giá
+                // Tính toán lại rating dựa trên các đánh giá
                 movie.rate = (float)Math.Round((double)(movie.comments.Any() ? movie.comments.Average(c => c.comment_star) : 0), 1);
 
                 // Cập nhật bản ghi trong cơ sở dữ liệu
@@ -312,7 +312,7 @@ namespace TicketLand_project.Controllers
 
             if (index != -1)
             {
-                // Lấy các ký tự sau dấu '='
+                // Lấy các ký tự sau chuỗi
                 string dataAfterSubstring = input.Substring(index + substring.Length);
                 return dataAfterSubstring;
             }
@@ -322,8 +322,7 @@ namespace TicketLand_project.Controllers
         }
         private int GetCurrentUserId()
         {
-            // Implement logic để lấy MemberId từ session hoặc cookie
-            // ...
+            // Lấy ID từ session
             if (Session["idMember"] != null)
             {
                 // Ép kiểu Session["idMember"] về kiểu int
@@ -339,12 +338,12 @@ namespace TicketLand_project.Controllers
             return 0;
         }
         [HttpGet]
-        public JsonResult GetDates(int roomNumber)
+        public JsonResult GetDates(int roomNumber, int movieId)
         {
             // Lấy danh sách các ngày chiếu từ cơ sở dữ liệu dựa trên phòng
             //var dateString = objModel.schedule.Value.ToString("yyyy-MM-dd");
             var dates = objModel.schedules
-                .Where(s => s.room_id == roomNumber)
+                .Where(s => s.movie_id == movieId && s.room_id == roomNumber)
                 .Select(s => s.show_date)
                 .Distinct()
                 .ToList();
@@ -353,12 +352,12 @@ namespace TicketLand_project.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetShowtimes(int roomNumber, DateTime date)
+        public JsonResult GetShowtimes(int roomNumber, DateTime date, int movieId)
         {
             var targetDate = date.Date;
-            // Lấy danh sách thời gian chiếu từ cơ sở dữ liệu dựa trên phòng và ngày
+            // Lấy danh sách thời gian chiếu từ cơ sở dữ liệu dựa trên phòng, phim và ngày
             var rawShowtimes = objModel.schedules
-                .Where(s => s.room_id == roomNumber && DbFunctions.TruncateTime(s.show_date) == targetDate)
+                .Where(s => s.movie_id == movieId && s.room_id == roomNumber && DbFunctions.TruncateTime(s.show_date) == targetDate)
                 .Select(s => new { StartTime = s.time_start, EndTime = s.time_end })
                 .ToList();
 
