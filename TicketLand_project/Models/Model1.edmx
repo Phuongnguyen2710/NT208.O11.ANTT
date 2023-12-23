@@ -12,16 +12,18 @@
           <Property Name="booking_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="member_id" Type="int" />
           <Property Name="schedule_id" Type="int" />
-          <Property Name="booking_date" Type="time" Precision="7" />
-          <Property Name="total_price" Type="int" />
           <Property Name="booking_status" Type="int" />
+          <Property Name="booking_date" Type="date" />
+          <Property Name="total_price" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'QUANLYXEMPHIM.dbo.booking_detail' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
         <EntityType Name="booking_detail">
+          <Key>
+            <PropertyRef Name="booking_detail_id" />
+          </Key>
           <Property Name="booking_id" Type="int" />
           <Property Name="seat_id" Type="int" />
-        </EntityType>-->
+          <Property Name="booking_detail_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
         <EntityType Name="comment">
           <Key>
             <PropertyRef Name="comment_id" />
@@ -154,12 +156,30 @@ warning 6013: The table/view 'QUANLYXEMPHIM.dbo.booking_detail' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <!--Errors Found During Generation:
-error 6004: The table 'QUANLYXEMPHIM.dbo.booking_detail' is referenced by a relationship, but cannot be found.
-        <Association Name="FK__booking_d__booki__74AE54BC" />-->
-        <!--Errors Found During Generation:
-error 6004: The table 'QUANLYXEMPHIM.dbo.booking_detail' is referenced by a relationship, but cannot be found.
-        <Association Name="FK__booking_d__seat___75A278F5" />-->
+        <Association Name="FK__booking_d__booki__74AE54BC">
+          <End Role="booking" Type="Self.booking" Multiplicity="0..1" />
+          <End Role="booking_detail" Type="Self.booking_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="booking">
+              <PropertyRef Name="booking_id" />
+            </Principal>
+            <Dependent Role="booking_detail">
+              <PropertyRef Name="booking_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__booking_d__seat___75A278F5">
+          <End Role="seats" Type="Self.seats" Multiplicity="0..1" />
+          <End Role="booking_detail" Type="Self.booking_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="seats">
+              <PropertyRef Name="seat_id" />
+            </Principal>
+            <Dependent Role="booking_detail">
+              <PropertyRef Name="seat_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__comment__member___76969D2E">
           <End Role="members" Type="Self.members" Multiplicity="0..1" />
           <End Role="comment" Type="Self.comment" Multiplicity="*" />
@@ -258,6 +278,7 @@ error 6004: The table 'QUANLYXEMPHIM.dbo.booking_detail' is referenced by a rela
         </Association>
         <EntityContainer Name="QUANLYXEMPHIMModelStoreContainer">
           <EntitySet Name="booking" EntityType="Self.booking" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="booking_detail" EntityType="Self.booking_detail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="comment" EntityType="Self.comment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="event" EntityType="Self.event" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="members" EntityType="Self.members" Schema="dbo" store:Type="Tables" />
@@ -274,6 +295,14 @@ error 6004: The table 'QUANLYXEMPHIM.dbo.booking_detail' is referenced by a rela
           <AssociationSet Name="FK__booking__schedul__73BA3083" Association="Self.FK__booking__schedul__73BA3083">
             <End Role="schedule" EntitySet="schedule" />
             <End Role="booking" EntitySet="booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK__booking_d__booki__74AE54BC" Association="Self.FK__booking_d__booki__74AE54BC">
+            <End Role="booking" EntitySet="booking" />
+            <End Role="booking_detail" EntitySet="booking_detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__booking_d__seat___75A278F5" Association="Self.FK__booking_d__seat___75A278F5">
+            <End Role="seats" EntitySet="seats" />
+            <End Role="booking_detail" EntitySet="booking_detail" />
           </AssociationSet>
           <AssociationSet Name="FK__comment__member___76969D2E" Association="Self.FK__comment__member___76969D2E">
             <End Role="members" EntitySet="members" />
@@ -320,11 +349,22 @@ error 6004: The table 'QUANLYXEMPHIM.dbo.booking_detail' is referenced by a rela
           <Property Name="booking_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="member_id" Type="Int32" />
           <Property Name="schedule_id" Type="Int32" />
-          <Property Name="booking_date" Type="Time" Precision="7" />
-          <Property Name="total_price" Type="Int32" />
           <Property Name="booking_status" Type="Int32" />
+          <Property Name="booking_date" Type="DateTime" Precision="0" />
+          <Property Name="total_price" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="member" Relationship="Self.FK__booking__member___72C60C4A" FromRole="booking" ToRole="members" />
           <NavigationProperty Name="schedule" Relationship="Self.FK__booking__schedul__73BA3083" FromRole="booking" ToRole="schedule" />
+          <NavigationProperty Name="booking_detail" Relationship="Self.FK__booking_d__booki__74AE54BC" FromRole="booking" ToRole="booking_detail" />
+        </EntityType>
+        <EntityType Name="booking_detail">
+          <Key>
+            <PropertyRef Name="booking_detail_id" />
+          </Key>
+          <Property Name="booking_id" Type="Int32" />
+          <Property Name="seat_id" Type="Int32" />
+          <Property Name="booking_detail_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="booking" Relationship="Self.FK__booking_d__booki__74AE54BC" FromRole="booking_detail" ToRole="booking" />
+          <NavigationProperty Name="seat" Relationship="Self.FK__booking_d__seat___75A278F5" FromRole="booking_detail" ToRole="seats" />
         </EntityType>
         <EntityType Name="comment">
           <Key>
@@ -450,6 +490,7 @@ error 6004: The table 'QUANLYXEMPHIM.dbo.booking_detail' is referenced by a rela
           <Property Name="row" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="number" Type="Int32" />
           <Property Name="seats_status" Type="Boolean" />
+          <NavigationProperty Name="booking_detail" Relationship="Self.FK__booking_d__seat___75A278F5" FromRole="seats" ToRole="booking_detail" />
           <NavigationProperty Name="room" Relationship="Self.FK__seats__room_id__6FE99F9F" FromRole="seats" ToRole="rooms" />
         </EntityType>
         <Association Name="FK__booking__member___72C60C4A">
@@ -473,6 +514,30 @@ error 6004: The table 'QUANLYXEMPHIM.dbo.booking_detail' is referenced by a rela
             </Principal>
             <Dependent Role="booking">
               <PropertyRef Name="schedule_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__booking_d__booki__74AE54BC">
+          <End Role="booking" Type="Self.booking" Multiplicity="0..1" />
+          <End Role="booking_detail" Type="Self.booking_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="booking">
+              <PropertyRef Name="booking_id" />
+            </Principal>
+            <Dependent Role="booking_detail">
+              <PropertyRef Name="booking_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__booking_d__seat___75A278F5">
+          <End Role="seats" Type="Self.seat" Multiplicity="0..1" />
+          <End Role="booking_detail" Type="Self.booking_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="seats">
+              <PropertyRef Name="seat_id" />
+            </Principal>
+            <Dependent Role="booking_detail">
+              <PropertyRef Name="seat_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -574,6 +639,7 @@ error 6004: The table 'QUANLYXEMPHIM.dbo.booking_detail' is referenced by a rela
         </Association>
         <EntityContainer Name="QUANLYXEMPHIMEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="bookings" EntityType="Self.booking" />
+          <EntitySet Name="booking_detail" EntityType="Self.booking_detail" />
           <EntitySet Name="comments" EntityType="Self.comment" />
           <EntitySet Name="events" EntityType="Self.event" />
           <EntitySet Name="members" EntityType="Self.member" />
@@ -590,6 +656,14 @@ error 6004: The table 'QUANLYXEMPHIM.dbo.booking_detail' is referenced by a rela
           <AssociationSet Name="FK__booking__schedul__73BA3083" Association="Self.FK__booking__schedul__73BA3083">
             <End Role="schedule" EntitySet="schedules" />
             <End Role="booking" EntitySet="bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__booking_d__booki__74AE54BC" Association="Self.FK__booking_d__booki__74AE54BC">
+            <End Role="booking" EntitySet="bookings" />
+            <End Role="booking_detail" EntitySet="booking_detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__booking_d__seat___75A278F5" Association="Self.FK__booking_d__seat___75A278F5">
+            <End Role="seats" EntitySet="seats" />
+            <End Role="booking_detail" EntitySet="booking_detail" />
           </AssociationSet>
           <AssociationSet Name="FK__comment__member___76969D2E" Association="Self.FK__comment__member___76969D2E">
             <End Role="members" EntitySet="members" />
@@ -636,9 +710,18 @@ error 6004: The table 'QUANLYXEMPHIM.dbo.booking_detail' is referenced by a rela
                 <ScalarProperty Name="booking_id" ColumnName="booking_id" />
                 <ScalarProperty Name="member_id" ColumnName="member_id" />
                 <ScalarProperty Name="schedule_id" ColumnName="schedule_id" />
+                <ScalarProperty Name="booking_status" ColumnName="booking_status" />
                 <ScalarProperty Name="booking_date" ColumnName="booking_date" />
                 <ScalarProperty Name="total_price" ColumnName="total_price" />
-                <ScalarProperty Name="booking_status" ColumnName="booking_status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="booking_detail">
+            <EntityTypeMapping TypeName="QUANLYXEMPHIMModel.booking_detail">
+              <MappingFragment StoreEntitySet="booking_detail">
+                <ScalarProperty Name="booking_id" ColumnName="booking_id" />
+                <ScalarProperty Name="seat_id" ColumnName="seat_id" />
+                <ScalarProperty Name="booking_detail_id" ColumnName="booking_detail_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

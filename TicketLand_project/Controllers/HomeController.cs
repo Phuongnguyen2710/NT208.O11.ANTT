@@ -365,19 +365,42 @@ namespace TicketLand_project.Controllers
             // Lấy danh sách thời gian chiếu từ cơ sở dữ liệu dựa trên phòng, phim và ngày
             var rawShowtimes = objModel.schedules
                 .Where(s => s.movie_id == movieId && s.room_id == roomNumber && DbFunctions.TruncateTime(s.show_date) == targetDate)
-                .Select(s => new { StartTime = s.time_start, EndTime = s.time_end })
+                .Select(s => new { StartTime = s.time_start, EndTime = s.time_end, ScheduleId = s.schedule_id })
                 .ToList();
 
             var showtimes = rawShowtimes
              .Where(s => s.StartTime != null && s.EndTime != null)
              .Select(s => new
              {
+                 ScheduleId = s.ScheduleId,
                  StartTime = ((TimeSpan)s.StartTime).ToString(@"hh\:mm"),
                  EndTime = ((TimeSpan)s.EndTime).ToString(@"hh\:mm")
              })
              .ToList();
 
             return Json(showtimes, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult SelectSeat(int scheduleId)
+        {
+            var schedule = objModel.schedules.FirstOrDefault(s => s.schedule_id == scheduleId);
+
+            if (schedule == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Lấy danh sách ghế dựa trên room_id
+            var seats = objModel.seats.Where(s => s.room_id == schedule.room_id).ToList();
+
+            // Truyền thông tin lịch chiếu và danh sách ghế vào view
+            var viewModel = new SeatViewModel
+            {
+                Schedule = schedule,
+                Seats = seats
+            };
+
+            return View(viewModel);
         }
     }
 }

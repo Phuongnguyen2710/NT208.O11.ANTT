@@ -11,8 +11,7 @@ namespace TicketLand_project.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class movy
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -23,16 +22,13 @@ namespace TicketLand_project.Models
             this.news = new HashSet<news>();
             this.schedules = new HashSet<schedule>();
         }
-
+    
         public int movie_id { get; set; }
         public string movie_name { get; set; }
         public string movie_description { get; set; }
         public string movie_trailer { get; set; }
         public string movie_cens { get; set; }
         public string movie_genres { get; set; }
-
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> movie_release { get; set; }
         public Nullable<System.TimeSpan> movie_duration { get; set; }
         public string movie_format { get; set; }

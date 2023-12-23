@@ -142,7 +142,7 @@
             {
                 <div class="comment">
                     <div class="comment-header">
-                        <img src="data:image/png;base64,@comment.MemberAvatar" alt="Member Avatar" class="member-avatar" />
+                        <img src="@comment.MemberAvatar" alt="Member Avatar" class="member-avatar" />
                         <span class="member-name">@comment.MemberName</span>
                         <span class="comment-date">@comment.CommentDate.ToString("dd/MM/yyyy HH:mm")</span>
                     </div>
@@ -286,8 +286,19 @@
                                 for (var i = 0; i < showtimes.length; i++) {
                                     var showtime = showtimes[i];
                                     //var formattedShowtime = showtime.StartTime + '~' + showtime.EndTime;
-                                    var button = $('<button class="btn" style="margin-right:5px; margin-bottom:5px; color: #28a745; background-color: #ffffff; border: 1px solid #28a745;" onclick="selectShowtime(\'' + showtime.StartTime + '\', \'' + showtime.EndTime + '\')">' + showtime.StartTime + '~' + showtime.EndTime + '</button>');
-                                    showtimeInfo.append(button);
+                                    /*var button = $('<button class="btn" style="margin-right:5px; margin-bottom:5px; color: #28a745; background-color: #ffffff; border: 1px solid #28a745;" onclick="redirectToSeatSelection(' + showtime.ScheduleId + ')">' + showtime.StartTime + '~' + showtime.EndTime + '</button>');
+                                    showtimeInfo.append(button);*/
+                                    var formattedShowtime = showtime.StartTime + '~' + showtime.EndTime;
+
+                                    // Tạo thẻ a để chuyển hướng khi click
+                                    var link = $('<a href="@Url.Action("SelectSeat", "Home")?scheduleId=' + showtime.ScheduleId + '"></a>');
+
+                                    // Tạo nút và thêm vào thẻ a
+                                    var button = $('<button class="btn" style="margin-right:5px; margin-bottom:5px; color: #28a745; background-color: #ffffff; border: 1px solid #28a745;">' + formattedShowtime + '</button>');
+                                    link.append(button);
+
+                                    // Thêm thẻ a vào #showtimeInfo
+                                    showtimeInfo.append(link);
                                 }
                             },
                             error: function () {

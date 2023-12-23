@@ -1,0 +1,132 @@
+﻿@model TicketLand_project.ViewModels.SeatViewModel
+@{
+    ViewData["Title"] = "Booking";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Areas/Assets/css/Seat.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<style>
+    .seat {
+        display: inline-block;
+        margin: 5px;
+    }
+
+    .selected {
+        background-color: #28a745;
+        color: #ffffff;
+        background-image: none;
+    }
+
+    #infoScreen {
+        background-color: #f0f0f0;
+        padding: 10px;
+        margin-top: 20px;
+    }
+</style>
+
+<div class="center">
+    <div id="infoScreen">
+        <!-- Màn hình ở đầu trang -->
+        <h4>Thông tin suất chiếu</h4>
+        <p>Ngày chiếu: @Model.Schedule.show_date.ToShortDateString()</p>
+        <p>Giờ chiếu: @Model.Schedule.time_start.ToString("hh\\:mm")</p>
+        <p id="selectedSeatsInfo">Ghế đã chọn: </p>
+        <!-- Thêm thông tin khác tùy thuộc vào yêu cầu của bạn -->
+    </div>
+    <div class="tickets">
+
+        <div class="ticket-selector">
+            <div class="head">
+                <div class="title">SƠ ĐỒ CHỖ NGỒI</div>
+            </div>
+
+
+            <br />
+
+            <!--Màn hình-->
+            <div class="screen"></div>
+            <form id="seatForm">
+                <!-- Tạo 50 ghế bằng check box -->
+                <div>
+                    @for (var row = 1; row <= 5; row++)
+                    {
+                        for (var col = 1; col <= 10; col++)
+                        {
+                            var seatId = String.Format("{0}{1}", (char)(row + 64), col);
+
+                            var seat = Model.Seats.FirstOrDefault(s => s.row == Convert.ToString((char)(row + 64)) && s.number == col);
+                            if (seat != null)
+                            {
+                                <label class="seat">
+                                    <input type="checkbox" name="selectedSeats" value="@seatId" onclick="updateSeatStatus(this)" />
+                                    <span class="seat-label">@seatId</span>
+                                </label>
+
+                            }
+                            else
+                            {
+                                <span class="hidden-seat" style="visibility: hidden">
+                                    <!-- Đối với các ghế không có trong bảng -->
+                                    <label class="seat">
+                                        <input type="checkbox" name="selectedSeats" value="@seatId" onclick="updateSeatStatus(this)" disabled />
+                                        <span class="seat-label">@seatId</span>
+                                    </label>
+                                </span>
+                            }
+                        }
+                        <br />
+                    }
+                </div>
+
+                <!-- Nút để xác nhận việc chọn ghế -->
+                <button type="button" onclick="submitForm()">Submit</button>
+            </form>
+
+            <script>
+                $(document).ready(function () {
+                    // Sự kiện change để theo dõi sự thay đổi trạng thái của checkbox
+                    $('input[name="selectedSeats"]').change(function () {
+                        // Thêm hoặc xóa lớp 'selected' tùy thuộc vào trạng thái của checkbox
+                        $(this).parent().toggleClass('selected', this.checked);
+                    });
+                });
+                function updateSeatStatus(checkbox) {
+
+                    // Cập nhật thông tin ghế đã chọn
+                    updateSelectedSeatsInfo();
+                }
+
+                function updateSelectedSeatsInfo() {
+                    var selectedSeats = Array.from(document.querySelectorAll('input[name="selectedSeats"]:checked')).map(function (checkbox) {
+                        return checkbox.value;
+                    });
+
+                    // Hiển thị thông tin ghế đã chọn
+                    document.getElementById('selectedSeatsInfo').textContent = 'Ghế đã chọn: ' + selectedSeats.join(', ');
+                }
+                function submitForm() {
+                    // Lấy danh sách ghế đã chọn
+                    var selectedSeats = [];
+                    document.querySelectorAll('input[name="selectedSeats"]:checked').forEach(function (checkbox) {
+                        selectedSeats.push(checkbox.value);
+                    });
+
+                    // Hiển thị danh sách ghế đã chọn (có thể thay thế bằng xử lý khác)
+                    alert('Selected Seats: ' + selectedSeats.join(', '));
+                }
+            </script>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
