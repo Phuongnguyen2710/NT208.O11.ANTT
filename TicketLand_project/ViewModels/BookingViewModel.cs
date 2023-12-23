@@ -8,8 +8,11 @@ namespace TicketLand_project.ViewModels
 {
     public class BookingViewModel
     {
-        public int Price { get; set; }
+        public int TotalPrice { get; set; }
         public DateTime BookingDate { get; set; }
+        public int MemberId { get; set; }
+        public int BookingStatus { get; set; }
+        
         
     }
 }

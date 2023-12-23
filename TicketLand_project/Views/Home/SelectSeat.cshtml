@@ -3,11 +3,20 @@
     ViewData["Title"] = "Booking";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@{
+    if (ViewBag.ShowSuccessModal != null && (bool)ViewBag.ShowSuccessModal)
+    {
+        <script>
+            $(document).ready(function () {
+                showSuccessModal();
+            });
+        </script>
+    }
+}
 
 <link href="~/Areas/Assets/css/Seat.css" rel="stylesheet" />
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <style>
     .seat {
         display: inline-block;
@@ -34,7 +43,6 @@
         <p>Ngày chiếu: @Model.Schedule.show_date.ToShortDateString()</p>
         <p>Giờ chiếu: @Model.Schedule.time_start.ToString("hh\\:mm")</p>
         <p id="selectedSeatsInfo">Ghế đã chọn: </p>
-        <!-- Thêm thông tin khác tùy thuộc vào yêu cầu của bạn -->
     </div>
     <div class="tickets">
 
@@ -48,6 +56,7 @@
 
             <!--Màn hình-->
             <div class="screen"></div>
+
             <form id="seatForm">
                 <!-- Tạo 50 ghế bằng check box -->
                 <div>
@@ -58,8 +67,10 @@
                             var seatId = String.Format("{0}{1}", (char)(row + 64), col);
 
                             var seat = Model.Seats.FirstOrDefault(s => s.row == Convert.ToString((char)(row + 64)) && s.number == col);
+                            var isSelected = Model.SelectedSeats != null && Model.SelectedSeats.Contains(seatId);
                             if (seat != null)
                             {
+                                var disabled = (bool)seat.seats_status || isSelected;
                                 <label class="seat">
                                     <input type="checkbox" name="selectedSeats" value="@seatId" onclick="updateSeatStatus(this)" />
                                     <span class="seat-label">@seatId</span>
@@ -84,6 +95,48 @@
                 <!-- Nút để xác nhận việc chọn ghế -->
                 <button type="button" onclick="submitForm()">Submit</button>
             </form>
+            <!-- Modal -->
+            <div class="modal" id="confirmModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Confirm Booking</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="submitBk" method="post" action="@Url.Action("ConfirmBooking", "Home")">
+                                <p>Are you sure you want to confirm the booking?</p>
+                                <input type="hidden" name="scheduleId" value="@Model.Schedule.schedule_id" />
+                                <input type="hidden" id="selectedSeatsInput" name="selectedSeats" />
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" onclick="confirmBooking()">Confirm</button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal thông báo -->
+            <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="successModalLabel">Booking Successful</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Your booking has been successfully placed.
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <script>
                 $(document).ready(function () {
@@ -93,14 +146,35 @@
                         $(this).parent().toggleClass('selected', this.checked);
                     });
                 });
+                var selectedSeats = [];
                 function updateSeatStatus(checkbox) {
+                    /* var seatId = $(checkbox).val();
 
-                    // Cập nhật thông tin ghế đã chọn
-                    updateSelectedSeatsInfo();
+                     // Kiểm tra xem ghế đã được chọn hay chưa
+                     var isSelected = selectedSeats.includes(seatId);
+
+                     if (!isSelected) {
+                         // Nếu ghế chưa được chọn, thêm vào danh sách
+                         selectedSeats.push(seatId);
+                     } else {
+                         // Nếu ghế đã được chọn, loại bỏ khỏi danh sách
+                         var index = selectedSeats.indexOf(seatId);
+                         if (index !== -1) {
+                             selectedSeats.splice(index, 1);
+                         }
+                     }
+                     // Cập nhật thông tin ghế đã chọn
+                     updateSelectedSeatsInfo();*/
+                    var selectedSeats = $('input[name="selectedSeats"]:checked').map(function () {
+                        return this.value;
+                    }).get();
+                    // Cập nhật giá trị của input selectedSeats
+                    $('#selectedSeatsInput').val(selectedSeats.join(','));
+                    updateSelectedSeatsInfo()
                 }
 
                 function updateSelectedSeatsInfo() {
-                    var selectedSeats = Array.from(document.querySelectorAll('input[name="selectedSeats"]:checked')).map(function (checkbox) {
+                    var selectedSeatss = Array.from(document.querySelectorAll('input[name="selectedSeats"]:checked')).map(function (checkbox) {
                         return checkbox.value;
                     });
 
@@ -108,22 +182,45 @@
                     document.getElementById('selectedSeatsInfo').textContent = 'Ghế đã chọn: ' + selectedSeats.join(', ');
                 }
                 function submitForm() {
-                    // Lấy danh sách ghế đã chọn
-                    var selectedSeats = [];
-                    document.querySelectorAll('input[name="selectedSeats"]:checked').forEach(function (checkbox) {
-                        selectedSeats.push(checkbox.value);
-                    });
+                    // Hiển thị modal khi bấm nút "Submit"
 
-                    // Hiển thị danh sách ghế đã chọn (có thể thay thế bằng xử lý khác)
-                    alert('Selected Seats: ' + selectedSeats.join(', '));
+                    $('#confirmModal').modal('show');
                 }
+                function confirmBooking() {
+                    // Gọi hàm xác nhận khi người dùng bấm nút "Confirm"
+                    // Thực hiện các logic cần thiết, ví dụ: gọi đến action ConfirmBooking
+                    $('#submitBk').submit();
+                }
+
+
             </script>
         </div>
     </div>
 
 
 </div>
+<script>
+    function showSuccessModal() {
+        // Hiển thị modal
+        $('#successModal').modal('show');
 
+        // Đếm ngược 3 giây
+        var countDown = 3;
+        var countDownInterval = setInterval(function () {
+            countDown--;
+
+            // Hiển thị thời gian đếm ngược
+            $('#countdown').text(countDown);
+
+            // Kiểm tra nếu đã hết thời gian đếm ngược
+            if (countDown <= 0) {
+                // Đóng modal và dừng đếm ngược
+                $('#successModal').modal('hide');
+                clearInterval(countDownInterval);
+            }
+        }, 1000);
+    }
+</script>
 
 
 
