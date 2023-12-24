@@ -1,10 +1,15 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.Entity.Infrastructure;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
@@ -18,26 +23,37 @@ namespace TicketLand_project.Controllers
     {
 
         QUANLYXEMPHIMEntities objModel = new QUANLYXEMPHIMEntities();
-        public ActionResult Index()
+
+        public async Task<ActionResult> Index()
         {
             if (Session["Username"] != null)
             {
-                var movies = objModel.movies.ToList();
-                int numberMoviesEnable = 0;
-                foreach (var movie in movies)
+                using (HttpClient client = new HttpClient())
                 {
-                    movie.DurationInMinutes = ConvertTimeToMinutes(movie.movie_duration.ToString());
-                    if (movie.movie_status == 1) numberMoviesEnable++;
+                    client.BaseAddress = new Uri("https://apitikketland.azurewebsites.net/api/");
+                    HttpResponseMessage response = await client.GetAsync("movies");
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var movies = await response.Content.ReadAsAsync<List<movy>>();
+                        foreach (movy movie in movies)
+                        {
+                            movie.DurationInMinutes = ConvertTimeToMinutes(movie.movie_duration.ToString());
+                        }
+                        return View(movies);
+                    }
+                    else
+                    {
+                        // Xử lý khi không nhận được phản hồi thành công từ API
+                        // Ví dụ: ghi log, hiển thị thông báo lỗi, vv.
+                        return View("Error");
+                    }
                 }
-                ViewBag.numberMoviesEnable = numberMoviesEnable;
-                return View(movies);
-                //return View(objModel.movies.ToList());
             }
             else if (Session["username"].ToString() == "Phương")
             {
                 return View();
             }
-
 
             return RedirectToAction("Login");
         }
@@ -54,6 +70,120 @@ namespace TicketLand_project.Controllers
             // Nếu định dạng thời gian không hợp lệ hoặc không thể chuyển đổi thành TimeSpan, trả về giá trị mặc định hoặc ném ra một ngoại lệ tùy thuộc vào yêu cầu của bạn.
             return 0; // Giá trị mặc định (hoặc bạn có thể trả về một giá trị khác)
         }
+
+        //public ActionResult GetMovieTimes(string movieName, TimeSpan scheduleDate)
+        //{
+        //    if (scheduleDate != null)
+        //    {
+        //        // Sử dụng Entity Framework để truy vấn dữ liệu từ cơ sở dữ liệu
+        //        Debug.WriteLine("movieName: " + movieName);
+        //        Debug.WriteLine("scheduleDate: " + scheduleDate);
+
+        //        //var movie = objModel.movies.FirstOrDefault(m => m.movie_name == movieName);
+        //        //Debug.WriteLine("movie: " + movie.movie_id);
+        //        var movie_id = 28;
+        //        var schedule = objModel.schedules.Where(s => s.movie_id == movie_id && s.schedule_date_start == scheduleDate).ToList();
+
+
+        //        Debug.WriteLine("movie: " + schedule);
+        //        // Tạo danh sách các thời gian xuất chiếu để truyền về cho client
+        //        var movieTimes = schedule.Select(s => s.time_start).ToList();
+
+        //        return Json(movieTimes, JsonRequestBehavior.AllowGet);
+        //    }
+        //    else {
+        //        Debug.WriteLine("Không có lịch chiếu");
+        //        return View();
+        //    }
+
+        //}
+
+        public async Task<ActionResult> GetMovieTimes(string movieName, DateTime scheduleDate)
+        {
+            if (scheduleDate != null)
+            {
+                // Gọi API và lấy dữ liệu trả về
+                var apiUrl = "https://apitikketland.azurewebsites.net/api/schedules";
+                var httpClient = new HttpClient();
+                var response = await httpClient.GetAsync(apiUrl);
+                var responseData = await response.Content.ReadAsStringAsync();
+
+                var apiUrl_2 = "https://apitikketland.azurewebsites.net/api/movies";
+                var httpClient2 = new HttpClient();
+                var response2 = await httpClient2.GetAsync(apiUrl_2);
+                var responseData2 = await response2.Content.ReadAsStringAsync();
+                
+                var movies = Newtonsoft.Json.JsonConvert.DeserializeObject<List<movy>>(responseData2);
+                // Chuyển đổi dữ liệu từ JSON sang danh sách lịch chiếu
+                var schedules = Newtonsoft.Json.JsonConvert.DeserializeObject<List<schedule>>(responseData);
+                Debug.WriteLine("movies: " + movieName);
+                
+                var filterMovies = movies.Where(m => m.movie_name == movieName);
+                Debug.WriteLine("movies: " + filterMovies);
+                int movie_id = filterMovies.Select(m => m.movie_id).FirstOrDefault();
+
+                Debug.WriteLine("movies: " + movie_id);
+                // Lọc danh sách lịch chiếu theo movie_id và schedule_date
+                var filteredSchedules = schedules.Where(s => s.movie_id == movie_id && s.show_date == scheduleDate);
+
+                // Lấy danh sách các time_start
+                var movieTimes = filteredSchedules.Select(s => s.time_start).ToList();
+
+                // In danh sách time_start ra Output Debug
+                foreach (var time in movieTimes)
+                {
+                    Debug.WriteLine("time_start: " + time);
+                }
+
+                return Json(movieTimes, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                Debug.WriteLine("Không có lịch chiếu");
+                return View();
+            }
+        }
+
+        public class News
+        {
+            public int news_id { get; set; }
+            public int movie_id { get; set; }
+            public string news_title { get; set; }
+            public string news_content { get; set; }
+            public string news_img { get; set; }
+            public DateTime news_release { get; set; }
+        }
+
+        public async Task<ActionResult> GetNews()
+        {
+            // Gọi API và lấy dữ liệu trả về
+            var apiUrl = "https://apitikketland.azurewebsites.net/api/news";
+            var httpClient = new HttpClient();
+            var response = await httpClient.GetAsync(apiUrl);
+            var responseData = await response.Content.ReadAsStringAsync();
+
+            // Chuyển đổi dữ liệu từ chuỗi JSON sang đối tượng C#
+            var newsList = JsonConvert.DeserializeObject<List<News>>(responseData);
+
+            // Lọc ra những news có news_release cách ngày hiện tại không quá 10 ngày
+            var filteredNewsList = new List<News>();
+
+            foreach (var news in newsList)
+            {
+                DateTime now = DateTime.Now;
+                DateTime newsRelease = news.news_release; // hoặc news.news_release.GetValueOrDefault()
+                TimeSpan timeDiff = now - newsRelease;
+
+                double daysDiff = timeDiff.TotalDays;
+                if (daysDiff <= 10)
+                {
+                    filteredNewsList.Add(news);
+                }
+            }
+
+            return Json(filteredNewsList, JsonRequestBehavior.AllowGet);
+        }
+
 
         // GET: Register
         public ActionResult Register()

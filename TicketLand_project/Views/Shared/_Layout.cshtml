@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="~/assets/css/home/home.css">
     <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/assets/css/animate.min.css">
     <link rel="stylesheet" href="~/assets/fonts/flaticon.css">
@@ -11,15 +10,19 @@
     <link rel="stylesheet" href="~/assets/css/magnific-popup.css">
     <link rel="stylesheet" href="~/assets/css/owl.carousel.min.css">
     <link rel="stylesheet" href="~/assets/css/owl.theme.default.min.css">
-    <link rel="stylesheet" href="~/assets/css/nice-select.min.css">
+    @*<link rel="stylesheet" href="~/assets/css/nice-select.min.css">*@
     <link rel="stylesheet" href="~/assets/css/meanmenu.css">
     <link rel="stylesheet" href="~/assets/css/jquery-ui.css">
     <link rel="stylesheet" href="~/assets/css/style.css">
     <link rel="stylesheet" href="~/assets/css/responsive.css">
     <link rel="stylesheet" href="~/assets/css/theme-dark.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <link rel="stylesheet" href="~/Assets/css/home/home.css">
+    <script src="https://kit.fontawesome.com/577247cd82.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="~/Assets/img/logos/logo.png">
+    <link rel="icon" type="image/png" href="~/Assets/img/logo/logo.png">
 
 
     <title>Tikket Land</title>
@@ -31,7 +34,7 @@
         <div class="d-table">
             <div class="d-table-cell">
                 <div class="sk-cube-area">
-                    <div class="sk-cube1 sk-cube"></div>
+                    <div class="sk-cube1 sk-cube"></div>                    
                     <div class="sk-cube2 sk-cube"></div>
                     <div class="sk-cube4 sk-cube"></div>
                     <div class="sk-cube3 sk-cube"></div>
@@ -45,7 +48,7 @@
         <!-- Menu For Mobile Device -->
         <div class="mobile-nav">
             <a href="index.html" class="logo">
-                <img src="~/Assets/img/logos/logo.png" class="logo-one" alt="Logo">
+                <img src="~/Assets/img/logo/logo.png" class="logo-one" alt="Logo">
             </a>
         </div>
 
@@ -54,7 +57,7 @@
             <div class="container">
                 <nav class="position-static navbar navbar-expand-md bg-light">
                     <a class="navbar-brand" href="index.html">
-                        <img src="~/Assets/img/logos/logo.png" class="logo-one" alt="Logo">
+                        <img src="~/Assets/img/logo/logo.png" class="logo-one" alt="Logo">
                     </a>
 
                     <div class="collapse navbar-collapse mean-menu" style="justify-content:center; justify-items:center;" id="navbarSupportedContent">
@@ -141,12 +144,9 @@
 
                     <div class="col-lg-4 col-md-6">
                         <div class="footer-widget text-normal">
-                            <p style="font-weight:bold;">
-                                TICKET LAND
-                            </p>
                             <div class="footer-logo">
                                 <a href="index.html">
-                                    <img src="~/Assets/img/logos/logo.png" class="logo-one" alt="Logo">
+                                    <img src="~/Assets/img/logo/logo.png" class="logo-one" alt="Logo">
                                 </a>
                             </div>
                             <p>
@@ -277,9 +277,6 @@
                 </div>
             </div>
         </div>
-
-
-
     </footer>
     <!-- Footer Area End -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -311,18 +308,24 @@
     <script src="~/Assets/js/contact-form-script.js"></script>
     <!-- Custom JS -->
     <script src="~/Assets/js/custom.js"></script>
-    <script src="https://kit.fontawesome.com/577247cd82.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
 </body>
 </html>
 
 <script>
-    function scrollToPosition(scrollTarget) {
+    function scrollToPosition(scrollTarget, movieClickBuy) {
         window.scrollTo({
             top: document.getElementById(scrollTarget).offsetTop,
             behavior: 'smooth'
         });
+
+        if (movieClickBuy) {
+            // Điền giá trị của biến C# vào ô input có id là "tags"
+            document.getElementById("tags").value = movieClickBuy;
+        }
     }
 
 </script>

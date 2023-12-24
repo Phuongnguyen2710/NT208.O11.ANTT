@@ -1201,7 +1201,6 @@ Sidebar Modal
 Main Banner Area
 ====================================*/
 .banner-area {
-  background-image: url(../img/home-one.jpg);
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -1244,7 +1243,6 @@ Main Banner Area
 }
 
 .banner-area-three {
-  background-image: url(../img/home-three.jpg);
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -1309,7 +1307,6 @@ Main Banner Area
   right: -30px;
   width: 100%;
   height: 90%;
-  background-image: url(../img/home-two/home-two-bg.jpg);
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -1328,13 +1325,14 @@ Main Banner Area End
 Banner Form Area 
 ====================================*/
 .banner-form {
-    position: relative;
-    z-index: 1;
-    margin-top: -70px;
-    background-color: #F5F5F5;
-    padding: 25px 40px 22px;
-    border-radius: 10px;
-    margin-right: auto;
+  position: relative;
+  z-index: 1;
+  margin-top: -70px;
+  background-color: #F5F5F5;
+  padding: 25px 40px 22px;
+  border-radius: 15px;
+  max-width: 870px;
+  margin-right: auto;
 }
 
 .banner-form .form-group {
@@ -1511,53 +1509,6 @@ Inner Banner
   font-family: "Open Sans", sans-serif;
 }
 
-.inner-bg1 {
-  background-image: url(../img/inner-banner/inner-banner1.jpg);
-}
-
-.inner-bg2 {
-  background-image: url(../img/inner-banner/inner-banner2.jpg);
-}
-
-.inner-bg3 {
-  background-image: url(../img/inner-banner/inner-banner3.jpg);
-}
-
-.inner-bg4 {
-  background-image: url(../img/inner-banner/inner-banner4.jpg);
-}
-
-.inner-bg5 {
-  background-image: url(../img/inner-banner/inner-banner5.jpg);
-}
-
-.inner-bg6 {
-  background-image: url(../img/inner-banner/inner-banner6.jpg);
-}
-
-.inner-bg7 {
-  background-image: url(../img/inner-banner/inner-banner7.jpg);
-}
-
-.inner-bg8 {
-  background-image: url(../img/inner-banner/inner-banner8.jpg);
-}
-
-.inner-bg9 {
-  background-image: url(../img/inner-banner/inner-banner9.jpg);
-}
-
-.inner-bg10 {
-  background-image: url(../img/inner-banner/inner-banner10.jpg);
-}
-
-.inner-bg11 {
-  background-image: url(../img/inner-banner/inner-banner11.jpg);
-}
-
-.inner-bg12 {
-  background-image: url(../img/inner-banner/inner-banner12.jpg);
-}
 
 /*=================================
 About Area 
@@ -2626,7 +2577,6 @@ Specialty Area
   z-index: -1;
   top: 30px;
   left: -30px;
-  background-image: url(../img/specialty/specialty-img2.jpg);
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -5447,17 +5397,6 @@ Blog Area
   background-color: #555555;
 }
 
-.side-bar-widget .widget-popular-post .item .thumb .full-image.bg1 {
-  background-image: url(../img/blog/blog-item-img1.jpg);
-}
-
-.side-bar-widget .widget-popular-post .item .thumb .full-image.bg2 {
-  background-image: url(../img/blog/blog-item-img2.jpg);
-}
-
-.side-bar-widget .widget-popular-post .item .thumb .full-image.bg3 {
-  background-image: url(../img/blog/blog-item-img3.jpg);
-}
 
 .side-bar-widget .widget-popular-post .item .info {
   overflow: hidden;

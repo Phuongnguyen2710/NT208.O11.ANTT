@@ -3,87 +3,116 @@
     ViewBag.Title = "Home Page";
 
 }
+@{
+    List<int> movie_current = new List<int>();
+    List<int> movie_coming = new List<int>();
+
+    int postersPerRow = 4; // Số lượng poster trên mỗi dòng
+    int postersPerItem = 8; // Số lượng poster trên mỗi carousel-item
+    int itemIndex1 = 0; // Chỉ số của carousel-item
+
+    var availableTutorials = new List<string>();
+    //int movieClickBuy = 0;
+
+
+}
+@for (int i = 0; i < Model.Count(); i++)
+{
+    if (Model.ElementAt(i).movie_status == 1)
+    {
+        movie_current.Add(i);
+        availableTutorials.Add(Model.ElementAt(i).movie_name);
+    }
+    if (Model.ElementAt(i).movie_status == 2)
+    {
+        movie_coming.Add(i);
+    }
+}
 <!-- Banner Area -->
-<div class="banner-area">
+<div class="banner-area" style="position:sticky; background-image:none;">
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
             <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
             <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
         </ol>
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img class="d-block w-100" src="https://youthvietnam.vn/wp-content/uploads/2021/06/mau-poster-phim-viet-nam.jpg" />
+        <text>
+            <div class="carousel-inner">
+        </text>
+        @for (int i = 0; i < movie_current.Count(); i++)
+        {
+            <div class="carousel-item @(i == 0 ? "active" : "")">
+                @if (Model.ElementAt(movie_current[i]).movie_banner != null)
+                {
+                    <img class="d-block w-100" style="max-height: 500px; max-width: 100%; object-fit: cover;" src=@Model.ElementAt(movie_current[i]).movie_banner />
+                }
             </div>
-            <div class="carousel-item">
-                <img class="d-block w-100" src="https://photo-cms-baophapluat.epicdn.me/w840/Uploaded/2023/hfobhvwbucqaow/2022_06_15/nha-thiet-ke-poster-phim-le-791655133447-5792.jpg" />
-            </div>
-        </div>
-        <a class=" carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
+        }
+
+        <text>
     </div>
+    </text>
+    <a class=" carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
 </div>
 <!-- Banner Area End -->
 <!-- Banner Form Area -->
-<div class="banner-form-area">
-    <div class="container">
-        <div class="banner-form border border-1">
-            <form>
-                <div class="row justify-content-center align-items-center">
-                    <div class="col-lg-3 col-md-3 form-group">
-                        <div class="input-group">
-
-                            <span class="input-group-text border border-secondary rounded-start"> <span class=" fa-solid fa-magnifying-glass" style="margin-top:2px;"></span></span>
-                            <input type="text" class="form-control border border-secondary rounded-end" placeholder="Tìm phim...">
-                        </div>
-                    </div>
-
-                    <div class="col-lg-1 col-md-3 form-group">
-                        <span class="border border-1 border-start"></span>
-                    </div>
-
-                    <div class="col-lg-3 col-md-2 form-group">
-                        <div class="d-flex justify-content-center align-items-center">
-                            <div class="col-7">
-                                <label style="margin-bottom: 0; white-space: nowrap;">Ngày chiếu</label>
-                            </div>
-                            <div class="col-5 input-group_1">
-                                <input id="datetimepicker-check" type="text" class="form-control" placeholder="11/02/2020">
-                                <span class="input-group-addon"></span>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="col-lg-1 col-md-3 form-group">
-                        <span class="border border-1 border-start"></span>
-                    </div>
-                    <div class="col-lg-2 col-md-2">
-                        <div class="dropdown">
-                            <button class="btn btn-outline-secondary border-0 dropdown-toggle" style="font-weight:bold;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Xuất chiếu
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">9:00</a></li>
-                                <li><a class="dropdown-item" href="#">10:00</a></li>
-                                <li><a class="dropdown-item" href="#">11:00</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-1 col-md-3 form-group">
-                        <span class="border border-1 border-start"></span>
-                    </div>
-                    <div class="col-lg-1 col-md-1 form-group">
-                        <button type="button" class="banner-button btn btn-danger">GO</button>
+<div id="banner-head" class="containerbanner">
+    <div class="banner-head">
+        <form>
+            <div class="row justify-content-center align-items-center">
+                <div class="col-lg-3  mt-2 form-group d-flex justify-content-center align-items-center" style="padding-block-end:auto;">
+                    <div class="input-group">
+                        <span class="input-group-text border border-secondary rounded-start ui-widget"> <span class="fa-solid fa-magnifying-glass" style="margin-top:2px;"></span></span>
+                        <input id="tags" type="text" class="form-control border border-secondary rounded-end" placeholder="Tìm phim...">
                     </div>
                 </div>
-            </form>
-        </div>
+                <div class="mt-2 col-lg-4 form-group">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="col-5 d-flex justify-content-lg-end pe-3">
+                            <label style="margin-bottom: 0; white-space: nowrap; font-weight:bold">Ngày chiếu</label>
+                        </div>
+                        <div class="col-7 input-group_1">
+                            @{
+                                DateTime currentDate = DateTime.Now;
+                                int year = currentDate.Year;
+                                int month = currentDate.Month;
+                                int day = currentDate.Day;
+
+                                // Lưu ngày tháng năm hiện tại vào các biến
+                                string currentDateString = currentDate.ToString("dd/MM/yyyy");
+                            }
+                            <input id="datetimepicker-check" type="text" class="form-control d-flex justify-content-center align-items-center" placeholder=@currentDateString>
+                            <span class="input-group-addon"></span>
+                        </div>
+
+                    </div>
+                </div>
+                <div id="time-film" class="col-lg-3 mt-2">
+                    <div class="form-group d-flex justify-content-center align-items-center">
+                        <label class="pe-3" style="font-weight:bold;">Xuất chiếu</label>
+                        <select id="time-of-film" class="control" style="position: relative;">
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-12 col-sm-12 mt-2 form-group d-flex justify-content-center align-items-center">
+                    <button id="find-film" type="button" class="btn btn-success"> <span class="fa-solid fa-magnifying-glass" style="margin-top:2px;"> </span></button>
+                    <button id="load-film" class="btn btn-success" type="button" disabled>
+                        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="col-lg-1 col-md-12 col-sm-12 mt-2 form-group d-flex justify-content-center align-items-center">
+                    <button type="button" class="banner-button btn btn-danger">GO</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 <!-- Banner Form Area End -->
@@ -111,26 +140,11 @@
                             <div class="row pt-10">
                                 <div id="carouselExample" class="carousel slide">
                                     <div class="carousel-inner">
+
                                         @{
-                                            List<int> movie_current = new List<int>();
-                                            List<int> movie_coming = new List<int>();
-
-                                            int postersPerRow = 4; // Số lượng poster trên mỗi dòng
-                                            int postersPerItem = 8; // Số lượng poster trên mỗi carousel-item
-                                            int itemIndex1 = 0; // Chỉ số của carousel-item
+                                            var jsonAvailableTutorials = Newtonsoft.Json.JsonConvert.SerializeObject(availableTutorials);
+                                            var encodedJsonAvailableTutorials = jsonAvailableTutorials.Replace("'", "\\'");
                                         }
-                                        @for (int i = 0; i < Model.Count(); i++)
-                                        {
-                                            if (Model.ElementAt(i).movie_status == 1)
-                                            {
-                                                movie_current.Add(i);
-                                            }
-                                            if (Model.ElementAt(i).movie_status == 2)
-                                            {
-                                                movie_coming.Add(i);
-                                            }
-                                        }
-
                                         @for (int i = 0; i < movie_current.Count(); i++)
                                         {
                                             if (i % postersPerItem == 0)
@@ -151,46 +165,47 @@
                                             }
                                             <text>
                                                 <div class="col-lg-3 col-md-4 col-sm-6">
-                                                    <div class="room-card">
-                                                        <div>
-                                                            <a href="room-details.html">
-                                                                <img class="poster_film responsive-image" src="@Model.ElementAt(movie_current[i]).movie_poster" alt="Images" />
-                                                            </a>
-                                                        </div>
-                                                        <div class="content" style="width: 100%; height: 100px;">
-                                                            <div class="text-age-name">
-                                                                @if (Model.ElementAt(movie_current[i]).movie_cens == "P")
-                                                                {
-                                                                    <div><button class="btn-age btn btn-success">P</button></div>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <div><button class="btn-age btn btn-danger">@Model.ElementAt(movie_current[i]).movie_cens</button></div>
-                                                                }
-
-                                                                <span><a class="text-name-film" href="room-details.html">@Model.ElementAt(movie_current[i]).movie_name</a></span>
-                                                            </div>
-                                                            <div class="text-time-rating">
-                                                                <div class="col-lg-6 text-poster">@Model.ElementAt(movie_current[i]).DurationInMinutes phút</div>
-                                                                <span class="col-lg-6 star-rating">
-                                                                    @{
-                                                                        double? temp = Model.ElementAt(movie_current[i]).rate;
-                                                                        int rate_overal = (int)System.Math.Truncate(temp.Value);
-                                                                    }
-                                                                    @for (int n = 0; n < rate_overal; n++)
-                                                                    {
-                                                                        <i class='bx bxs-star' style="color:orange;"></i>
-                                                                    }
-                                                                    @if (temp - rate_overal >= 0.5)
-                                                                    {
-                                                                        <i class='bx bxs-star-half' style="color:orange;"></i>
-                                                                    }
+                                                                                                <div class="room-card">
+                                                                                                    <div id="poster">
+                                                                                                        <a href="room-details.html">
+                                                                                                            <img class="poster_film" src="@Model.ElementAt(movie_current[i]).movie_poster" alt="Images" />
+                                                                                                        </a>
+                                                                                                    </div>
 
 
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                                                                    <div  class="content" style="width: 100%; height: 100px;">
+                                                                                                        <div  class="text-age-name">
+                                                                                                            @if (Model.ElementAt(movie_current[i]).movie_cens == "P")
+                                                                                                            {
+                                                                                                                <div><button class="btn-age btn btn-success">P</button></div>
+                                                                                                            }
+                                                                                                            else
+                                                                                                            {
+                                                                                                                <div><button class="btn-age btn btn-danger">@Model.ElementAt(movie_current[i]).movie_cens</button></div>
+                                                                                                            }
+
+                                                                                                            <span><a class="text-name-film" href="room-details.html">@Model.ElementAt(movie_current[i]).movie_name</a></span>
+                                                                                                        </div>
+                                                                                                        <div class="text-time-rating">
+                                                                                                            <div  class="col-lg-6 text-poster">@Model.ElementAt(movie_current[i]).DurationInMinutes phút</div>
+                                                                                                            <span class="col-lg-6 star-rating">
+                                                                                                                @{
+                                                                                                                    double? temp = Model.ElementAt(movie_current[i]).rate;
+                                                                                                                    int rate_overall = temp.HasValue ? (int)temp.Value : 0;
+                                                                                                                }
+                                                                                                                @for (int n = 0; n < rate_overall; n++)
+                                                                                                                {
+                                                                                                                    <i class='bx bxs-star' style="color:orange;"></i>
+                                                                                                                }
+                                                                                                                @if (temp - rate_overall >= 0.5)
+                                                                                                                {
+                                                                                                                    <i class='bx bxs-star-half' style="color:orange;"></i>
+                                                                                                                }
+                                                                                                            </span>
+                                                                                                        </div>
+                                                                                                        <button onclick="scrollToPosition('home-page', '@Model.ElementAt(movie_current[i]).movie_name') " class="buy-ticket-button btn btn-warning centered-button">Mua vé</button>
+                                                                                                    </div>
+                                                                                                </div>
                                                 </div>
                                             </text>
                                             // Nếu là cuối dòng hoặc cuối carousel-item, đóng row hoặc carousel-item
@@ -204,9 +219,6 @@
                                                 @Html.Raw("</div>")
                                             }
                                         }
-                                        }
-
-
                                     </div>
 
                                     <button class="carousel-control-prev" style="left: -10%; color: brown; font-size:2rem;" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
@@ -218,12 +230,12 @@
                                         <span class="visually-hidden" style="color:brown;">Next</span>
                                     </button>
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
                 </div>
+
+
                 <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                     <div class="room-area pt-20 pb-20 section-bg">
                         <div class="container">
@@ -259,24 +271,24 @@
                                                     <div class="room-card">
                                                         <div>
                                                             <a href="room-details.html">
-                                                                <img class="poster_film responsive-image" src="@Model.ElementAt(movie_coming[i]).movie_poster" alt="Images" />
+                                                                <img class="poster_film" src="@Model.ElementAt(movie_coming[i]).movie_poster" alt="Images" />
                                                             </a>
                                                         </div>
                                                         <div class="content" style="width: 100%; height: 100px;">
-                                                            <div class="text-age-name">
-                                                                @if (Model.ElementAt(movie_current[i]).movie_cens == "P")
+                                                            <div class="text-age-name2">
+                                                                @if (Model.ElementAt(movie_coming[i]).movie_cens == "P")
                                                                 {
                                                                     <div><button class="btn-age btn btn-success">P</button></div>
                                                                 }
                                                                 else
                                                                 {
-                                                                    <div><button class="btn-age btn btn-danger">@Model.ElementAt(movie_current[i]).movie_cens</button></div>
+                                                                    <div><button class="btn-age btn btn-danger">@Model.ElementAt(movie_coming[i]).movie_cens</button></div>
                                                                 }
                                                                 <span><a class="text-name-film" href="room-details.html">@Model.ElementAt(movie_coming[i]).movie_name</a></span>
                                                             </div>
-                                                            <div class="text-time-rating">
-                                                                <div class="col-lg-4 text-poster">@Model.ElementAt(movie_coming[i]).DurationInMinutes phút</div>
-                                                                <span class="col-lg-8 text-poster" style="font-weight:bold;">
+                                                            <div class="text-time-rating2">
+                                                                <div class="col-4 text-poster">@Model.ElementAt(movie_coming[i]).DurationInMinutes phút</div>
+                                                                <span class="col-8 text-poster" style="white-space: nowrap;">
                                                                     Khởi chiếu  @DateTime.Parse((Model.ElementAt(movie_coming[i]).movie_release).ToString()).ToString("dd/MM/yyyy")
                                                                 </span>
                                                             </div>
@@ -306,65 +318,63 @@
                                         <span class="visually-hidden" style="color:brown;">Next</span>
                                     </button>
                                 </div>
-
-
                             </div>
-                        </div>
-                    </div>
-                </div>
-                </div>
-                </div>
-                </div>
-                <!--Film End Area-->
-                <!--News Start Area-->
-                <div class="container" id="news-page">
-                    @*Header of News*@
-                    <div class="text-header">
-                        Tin tức - Ưu đãi
-                    </div>
-                    @*Body News*@
-                    <div class="row mt-4">
-                        <div class="col-lg-4 col-md-4 col-sm-4  news">
-                            <img class="responsive-image  news" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4  news">
-                            <img class="responsive-image" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4  news">
-                            <img class="responsive-image" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
-                        </div>
-                    </div>
 
-                    <div class="row mt-4">
-                        <div class="col-lg-3 col-md-3 col-sm-3  news">
-                            <img class="responsive-image  news" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3  news">
-                            <img class="responsive-image" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3  news">
-                            <img class="responsive-image" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3  news">
-                            <img class="responsive-image" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
                         </div>
                     </div>
-
-                    <div class="row mt-4 mb-5">
-                        <div class="col-lg-6 col-md-6 col-sm-6  news">
-                            <img class="responsive-image  news" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6  news">
-                            <img class="responsive-image" src="~/Assets/img/home/poster_film/toi-thay-hoa-vang.jpg" alt="Images News">
-                        </div>
-                    </div>
-
                 </div>
-                <!--News End Area-->
-                <!--Java Script-->
-           
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script>
+            </div>
+        </div>
+        <!--Film End Area-->
+        <!--News Start Area-->
+        <div class="container" id="news-page">
+            @*Header of News*@
+            <div class="text-header">
+                Tin tức - Ưu đãi
+            </div>
+            @*Body News*@
+            <div class="row mt-4">
+                <div class="col-lg-4 col-md-4 col-sm-4  news">
+                    <img id="img0" class="responsive-image  news" src="" alt="Images News">
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4  news">
+                    <img id="img1" class="responsive-image" src="" alt="Images News">
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4  news">
+                    <img id="img2" class="responsive-image" src="" alt="Images News">
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-lg-3 col-md-3 col-sm-3  news">
+                    <img id="img3" class="responsive-image  news" src="" alt="Images News">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3  news">
+                    <img id="img4" class="responsive-image" src="" alt="Images News">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3  news">
+                    <img id="img5" class="responsive-image" src="" alt="Images News">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3  news">
+                    <img id="img6" class="responsive-image" src="" alt="Images News">
+                </div>
+            </div>
+
+            <div class="row mt-4 mb-5">
+                <div class="col-lg-6 col-md-6 col-sm-6  news">
+                    <img id="img7" class="responsive-image  news" src="" alt="Images Events">
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6  news">
+                    <img id="img8" class="responsive-image" src="" alt="Images Events">
+                </div>
+            </div>
+
+        </div>
+        <!--News End Area-->
+        <!--Java Script-->
+
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script>
   // Kiểm tra xem key "Username" đã tồn tại trong sessionStorage hay chưa
     if (!sessionStorage.getItem("Username")) {
         // Nếu không tồn tại, thực hiện AJAX để lấy thông tin đăng nhập từ máy chủ
@@ -407,5 +417,91 @@
         var totalMinutes = (hours * 60) + minutes + Math.round(seconds / 60);
 
         return totalMinutes;
-    }
-</script>
+            }
+
+    $(document).ready(function () {
+         var availableTags = JSON.parse('@Html.Raw(encodedJsonAvailableTutorials)');
+        $('#tags').autocomplete({
+            source: availableTags
+        });
+    });
+            $(document).ready(function () {
+                $('#load-film').hide();
+                $('#find-film').click(function () {
+                    var movieName = $('#tags').val();
+                    var scheduleDate = $('#datetimepicker-check').val();
+                    console.log('movieName:', movieName);
+                    console.log('scheduleDate:', scheduleDate);
+
+                    //Ân hiện button
+                    $('#find-film').hide();
+                    $('#load-film').show();
+
+                    $.ajax({
+                        url: '/Home/GetMovieTimes',
+                        type: 'GET',
+                        data: { movieName: movieName, scheduleDate: scheduleDate },
+                        success: function (data) {
+                            console.log(data);
+                            $('#time-of-film').empty();
+                            // Xóa các option hiện tại trong #time-of-film
+                            if (data == null) {
+                                var optionText = "Không có lịch chiếu";
+                                var optionValue = optionText;
+                                $('#time-of-film').append($('<option>', {
+                                    value: optionValue,
+                                    text: optionText
+                                }));
+                            }
+                            else {
+                                $.each(data, function (index, time) {
+                                    var optionText = time.Hours + ":" + time.Minutes;
+                                    var optionValue = optionText;
+                                    $('#time-of-film').append($('<option>', {
+                                        value: optionValue,
+                                        text: optionText
+                                    }));
+                                });
+                            }
+
+                            // Hiển thị #time-of-film sau khi đã thêm các option
+                            $('#time-of-film').show();
+                            $('#find-film').show();
+                            $('#load-film').hide();
+                        }
+                    });
+                });
+            });
+
+            $(document).ready(function () {
+                $(this).find('.buy-ticket-button').hide();
+                $('.content').hover(
+                    function () {
+                        $(this).find('.text-age-name, .text-time-rating').hide();
+                        $(this).find('.buy-ticket-button').show();
+                    },
+                    function () {
+                        $(this).find('.text-age-name, .text-time-rating').show();
+                        $(this).find('.buy-ticket-button').hide();
+                    }
+                );
+            });
+
+            $(document).ready(function () {
+                    $.ajax({
+                        url: '/Home/GetNews',
+                        type: 'GET',
+                        success: function (data) {
+                            console.log(data);
+                            $.each(data, function (index, item) {
+                                // Lấy giá trị news_img
+                                var newsImg = item.news_img;
+
+                                // Thay đổi thuộc tính src của thẻ img tương ứng
+                                $('#img' + index).attr('src', newsImg);
+                            });
+                        }
+                });
+             });
+
+        </script>
