@@ -379,5 +379,14 @@ namespace TicketLand_project.Controllers
 
             return Json(showtimes, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult Profile(int? id)
+        {
+            return View();
+        }
+
+        public ActionResult EditProfile(int? id)
+        {
+            return View();
+        }
     }
 }
