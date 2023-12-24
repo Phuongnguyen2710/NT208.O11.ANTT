@@ -510,6 +510,178 @@ namespace TicketLand_project.Controllers
             return View(viewModel);
         }
 
+        public decimal CalculateTotalPrice(int scheduleId, List<string> selectedSeats)
+        {
+            // Lấy thông tin về phòng chiếu từ cơ sở dữ liệu dựa trên scheduleId
+            var schedule = objModel.schedules.FirstOrDefault(s => s.schedule_id == scheduleId);
+
+            if (schedule != null)
+            {
+                // Lấy giá của ghế từ cơ sở dữ liệu hoặc cố định giá nếu không có trong cơ sở dữ liệu
+                decimal defaultSeatPrice = 50000;
+
+                // Tính toán tổng giá dựa trên loại ghế
+                decimal totalPrice = 0;
+
+                foreach (var seatId in selectedSeats)
+                {
+                    // Tách thông tin về hàng (row) và số (number) từ seatId
+                    char row = seatId[0];
+                    string Row = row.ToString();
+                    int number = int.Parse(seatId[1].ToString());
+
+                    // Lấy thông tin về loại ghế từ cơ sở dữ liệu dựa trên row và number
+                    var seat = objModel.seats
+                        .FirstOrDefault(s => s.room_id == schedule.room_id && s.row == Row && s.number == number);
+
+                    if (seat != null)
+                    {
+                        if (seat.seat_type == "Couple")
+                        {
+                            // Nếu là ghế đôi, giá là 120000 đồng
+                            totalPrice += 120000;
+                        }
+                        else
+                        {
+                            // Nếu là ghế đơn, sử dụng giá mặc định hoặc lấy giá từ cơ sở dữ liệu
+                            totalPrice += defaultSeatPrice;
+                        }
+                    }
+                }
+
+                return totalPrice;
+            }
+
+            // Trả về 0 nếu không tìm thấy lịch chiếu
+            return 0;
+        }
+
+
+        [HttpPost]
+        public ActionResult ConfirmBooking(int scheduleId, List<string> selectedSeats)
+        {
+            // Remove duplicates from selectedSeats in-place
+            var set = new HashSet<string>();
+            selectedSeats.RemoveAll(seat => !set.Add(seat));
+            foreach (var seat in selectedSeats)
+            {
+                System.Diagnostics.Debug.WriteLine("Selected Seat: " + seat);
+            }
+            // Lấy schedule từ database dựa trên scheduleId
+            var schedule = objModel.schedules.FirstOrDefault(s => s.schedule_id == scheduleId);
+            // Lấy member_id từ session
+            int memberId = GetCurrentUserId();
+
+            // Kiểm tra nếu không có người dùng đăng nhập
+            if (memberId == -1)
+            {
+                return RedirectToAction("Login"); // Hoặc chuyển hướng đến trang đăng nhập
+            }
+
+            // Tạo đối tượng Booking mới
+            var booking = new booking
+            {
+                member_id = memberId,
+                schedule_id = scheduleId,
+                booking_status = 1,
+                booking_date = DateTime.Now,
+                total_price = CalculateTotalPrice(scheduleId, selectedSeats).ToString(),
+            };
+
+            // Thêm đối tượng Booking vào cơ sở dữ liệu
+            objModel.bookings.Add(booking);
+            objModel.SaveChanges();
+
+            // Lấy booking_id vừa được tạo
+            int bookingId = booking.booking_id;
+
+            // Lưu thông tin chi tiết đặt ghế
+            foreach (var seatId in selectedSeats)
+            {
+                // Chia chuỗi seatId thành row và number
+                string row = seatId[0].ToString();
+                int number = int.Parse(seatId[1].ToString());
+
+                // Tìm seat trong cơ sở dữ liệu dựa trên room_id, row và number
+                var seat = objModel.seats.FirstOrDefault(s => s.room_id == schedule.room_id && s.row == row && s.number == number);
+
+                if (seat != null)
+                {
+                    // Nếu seat không null, có thể tạo đối tượng booking_detail
+                    var bookingDetail = new booking_detail
+                    {
+                        booking_id = bookingId,
+                        seat_id = seat.seat_id
+                    };
+
+                    objModel.booking_detail.Add(bookingDetail);
+
+                }
+
+            }
+
+            // Lưu thông tin chi tiết đặt ghế vào cơ sở dữ liệu
+            objModel.SaveChanges();
+
+            // Hiển thị modal thành công và đếm ngược
+            ViewBag.ShowSuccessModal = true;
+
+            return RedirectToAction("Index");
+
+
+        }
+
+
+        public class Seat
+        {
+            public string row { get; set; }
+            public int? number { get; set; }
+        }
+        public async Task<ActionResult> GetAvailableSeats(int scheduleId)
+        {
+
+            // Gọi API và lấy dữ liệu trả về
+            var apiUrl = "https://apitikketland.azurewebsites.net/api/bookings";
+            var httpClient = new HttpClient();
+            var response = await httpClient.GetAsync(apiUrl);
+            var responseData = await response.Content.ReadAsStringAsync();
+            var Booking = Newtonsoft.Json.JsonConvert.DeserializeObject<List<booking>>(responseData);
+            var bookingId = Booking.Where(b => b.schedule_id == scheduleId);
+
+            var apiUrl2 = "https://apitikketland.azurewebsites.net/api/booking_detail";
+            var httpClient2 = new HttpClient();
+            var response2 = await httpClient2.GetAsync(apiUrl2);
+            var responseData2 = await response2.Content.ReadAsStringAsync();
+            var BookingDetail = Newtonsoft.Json.JsonConvert.DeserializeObject<List<booking_detail>>(responseData2);
+            List<int?> SeatId = new List<int?>();
+            foreach (var bookingid in bookingId)
+            {
+                var filterBookingDetail = BookingDetail.Where(bk => bk.booking_id == bookingid.booking_id);
+                var seatId = filterBookingDetail.Select(ft => ft.seat_id).ToList();
+                SeatId.AddRange(seatId);
+            }
+            Debug.WriteLine(SeatId);
+
+            var apiUrl3 = "https://apitikketland.azurewebsites.net/api/seats";
+            var httpClient3 = new HttpClient();
+            var response3 = await httpClient3.GetAsync(apiUrl3);
+            var responseData3 = await response3.Content.ReadAsStringAsync();
+            var Seats = Newtonsoft.Json.JsonConvert.DeserializeObject<List<seat>>(responseData3);
+            List<Seat> seats = new List<Seat>();
+            foreach (var seatid in SeatId)
+            {
+                var filterSeat = Seats.Where(b => b.seat_id == seatid);
+                Seat s = new Seat();
+                s.row = filterSeat.Select(a => a.row).FirstOrDefault();
+                s.number = filterSeat.Select(c => c.number).FirstOrDefault();
+                seats.Add(s);
+            }
+
+
+            return Json(seats, JsonRequestBehavior.AllowGet);
+        }
+
+
         public ActionResult Profile(int id)
         {
             var data = objModel.members.Where(s => s.member_id.Equals(id)).ToList();

@@ -11,6 +11,8 @@ namespace TicketLand_project.ViewModels
     {
         public schedule Schedule { get; set; }
         public List<seat> Seats { get; set; }
+        public List<string> ReservedSeats { get; set; } // Danh sách các ghế đã chọn
+        public List<int> ReservedSeatIds { get; set; }
 
     }
 }
