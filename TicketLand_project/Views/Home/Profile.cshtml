@@ -1,0 +1,118 @@
+﻿@model TicketLand_project.Models.member
+
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-3">
+            <h2>Thông tin</h2>
+            <div class="nav-item text-center">
+                @if (!string.IsNullOrEmpty((string)Session["Avartar"]))
+                {
+                    <img src="@Url.Content((string)Session["Avartar"])" class="img_avartar" style="border-radius: 50%; height: 100px; width: 100px;" />
+                }
+                else
+                {
+                    <span>No image available</span>
+                }
+            </div>
+
+            <form>
+                <div class="form-group">
+                    <label>Họ và tên</label>
+                    <input type="text" class="form-control" id="fullname" value="@Model.member_name" disabled>
+                </div>
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" class="form-control" id="username" value="@Model.username" disabled>
+                </div>
+                <div class="form-group">
+                    <label>Giới tính</label>
+                    <input type="text" class="form-control" id="gender" value="@((bool)Model.gender ? "Nam" : "Nữ")" disabled>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" id="email" value="@Model.email" disabled>
+                </div>
+                <div class="form-group">
+                    <label>Ngày sinh</label>
+                    <input type="datetime" class="form-control" id="dateofbirth" value="@Model.date_of_birth" disabled>
+                </div>
+                <div class="form-group">
+                    <label>Thành phố</label>
+                    <input type="text" class="form-control" id="city" value="@Model.city" disabled>
+                </div>
+                <br>
+                @Html.ActionLink("Chỉnh sửa", "EditProfile", "Home", new { id = Session["idMember"] }, new { @class = "nav-link" })
+            </form>
+        </div>
+        <div class="col-md-9">
+            <h2>Lịch sử đặt vé</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Phim</th>
+                        <th>Ngày đặt</th>
+                        <th>Mã vé</th>
+                        <th>Tổng tiền</th>
+                    </tr>
+                </thead>
+                <tbody id="booking-history">
+                    <!-- Booking history will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@*<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>*@
+@*<script>
+        $(document).ready(function () {
+            const urlParts = window.location.pathname.split('/');
+            const id = urlParts[urlParts.length - 1];
+
+            if (id) {
+                $.ajax({
+                    url: `https://apitikketland.azurewebsites.net/api/members/${id}`,
+                    type: 'GET',
+                    success: function (data) {
+                        //i = 0;
+                        //while (id != data[i].member_id)
+                            //i++;
+                        const member = data;
+                        console.log(member.member_avatar)
+                        $('#fullname').val(member.member_name);
+                        $('#username').val(member.username);
+                        $('#gender').val(member.gender ? 'Nam' : 'Nữ');
+                        $('#email').val(member.email);
+                        $('#dateofbirth').val(member.date_of_birth.split('T')[0]);
+                        $('#city').val(member.city);
+                        $('#avatar').attr('src', member.member_avatar);
+
+                        /*let bookingHistory = '';
+                        for (let i = 0; i < member.bookings.length; i++) {
+                            bookingHistory += `
+                                <tr>
+                                    <td>${i + 1}</td>
+                                    <td>${member.bookings[i].film}</td>
+                                    <td>${member.bookings[i].date}</td>
+                                    <td>${member.bookings[i].ticketCode}</td>
+                                    <td>${member.bookings[i].total}</td>
+                                </tr>
+                            `;
+                        }
+                        $('#booking-history').html(bookingHistory);*/
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Lỗi khi gửi yêu cầu:', error);
+                    }
+                });
+            }
+            else {
+                console.error('Không tìm thấy ID trong URL.');
+            }
+        });
+    </script>*@

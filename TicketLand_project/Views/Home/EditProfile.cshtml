@@ -1,0 +1,162 @@
+﻿@model TicketLand_project.Models.member
+
+@{
+    ViewBag.Title = "EditProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-3 mx-auto">
+            <h2>Thông tin</h2>
+            <form>
+                <div class="form-group">
+                    <label>Họ và tên</label>
+                    <input type="text" class="form-control" id="fullname" value="@Model.member_name">
+                </div>
+
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" class="form-control" id="username" value="@Model.username">
+                </div>
+
+                <div class="form-group">
+                    <label>Mật khẩu</label>
+                    <input type="password" class="form-control" id="password" value="@Model.password">
+                </div>
+
+                <div class="form-group">
+                    <br><br>
+                    <label>Email</label>
+                    <input type="email" class="form-control" id="email" value="@Model.email">
+                </div>
+
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="email" class="form-control" id="phone" value="@Model.phone">
+                </div>
+
+                <div class="form-group">
+                    <label for="dateofbirth">Ngày sinh</label>
+                    <input type="date" class="form-control" id="dateofbirth" value="@Model.date_of_birth">
+                </div>
+
+                <div class="form-group">
+                    <label>Thành phố</label>
+                    <input type="text" class="form-control" id="city" value="@Model.city">
+                </div>
+                <br>
+                <button type="submit" class="btn btn-primary" id="editButton">Chỉnh sửa</button>
+            </form>
+        </div>
+    </div>
+</div>
+@*<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            const urlParts = window.location.pathname.split('/');
+            const id = urlParts[urlParts.length - 1];
+            var member;
+
+            if (id) {
+                $.ajax({
+                    url: `https://apitikketland.azurewebsites.net/api/members/${id}`,
+                    type: 'GET',
+                    success: function (data) {
+                        //i = 0;
+                        //while (id != data[i].member_id)
+                        //i++;
+                        member = data;
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Lỗi khi gửi yêu cầu:', error);
+                    }
+                });
+            }
+            else {
+                console.error('Không tìm thấy ID trong URL.');
+            }
+            $('#editButton').click(function (event) {
+                event.preventDefault();
+
+                var data = {};
+
+                data.member_id = id;
+                data.gender = member.gender;
+                data.role_id = 2;
+                data.member_avatar = member.member_avatar;
+                data.member_point = member.member_point;
+
+                var fullname = $('#fullname').val();
+                if (fullname) {
+                    data.member_name = fullname;
+                }
+                else data.member_name = member.member_name;
+
+                var username = $('#username').val();
+                if (username) {
+                    data.username = username;
+                }
+                else data.username = member.username;
+
+                //var password = $('#password').val();
+                //if (password) {
+                //    data.password = password;
+                //}
+                //else data.password = member.password;
+
+
+                var dateofbirth = $('#dateofbirth').val();
+                if (dateofbirth) {
+                    data.dateofbirth = dateofbirth;
+                }
+                else data.dateofbirth = member.dateofbirth;
+
+                var email = $('#email').val();
+                if (email) {
+                    data.email = email;
+                }
+                else data.email = member.email;
+
+                var phone = $('#phone').val();
+                if (phone) {
+                    data.phone = phone;
+                }
+                else data.phone = member.phone;
+
+                var city = $('#city').val();
+                if (city) {
+                    data.city = city;
+                }
+                else data.cỉty = member.city;
+
+                // Gửi dữ liệu đến API bằng Ajax
+                $.ajax({
+                    url: `https://apitikketland.azurewebsites.net/api/members/${id}`,
+                    type: 'PUT',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json',
+                    success: function (response) {
+                        console.log('Dữ liệu đã được gửi thành công!');
+                        // Xử lý phản hồi từ API (nếu cần)
+                    },
+                    error: function (error) {
+                        console.error('Đã xảy ra lỗi khi gửi dữ liệu!');
+                        // Xử lý lỗi (nếu cần)
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        const showPasswordCheckbox = document.getElementById('showPassword');
+        const passwordInput = document.getElementById('password');
+
+        showPasswordCheckbox.addEventListener('change', function () {
+            if (this.checked) {
+                passwordInput.type = 'text';
+            } else {
+                passwordInput.type = 'password';
+            }
+        });
+    </script>*@

@@ -563,6 +563,8 @@
     <Content Include="Views\movies\Index.cshtml" />
     <Content Include="Views\Home\MovieDetail.cshtml" />
     <Content Include="Views\Home\SelectSeat.cshtml" />
+    <Content Include="Views\Home\Profile.cshtml" />
+    <Content Include="Views\Home\EditProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

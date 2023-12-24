@@ -509,5 +509,19 @@ namespace TicketLand_project.Controllers
 
             return View(viewModel);
         }
+
+        public ActionResult Profile(int id)
+        {
+            var data = objModel.members.Where(s => s.member_id.Equals(id)).ToList();
+            var user = data.FirstOrDefault();
+            return View(user);
+        }
+        
+        public ActionResult EditProfile(int id)
+        {
+            var data = objModel.members.Where(s => s.member_id.Equals(id)).ToList();
+            var user = data.FirstOrDefault();
+            return View(user);
+        }
     }
 }
