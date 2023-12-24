@@ -47,6 +47,12 @@
                         <br />
 
                         <div class="form-group">
+                            <label for="time_end" class="text-center">Suất chiếu kết thúc lúc:</label>
+                            <input type="time" class="form-control text-center" id="time_end" name="time_end" />
+                        </div>
+                        <br />
+
+                        <div class="form-group">
                             <label for="room_id" class="text-center">Phòng:</label>
                             <select class="form-control" id="room_id" name="room_id">
                                 <option value="" class="text-center">-- Chọn phòng --</option>
@@ -62,6 +68,7 @@
                             <label for="show_date">Ngày suất chiếu:</label>
                             <input type="date" class="form-control text-center" id="show_date" name="show_date" />
                         </div>
+
 
                         <br />
                         <button type="submit" class="btn btn-primary" id="submitSave">Lưu</button>
@@ -178,11 +185,11 @@
                 data: formData,
                 success: function (response) {
                     $('#addRoomModal').modal('hide');
-                    alert("Thêm thành công")
+                    alert(response.message);
                     window.location.reload();
                 },
                 error: function (xhr, status, error) {
-                    console.log(error);
+                    alert("Thất bại!")
                 }
             });
         });

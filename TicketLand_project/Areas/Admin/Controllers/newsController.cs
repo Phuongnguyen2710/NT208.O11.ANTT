@@ -45,7 +45,7 @@ namespace TicketLand_project.Areas.Admin.Controllers
             // 3. Tạo truy vấn, lưu ý phải sắp xếp theo trường nào đó, ví dụ OrderBy
             // theo memberID mới có thể phân trang.
             var _news = (from l in db.news
-                           select l).OrderBy(x => x.news_id);
+                           select l).OrderBy(x => x.news_release);
 
             // 4. Tạo kích thước trang (pageSize) hay là số Link hiển thị trên 1 trang
             int pageSize = 11;

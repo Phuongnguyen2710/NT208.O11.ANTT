@@ -85,12 +85,28 @@ namespace TicketLand_project.Areas.Admin.Controllers
         [HttpPost]
         public JsonResult Create([Bind(Include = "schedule_id,movie_id,room_id,time_start,time_end,show_date")] schedule schedule)
         {
+            // Kiểm tra xem đã có suất chiếu trùng với giờ đó hay không
+            bool isDuplicate = db.schedules.Any(s =>
+                s.room_id == schedule.room_id &&
+                s.show_date == schedule.show_date &&
+                ((s.time_start >= schedule.time_start && s.time_start < schedule.time_end) ||
+                 (s.time_end > schedule.time_start && s.time_end <= schedule.time_end)));
+
+            if (isDuplicate)
+            {
+                return Json(new { success = false, message = "Suất chiếu trùng lịch!" });
+            }
+            else
+            {
+
+            }
             if (ModelState.IsValid)
             {
                 db.schedules.Add(schedule);
                 db.SaveChanges();
-                return Json(new { success = true, message = "Thêm thành công" });
+                return Json(new { success = true, message = "Thành công" });
             }
+
             return Json(new { success = false, message = "Thêm thất bại!" });
         }
 
@@ -114,7 +130,7 @@ namespace TicketLand_project.Areas.Admin.Controllers
 
         // POST: Admin/schedules/Edit/5
         [HttpPost]
-        public JsonResult Edit([Bind(Include = "schedule_id,movie_id,room_id,time_start,show_date")] schedule schedule)
+        public JsonResult Edit([Bind(Include = "schedule_id,movie_id,room_id,time_start,time_end,show_date")] schedule schedule)
         {
             if (ModelState.IsValid)
             {
@@ -145,6 +161,7 @@ namespace TicketLand_project.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
+
             return View(schedule);
         }
 

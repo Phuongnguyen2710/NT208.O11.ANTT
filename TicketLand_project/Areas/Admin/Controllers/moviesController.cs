@@ -216,10 +216,6 @@ namespace TicketLand_project.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (movy.movie_release > DateTime.Today)
-                {
-                    movy.movie_status = 2;
-                }
                 db.Entry(movy).State = EntityState.Modified;
                 db.SaveChanges();
 

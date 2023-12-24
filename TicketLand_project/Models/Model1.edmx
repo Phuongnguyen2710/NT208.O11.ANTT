@@ -35,18 +35,6 @@
           <Property Name="comment_date" Type="datetime" />
           <Property Name="comment_star" Type="float" />
         </EntityType>
-        <EntityType Name="event">
-          <Key>
-            <PropertyRef Name="event_id" />
-          </Key>
-          <Property Name="event_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="movie_id" Type="int" />
-          <Property Name="event_name" Type="nvarchar" MaxLength="100" />
-          <Property Name="event_description" Type="ntext" />
-          <Property Name="event_date_start" Type="date" />
-          <Property Name="event_time_end" Type="date" />
-          <Property Name="event_image" Type="text" />
-        </EntityType>
         <EntityType Name="members">
           <Key>
             <PropertyRef Name="member_id" />
@@ -70,16 +58,16 @@
           </Key>
           <Property Name="movie_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="movie_name" Type="nvarchar" MaxLength="30" />
-          <Property Name="movie_description" Type="nvarchar" MaxLength="50" />
+          <Property Name="movie_description" Type="nvarchar(max)" />
           <Property Name="movie_trailer" Type="text" />
           <Property Name="movie_cens" Type="varchar" MaxLength="3" />
-          <Property Name="movie_genres" Type="nvarchar" MaxLength="30" />
+          <Property Name="movie_genres" Type="nvarchar(max)" />
           <Property Name="movie_release" Type="date" />
           <Property Name="movie_duration" Type="time" Precision="7" />
           <Property Name="movie_format" Type="text" />
           <Property Name="movie_poster" Type="nvarchar(max)" />
-          <Property Name="movie_actor" Type="nvarchar" MaxLength="30" />
-          <Property Name="movie_director" Type="nvarchar" MaxLength="20" />
+          <Property Name="movie_actor" Type="nvarchar(max)" />
+          <Property Name="movie_director" Type="nvarchar(max)" />
           <Property Name="movie_status" Type="int" />
           <Property Name="rate" Type="float" />
           <Property Name="movie_banner" Type="nvarchar(max)" />
@@ -204,18 +192,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__event__movie_id__787EE5A0">
-          <End Role="movies" Type="Self.movies" Multiplicity="0..1" />
-          <End Role="event" Type="Self.event" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="movies">
-              <PropertyRef Name="movie_id" />
-            </Principal>
-            <Dependent Role="event">
-              <PropertyRef Name="movie_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__members__role_id__6EF57B66">
           <End Role="ROLE" Type="Self.ROLE" Multiplicity="0..1" />
           <End Role="members" Type="Self.members" Multiplicity="*" />
@@ -280,7 +256,6 @@
           <EntitySet Name="booking" EntityType="Self.booking" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="booking_detail" EntityType="Self.booking_detail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="comment" EntityType="Self.comment" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="event" EntityType="Self.event" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="members" EntityType="Self.members" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="movies" EntityType="Self.movies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="news" EntityType="Self.news" Schema="dbo" store:Type="Tables" />
@@ -311,10 +286,6 @@
           <AssociationSet Name="FK__comment__movie_i__778AC167" Association="Self.FK__comment__movie_i__778AC167">
             <End Role="movies" EntitySet="movies" />
             <End Role="comment" EntitySet="comment" />
-          </AssociationSet>
-          <AssociationSet Name="FK__event__movie_id__787EE5A0" Association="Self.FK__event__movie_id__787EE5A0">
-            <End Role="movies" EntitySet="movies" />
-            <End Role="event" EntitySet="event" />
           </AssociationSet>
           <AssociationSet Name="FK__members__role_id__6EF57B66" Association="Self.FK__members__role_id__6EF57B66">
             <End Role="ROLE" EntitySet="ROLE" />
@@ -379,19 +350,6 @@
           <NavigationProperty Name="member" Relationship="Self.FK__comment__member___76969D2E" FromRole="comment" ToRole="members" />
           <NavigationProperty Name="movy" Relationship="Self.FK__comment__movie_i__778AC167" FromRole="comment" ToRole="movies" />
         </EntityType>
-        <EntityType Name="event">
-          <Key>
-            <PropertyRef Name="event_id" />
-          </Key>
-          <Property Name="event_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="movie_id" Type="Int32" />
-          <Property Name="event_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="event_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="event_date_start" Type="DateTime" Precision="0" />
-          <Property Name="event_time_end" Type="DateTime" Precision="0" />
-          <Property Name="event_image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="movy" Relationship="Self.FK__event__movie_id__787EE5A0" FromRole="event" ToRole="movies" />
-        </EntityType>
         <EntityType Name="member">
           <Key>
             <PropertyRef Name="member_id" />
@@ -418,21 +376,20 @@
           </Key>
           <Property Name="movie_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="movie_name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="movie_description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="movie_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="movie_trailer" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="movie_cens" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
-          <Property Name="movie_genres" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="movie_genres" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="movie_release" Type="DateTime" Precision="0" />
           <Property Name="movie_duration" Type="Time" Precision="7" />
           <Property Name="movie_format" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="movie_poster" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="movie_actor" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="movie_director" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="movie_actor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="movie_director" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="movie_status" Type="Int32" />
           <Property Name="rate" Type="Double" />
           <Property Name="movie_banner" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="comments" Relationship="Self.FK__comment__movie_i__778AC167" FromRole="movies" ToRole="comment" />
-          <NavigationProperty Name="events" Relationship="Self.FK__event__movie_id__787EE5A0" FromRole="movies" ToRole="event" />
           <NavigationProperty Name="news" Relationship="Self.FK__news__movie_id__797309D9" FromRole="movies" ToRole="news" />
           <NavigationProperty Name="schedules" Relationship="Self.FK__schedule__movie___70DDC3D8" FromRole="movies" ToRole="schedule" />
         </EntityType>
@@ -565,18 +522,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__event__movie_id__787EE5A0">
-          <End Role="movies" Type="Self.movy" Multiplicity="0..1" />
-          <End Role="event" Type="Self.event" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="movies">
-              <PropertyRef Name="movie_id" />
-            </Principal>
-            <Dependent Role="event">
-              <PropertyRef Name="movie_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__members__role_id__6EF57B66">
           <End Role="ROLE" Type="Self.ROLE" Multiplicity="0..1" />
           <End Role="members" Type="Self.member" Multiplicity="*" />
@@ -641,7 +586,6 @@
           <EntitySet Name="bookings" EntityType="Self.booking" />
           <EntitySet Name="booking_detail" EntityType="Self.booking_detail" />
           <EntitySet Name="comments" EntityType="Self.comment" />
-          <EntitySet Name="events" EntityType="Self.event" />
           <EntitySet Name="members" EntityType="Self.member" />
           <EntitySet Name="movies" EntityType="Self.movy" />
           <EntitySet Name="news" EntityType="Self.news" />
@@ -672,10 +616,6 @@
           <AssociationSet Name="FK__comment__movie_i__778AC167" Association="Self.FK__comment__movie_i__778AC167">
             <End Role="movies" EntitySet="movies" />
             <End Role="comment" EntitySet="comments" />
-          </AssociationSet>
-          <AssociationSet Name="FK__event__movie_id__787EE5A0" Association="Self.FK__event__movie_id__787EE5A0">
-            <End Role="movies" EntitySet="movies" />
-            <End Role="event" EntitySet="events" />
           </AssociationSet>
           <AssociationSet Name="FK__members__role_id__6EF57B66" Association="Self.FK__members__role_id__6EF57B66">
             <End Role="ROLE" EntitySet="ROLEs" />
@@ -734,19 +674,6 @@
                 <ScalarProperty Name="content" ColumnName="content" />
                 <ScalarProperty Name="comment_date" ColumnName="comment_date" />
                 <ScalarProperty Name="comment_star" ColumnName="comment_star" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="events">
-            <EntityTypeMapping TypeName="QUANLYXEMPHIMModel.event">
-              <MappingFragment StoreEntitySet="event">
-                <ScalarProperty Name="event_id" ColumnName="event_id" />
-                <ScalarProperty Name="movie_id" ColumnName="movie_id" />
-                <ScalarProperty Name="event_name" ColumnName="event_name" />
-                <ScalarProperty Name="event_description" ColumnName="event_description" />
-                <ScalarProperty Name="event_date_start" ColumnName="event_date_start" />
-                <ScalarProperty Name="event_time_end" ColumnName="event_time_end" />
-                <ScalarProperty Name="event_image" ColumnName="event_image" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -166,9 +166,6 @@
     <Compile Include="Models\comment.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\event.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\member.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

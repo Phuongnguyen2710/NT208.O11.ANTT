@@ -7,19 +7,15 @@
 <div class="container mt-4">
     <h2 class="mb-4 text-center">Danh sách ghế của đơn hàng ID: @ViewBag.booking_id</h2>
 
-    <p>
-        @Html.ActionLink("Create New","Create", "booking_detail" ,null, new { @class = "btn btn-primary" })
-    </p>
-
     <div class="table-responsive">
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
                     <th>Booking ID</th>
                     <th>Seat ID</th>
-                    <th>Seat Type</th>
-                    <th>Row</th>
-                    <th>Number</th>
+                    <th>Loại ghế</th>
+                    <th>Hàng</th>
+                    <th>Cột</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -35,9 +31,9 @@
                         <td>
                             <div class="btn-group" role="group">
 
-                                <button class="btn btn-xs btn-warning btn-sm" data-toggle="modal" data-target="#EditModal_@item.bkdetail_id">
+                                @*<button class="btn btn-xs btn-warning btn-sm" data-toggle="modal" data-target="#EditModal_@item.bkdetail_id">
                                     <i class="fas fa-edit" aria-hidden="true"></i>
-                                </button>
+                                </button>*@
 
                                 <button class="btn btn-xs btn-danger btn-sm" data-toggle="modal" data-target="#DeleteModal_@item.bkdetail_id">
                                     <i class="fas fa-ban" aria-hidden="true"></i>
@@ -156,7 +152,6 @@
                 });
             });
         });
-
 
         // Function xử lý sự kiện sửa
         window.editBookingDetail = function (bookingDetailId) {

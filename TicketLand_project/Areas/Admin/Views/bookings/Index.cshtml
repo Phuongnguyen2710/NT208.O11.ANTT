@@ -73,9 +73,9 @@
                         }
                     </td>
                     <td>
-                        <button class="btn btn-xs btn-primary " data-toggle="modal" data-target="#EditModal_@item.booking_id">
+                        @*<button class="btn btn-xs btn-primary " data-toggle="modal" data-target="#EditModal_@item.booking_id">
                             <i class="fa fa-edit custom_i"></i>
-                        </button>
+                        </button>*@
 
                         <button class="btn btn-xs btn-warning " data-toggle="modal" data-target="#InfoModal_@item.booking_id">
                             <i class="fa fa-info-circle custom_i"></i>
@@ -401,11 +401,10 @@
             data: { id: deleteId },
             success: function (result) {
                 // Xử lý kết quả sau khi xóa thành công
-                console.log(result);
-
+                alert(result);
                 // Đóng modal nếu xóa thành công
                 $('#DeleteModal_' + deleteId).modal('hide');
-                // Nếu muốn làm mới trang, bạn có thể sử dụng window.location.reload();
+                window.location.reload();
             },
             error: function (error) {
                 // Xử lý lỗi nếu có

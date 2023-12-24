@@ -17,6 +17,19 @@ namespace TicketLand_project.Areas.Admin.Controllers
         // GET: Admin/booking_detail
         public ActionResult Index(int booking_id)
         {
+            var username = Session["Username"] as string;
+            var idMember = Session["idMember"] as string;
+            int Idmember;
+
+            // Covert sang int
+            int.TryParse(idMember, out Idmember);
+
+            var member = db.members.SingleOrDefault(m => m.member_id == Idmember);
+
+            if (member == null || member.role_id == 2)
+            {
+                return RedirectToAction("Login", "Home", new { area = "" });
+            }
             var booking_detail = db.booking_detail.Include(b => b.booking).Include(b => b.seat);
   
             return View(booking_detail.ToList());

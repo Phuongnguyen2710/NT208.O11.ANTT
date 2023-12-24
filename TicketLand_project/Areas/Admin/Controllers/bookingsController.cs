@@ -19,8 +19,20 @@ namespace TicketLand_project.Areas.Admin.Controllers
         // GET: Admin/bookings
         public ActionResult Index(int? page)
         {
+            var username = Session["Username"] as string;
+            var idMember = Session["idMember"] as string;
+            int Idmember;
 
-           
+            // Covert sang int
+            int.TryParse(idMember, out Idmember);
+
+            var member = db.members.SingleOrDefault(m => m.member_id == Idmember);
+
+            if (member == null || member.role_id == 2)
+            {
+                return RedirectToAction("Login", "Home", new { area = "" });
+            }
+
             ViewBag.member_id = new SelectList(db.members, "member_id", "member_name");
             ViewBag.schedule_id = new SelectList(db.schedules, "schedule_id", "show_date");
             ViewBag.movie_id = new SelectList(db.movies, "movie_id", "movie_name");

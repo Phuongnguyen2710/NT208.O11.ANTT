@@ -28,7 +28,6 @@ namespace TicketLand_project.Models
         public virtual DbSet<booking> bookings { get; set; }
         public virtual DbSet<booking_detail> booking_detail { get; set; }
         public virtual DbSet<comment> comments { get; set; }
-        public virtual DbSet<@event> events { get; set; }
         public virtual DbSet<member> members { get; set; }
         public virtual DbSet<movy> movies { get; set; }
         public virtual DbSet<news> news { get; set; }
