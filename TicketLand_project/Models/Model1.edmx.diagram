@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="459f3168853b458fbb26c76a8fb20b2b" Name="Diagram1">
+      <Diagram DiagramId="fbdac77aa2024afba859c6b8fa20d095" Name="Diagram1">
         <EntityTypeShape EntityType="QUANLYXEMPHIMModel.booking" Width="1.5" PointX="8.25" PointY="7.375" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANLYXEMPHIMModel.booking_detail" Width="1.5" PointX="10.5" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANLYXEMPHIMModel.comment" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
@@ -18,8 +18,8 @@
         <EntityTypeShape EntityType="QUANLYXEMPHIMModel.seat" Width="1.5" PointX="8.25" PointY="3.375" IsExpanded="true" />
         <AssociationConnector Association="QUANLYXEMPHIMModel.FK__booking__member___72C60C4A" ManuallyRouted="false" />
         <AssociationConnector Association="QUANLYXEMPHIMModel.FK__booking__schedul__73BA3083" ManuallyRouted="false" />
-        <AssociationConnector Association="QUANLYXEMPHIMModel.FK__booking_d__booki__74AE54BC" ManuallyRouted="false" />
-        <AssociationConnector Association="QUANLYXEMPHIMModel.FK__booking_d__seat___75A278F5" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANLYXEMPHIMModel.FK__booking_d__booki__7F2BE32F" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANLYXEMPHIMModel.FK__booking_d__seat___00200768" ManuallyRouted="false" />
         <AssociationConnector Association="QUANLYXEMPHIMModel.FK__comment__member___76969D2E" ManuallyRouted="false" />
         <AssociationConnector Association="QUANLYXEMPHIMModel.FK__comment__movie_i__778AC167" ManuallyRouted="false" />
         <AssociationConnector Association="QUANLYXEMPHIMModel.FK__event__movie_id__787EE5A0" ManuallyRouted="false" />

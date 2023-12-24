@@ -1,0 +1,439 @@
+﻿<!-- Thêm thư viện -->
+@model PagedList.IPagedList<TicketLand_project.Models.booking>
+@using PagedList.Mvc;
+<!-- Kết thúc-->
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+}
+
+<h1 class="custom_h1"><b>QUẢN LÝ VÉ</b></h1>
+<div class="container_custom">
+
+    <div class="box_shadow">
+        <table class="tableStyle">
+            <tr>
+                <th>STT</th>
+                <th>Người đặt vé</th>
+                <th>Ngày đặt vé</th>
+                <th>Suất chiếu</th>
+                <th>Tiền vé</th>
+                <th>Trạng thái vé đặt</th>
+                <th>Action</th>
+            </tr>
+
+            @{
+                var count = 1;
+            }
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @count
+                        @{
+                            count++;
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.member.member_name)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.booking_date)
+                    </td>
+
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.schedule.show_date)
+                    </td>
+
+
+
+                    <td>
+                        @{
+                            int totalPrice_ = int.Parse(item.total_price);
+                            string formattedPrice_ = string.Format("{0:#,##0} VNĐ", totalPrice_);
+                        }
+                        @formattedPrice_
+                    </td>
+                    <td>
+                        @if (item.booking_status == 1)
+                        {
+                            <span style="color: green; font-weight: bold;">Đã thanh toán</span>
+                        }
+                        else if (item.booking_status == 0)
+                        {
+                            <span style="color: red; font-weight: bold;">Chưa thanh toán</span>
+                        }
+                        else
+                        {
+                            <span style="color: orange; font-weight: bold;">Đang chờ</span>
+                        }
+                    </td>
+                    <td>
+                        <button class="btn btn-xs btn-primary " data-toggle="modal" data-target="#EditModal_@item.booking_id">
+                            <i class="fa fa-edit custom_i"></i>
+                        </button>
+
+                        <button class="btn btn-xs btn-warning " data-toggle="modal" data-target="#InfoModal_@item.booking_id">
+                            <i class="fa fa-info-circle custom_i"></i>
+                        </button>
+
+                        <button class="btn btn-xs btn-danger" data-toggle="modal" data-target="#DeleteModal_@item.booking_id">
+                            <i class="fa fa-trash custom_i"></i>
+                        </button>
+
+                        <!-- Modal-->
+                        <!-- Info Modal-->
+                        <div class="modal fade " id="InfoModal_@item.booking_id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <!-- Modal header -->
+                                <div class="modal-content text-center">
+                                    <div class="modal-header text-center bg-warning text-white">
+                                        <h5 class="modal-title text-center" id="exampleModalLabel">THÔNG TIN VÉ</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <!-- Modal Body -->
+                                    <div class="modal-body">
+                                        <dl class="dl-horizontal">
+                                            <!-- Thêm các thông tin mới cho mỗi bộ phim -->
+                                            <dt>Booking ID</dt>
+                                            <dd>
+                                                @Html.DisplayFor(model => item.booking_id)
+                                            </dd>
+
+                                            <dt>Tên tài khoản đặt vé</dt>
+                                            <dd>
+                                                @Html.DisplayFor(model => item.member.member_name)
+                                            </dd>
+
+                                            <dt>Ngày đặt vé</dt>
+                                            <dd>
+                                                @Html.DisplayFor(model => item.booking_date)
+                                            </dd>
+
+                                            <dt>Tên phim</dt>
+                                            <dd>
+                                                @Html.DisplayFor(model => item.schedule.movy.movie_name)
+                                            </dd>
+
+                                            <dt>Suất chiếu ngày</dt>
+                                            <dd>
+                                                @Html.DisplayFor(model => item.schedule.show_date)
+                                            </dd>
+
+                                            <dt>Thời lượng phim</dt>
+                                            <dd>
+                                                @Html.DisplayFor(model => item.schedule.movy.movie_duration)
+                                            </dd>
+
+                                            <dt>Phòng</dt>
+                                            <dd>
+                                                @Html.DisplayFor(model => item.schedule.room.room_name)
+                                            </dd>
+
+                                            <dt>Thời gian chiếu</dt>
+                                            <dd>
+                                                @Html.DisplayFor(model => item.schedule.time_start)
+                                            </dd>
+
+                                            <dt>Tổng hóa đơn</dt>
+                                            <dd>
+                                                @{
+                                                    int totalPrice = int.Parse(item.total_price);
+                                                    string formattedPrice = string.Format("{0:#,##0} VNĐ", totalPrice);
+                                                }
+                                                @formattedPrice
+                                            </dd>
+
+                                            <dt>Trạng thái</dt>
+                                            <dd>
+                                                @if (item.booking_status == 1)
+                                                {
+                                                    <div class="text-success"><b>Đã Thanh toán</b></div>
+                                                }
+                                                else if (item.booking_status == 0)
+                                                {
+                                                    <div class="text-danger"><b>Thất bại</b></div>
+                                                }
+                                            </dd>
+                                            <dt>Chi tiết ghế</dt>
+                                            <dd>
+                                                <button class="btn btn-xs btn-warning" onclick="location.href='@Url.Action("Booking_Detail", "bookings", new { booking_id = item.booking_id })'">
+                                                    <i class="fa fa-external-link-alt custom_i"></i>Chi tiết
+                                                </button>
+                                            </dd>
+
+                                        </dl>
+                                    </div>
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        @*<button type="button" class="btn btn-primary" location.href="@Url.Action("Edit", new {id = item.movie_id})">Edit</button>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Edit Modal-->
+                        <div class="modal fade" id="EditModal_@item.booking_id" data-booking-id="@item.booking_id" tabindex="-1" role="dialog" aria-labelledby="EditLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Chỉnh Sửa Thông Tin Vé</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="EditbookingForm" onsubmit="submitForm(e)">
+                                            <div class="form-group">
+                                                <label for="booking_name">Tên Người đặt:</label>
+                                                <select class="form-control" id="member_id" name="member_id">
+                                                    <option value="" class="text-center">-- Chọn tên người đặt--</option>
+                                                    @foreach (var _member in ViewBag.member_id)
+                                                    {
+                                                        <option value="@_member.Value" class="text-center">@_member.Text</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <br />
+
+                                            <div class="form-group">
+                                                <label for="movie_id">Phim: </label>
+                                                <select class="form-control" id="movie_id" name="movie_id" onchange="filterSchedules()">
+                                                    <option value="" class="text-center">-- Chọn Phim --</option>
+                                                    @foreach (var _movie in ViewBag.movie_id)
+                                                    {
+                                                        <option value="@_movie.Value" class="text-center">@_movie.Text</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <br />
+
+                                            <div class="form-group">
+                                                <label for="schedule_id">Suất chiếu: </label>
+                                                <select class="form-control" id="schedule_id" name="schedule_id">
+                                                    <option value="" class="text-center">-- Chọn suất chiếu --</option>
+                                                    <!-- Tùy chọn suất chiếu sẽ được tạo và hiển thị dựa trên phim được chọn -->
+                                                </select>
+                                            </div>
+                                            <br />
+
+                                            <div class="form-group">
+                                                <label for="movie_status">Tình trạng vé:</label>
+                                                <select class="form-control text-center" id="movie_status" name="movie_status_">
+                                                    <option value="1" @(item.booking_status == 1 ? "selected" : "")>Đã thanh toán</option>
+                                                    <option value="2" @(item.booking_status == 0 ? "selected" : "")>Chưa thanh toán</option>
+                                                </select>
+                                            </div>
+                                            <br />
+
+                                            <div class="form-group text-center">
+                                                <label for="total_price_">Tổng tiền:</label>
+                                                <input type="text" class="form-control text-center" id="total_price_" name="total_price_" oninput="formatCurrency(this)" value="@formattedPrice_" />
+                                            </div>
+                                            <br />
+                                            <button type="submit" class="btn btn-primary">Thay đổi</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Delete Modal -->
+                        <div class="modal fade" id="DeleteModal_@item.booking_id" tabindex="-1" role="dialog" aria-labelledby="DeleteLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="DeleteLabel">Xác nhận xóa</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Bạn có chắc chắn muốn xóa đối tượng này không?
+                                        <!-- Không cần hidden input vì bạn đã sử dụng form để chứa giá trị deleteId -->
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        @using (Html.BeginForm("Delete", "bookings", new { id = "confirmDelete" }, FormMethod.Post))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <div class="form-actions no-color text-center">
+                                                <input type="hidden" id="deleteId" name="id" value="@item.booking_id" />
+                                                <input type="submit" value="Xóa" class="btn btn-danger" />
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Add Modal -->
+                        <div class="modal fade" id="addbookingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Thêm Vé Mới</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="addbookingForm">
+                                            <label for="booking_name">Tên Người đặt:</label>
+                                            <select class="form-control" id="member_id" name="member_id">
+                                                <option value="" class="text-center">-- Chọn tên người đặt--</option>
+                                                @foreach (var _member in ViewBag.member_id)
+                                                {
+                                                    <option value="@_member.Value" class="text-center">@_member.Text</option>
+                                                }
+                                            </select>
+                                            <br />
+                                            <div class="form-group">
+                                                <label for="movie_id">Phim: </label>
+                                                <select class="form-control" id="movie_id" name="movie_id" onchange="filterSchedules()">
+                                                    <option value="" class="text-center">-- Chọn Phim --</option>
+                                                    @foreach (var _movie in ViewBag.movie_id)
+                                                    {
+                                                        <option value="@_movie.Value" class="text-center">@_movie.Text</option>
+                                                    }
+                                                </select>
+                                            </div>
+
+                                            <br />
+                                            <div class="form-group">
+                                                <label for="movie_banner">Suất chiếu:</label>
+                                                <!--Lịch chiếu liên quan tới phim được chọn-->
+                                                <select class="form-control" id="schedule_id" name="schedule_id">
+                                                    <option value="" class="text-center">-- Chọn suất chiếu --</option>
+                                                    <!-- Tùy chọn suất chiếu sẽ được tạo và hiển thị dựa trên phim được chọn -->
+                                                </select>
+                                            </div>
+
+                                            <button type="submit" class="btn btn-primary">Lưu</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+    </div>
+    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+
+    <div class="d-flex justify-content-between align-items-center">
+
+        <div>
+            <div class="pagination custom-pagination" style="margin-right: 150px">
+                @if (Model.HasPreviousPage)
+                {
+                    <a href="@Url.Action("Index", new { page = Model.PageNumber - 1 })" class="page-link prev @(Model.PageNumber == 1 ? "current-page" : "")">&laquo; </a>
+                }
+                else
+                {
+                    <span class="page-link disabled">&laquo;</span>
+                }
+
+                @for (int i = 1; i <= Model.PageCount; i++)
+                {
+                    <a href="@Url.Action("Index", new { page = i })" class="page-link number @(i == Model.PageNumber ? "current-page" : "")">@i</a>
+                }
+
+                @if (Model.HasNextPage)
+                {
+                    <a href="@Url.Action("Index", new { page = Model.PageNumber + 1 })" class="page-link next">&raquo;</a>
+                }
+                else
+                {
+                    <span class="page-link disabled">&raquo;</span>
+                }
+            </div>
+        </div>
+
+        <!-- Kết thúc -->
+    </div>
+</div>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<!-- Popper.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    ///*Sự kiện xóa*/
+    //document.getElementById("confirmDelete").addEventListener("click", function () {
+    //    // Lấy seat_id từ hidden input trong modal
+    //    var deleteId = document.getElementById("deleteId").value;
+
+    //    // Đặt giá trị vào input hidden trong form
+    //    document.getElementById("deleteForm").elements["id"].value = deleteId;
+
+    //    // Submit form
+    //    $("#deleteForm").submit();
+    //});
+    /*Kết thúc*/
+
+    document.getElementById("confirmDelete").addEventListener("click", function (event) {
+        event.preventDefault(); // Ngăn chặn việc submit form mặc định
+        var deleteId = document.getElementById("deleteId").value;
+
+        // Gửi Ajax request
+        $.ajax({
+            url: '/Admin/bookings/Delete/' + deleteId,
+            type: 'POST',
+            data: { id: deleteId },
+            success: function (result) {
+                // Xử lý kết quả sau khi xóa thành công
+                console.log(result);
+
+                // Đóng modal nếu xóa thành công
+                $('#DeleteModal_' + deleteId).modal('hide');
+                // Nếu muốn làm mới trang, bạn có thể sử dụng window.location.reload();
+            },
+            error: function (error) {
+                // Xử lý lỗi nếu có
+                console.log(error);
+            }
+        });
+    });
+
+
+
+    //function filterSchedules() {
+    //    // Lấy giá trị id của phim được chọn
+    //    var movieId = $("#movie_id_").val();
+    //    console.log(movieId);
+    //    // Gửi yêu cầu AJAX để lấy danh sách lịch chiếu dựa trên id của phim
+    //    $.getJSON('/bookings/ActionForSchedules', { movieId: movieId }, function (data) {
+    //        // Xóa tất cả các tùy chọn hiện tại trong dropdownlist lịch chiếu
+    //        $("#schedule_id").empty();
+
+    //        // Thêm tùy chọn mới từ dữ liệu nhận được từ server
+    //        $.each(data, function (i, item) {
+    //            $("#schedule_id").append($('<option>', {
+    //                value: item.value,
+    //                text: item.text
+    //            }));
+    //        });
+    //    });
+    //}
+
+</script>
+<script src="~/Areas/Assets/js/booking.js"></script>

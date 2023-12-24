@@ -50,7 +50,7 @@ namespace TicketLand_project.Areas.Admin.Controllers
                          select l).OrderBy(x => x.member_id);
 
             // 4. Tạo kích thước trang (pageSize) hay là số Link hiển thị trên 1 trang
-            int pageSize = 11;
+            int pageSize = 7;
 
             // 4.1 Toán tử ?? trong C# mô tả nếu page khác null thì lấy giá trị page, còn
             // nếu page = null thì lấy giá trị 1 cho biến pageNumber.

@@ -50,8 +50,6 @@
             <th>Ngày ra mắt</th>
             <th>Thời lượng</th>
             <th>Format</th>
-            <th>Tên diễn viên</th>
-            <th>Tên đạo diễn</th>
             <th>Trạng thái</th>
             <th>Action</th>
         </tr>
@@ -86,12 +84,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.movie_format)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.movie_actor)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.movie_director)
                 </td>
                 <td>
                     @if (item.movie_status == 1)
@@ -159,8 +151,15 @@
                                         </dd>
 
                                         <dt>Ngày phát hành</dt>
-                                        <dd>
-                                            @Html.DisplayFor(model => item.movie_release)
+                                        <dd >
+                                            @if (item.movie_release != null)
+                                            {
+                                                <input type="date" class="form-control text-center" id="movie_release" name="movie_release" value="@item.movie_release.Value.ToString("yyyy-MM-dd")" disabled/>
+                                            }
+                                            else
+                                            {
+                                                <input type="date" class="form-control text-center" id="movie_release" name="movie_release" disabled/>
+                                            }
                                         </dd>
 
                                         <dt>Thời lượng</dt>
@@ -290,7 +289,14 @@
 
                                         <div class="form-group">
                                             <label for="movie_release">Ngày phát hành:</label>
-                                            <input type="date" class="form-control" id="movie_release" name="movie_release" value="@item.movie_release" />
+                                            @if (item.movie_release != null)
+                                            {
+                                                <input type="date" class="form-control text-center" id="movie_release" name="movie_release" value="@item.movie_release.Value.ToString("yyyy-MM-dd")" />
+                                            }
+                                            else
+                                            {
+                                                <input type="date" class="form-control text-center" id="movie_release" name="movie_release" />
+                                            }
                                         </div>
 
                                         <div class="form-group">

@@ -4,12 +4,18 @@
 
 .poster_film {
     width: 100%;
-    max-height: 350px;
+    height: 350px;
+    object-fit: cover; /* Điều chỉnh kích thước hình ảnh để đầy kích thước của cột */
+}
+
+.nice-select {
+    display: none !important;
 }
 
 .footer_poster_film {
     width: 100%;
-    max-height: 100px;
+    height: 100px;
+    object-fit: cover;
 }
 
 .text-poster {
@@ -65,7 +71,18 @@
     align-items: center; /* Căn chỉnh các phần tử dọc theo trục chính */
 }
 
+.text-time-rating2 {
+    display: flex; /* Sử dụng flexbox để căn chỉnh các phần tử trên cùng một hàng */
+    align-items: center; /* Căn chỉnh các phần tử dọc theo trục chính */
+}
+
 .text-age-name {
+    display: flex; /* Sử dụng flexbox để căn chỉnh các phần tử trên cùng một hàng */
+    align-items: center; /* Căn chỉnh các phần tử dọc theo trục chính */
+    padding-bottom: 10px;
+}
+
+.text-age-name2 {
     display: flex; /* Sử dụng flexbox để căn chỉnh các phần tử trên cùng một hàng */
     align-items: center; /* Căn chỉnh các phần tử dọc theo trục chính */
     padding-bottom: 10px;
@@ -99,7 +116,10 @@
     align-items: center !important;
 }
 
-.banner-form {
+.banner {
+    width: auto;
+    height: 100px;
+    padding-top: -70px;
     font-family: 'UTM Avo' !important;
 }
 
@@ -115,4 +135,91 @@
 
 .btn-outline-secondary {
     --bs-btn-color: black !important;
+}
+
+.ui-menu-item {
+    font-family: 'UTM Avo' !important;
+}
+
+.input-group-append {
+    cursor: pointer;
+}
+
+.form-group {
+    font-family: 'UTM Avo' !important;
+}
+
+.containerbanner {
+    font-family: 'UTM Avo' !important;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    background-color: #F5F5F5;
+    padding: 25px 40px 22px;
+    border-radius: 15px;
+    max-width: 80%;
+}
+
+#loadMore {
+    width: 200px;
+    color: #fff;
+    display: block;
+    text-align: center;
+    margin: 20px auto;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    background-color: blue;
+    transition: .3s;
+}
+
+    #loadMore:hover {
+        color: blue;
+        background-color: #fff;
+        border: 1px solid blue;
+        text-decoration: none;
+    }
+
+#time-of-film {
+    position: relative;
+    background-color: #fff;
+    color: #333;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    padding: 5px;
+    font-size: 14px;
+    width: 200px;
+}
+
+    #time-of-film option {
+        background-color: #fff;
+        color: #333;
+        font-size: 14px;
+    }
+
+.centered-button {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'UTM Avo' !important;
+    font-weight: bold;
+    width: 70% !important;
+}
+
+iframe {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+}
+
+#text-film .buy-ticket-button {
+    display: none;
+}
+
+#text-film:hover .buy-ticket-button {
+    display: inline-block;
 }

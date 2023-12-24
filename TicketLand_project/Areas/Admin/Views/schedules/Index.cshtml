@@ -87,10 +87,14 @@
             }
 
             @{
-                var movies = Model.Select(item => item.movy).Distinct();
+                // Lấy danh sách movie_id không trùng lặp từ Model
+                var uniqueMovieIds = Model.Select(item => item.movy.movie_id).Distinct().ToList();
+
+                // Lấy danh sách các movie tương ứng với uniqueMovieIds
+                var uniqueMovies = uniqueMovieIds.Select(movieId => Model.First(item => item.movy.movie_id == movieId).movy);
             }
 
-            @foreach (var movie in movies)
+            @foreach (var movie in uniqueMovies)
             {
                 <tr>
                     <td>
@@ -106,12 +110,10 @@
                         <button class="btn btn-primary" onclick="location.href='@Url.Action("Detail","schedules",new { id = movie.movie_id })'">
                             <i class="fa fa-info custom_i"></i> Xem suất chiếu
                         </button>
-
                     </td>
                 </tr>
-
-
             }
+
 
 
 

@@ -18,11 +18,11 @@
         </EntityType>
         <EntityType Name="booking_detail">
           <Key>
-            <PropertyRef Name="booking_detail_id" />
+            <PropertyRef Name="bkdetail_id" />
           </Key>
+          <Property Name="bkdetail_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="booking_id" Type="int" />
           <Property Name="seat_id" Type="int" />
-          <Property Name="booking_detail_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="comment">
           <Key>
@@ -156,7 +156,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__booking_d__booki__74AE54BC">
+        <Association Name="FK__booking_d__booki__7F2BE32F">
           <End Role="booking" Type="Self.booking" Multiplicity="0..1" />
           <End Role="booking_detail" Type="Self.booking_detail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -168,7 +168,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__booking_d__seat___75A278F5">
+        <Association Name="FK__booking_d__seat___00200768">
           <End Role="seats" Type="Self.seats" Multiplicity="0..1" />
           <End Role="booking_detail" Type="Self.booking_detail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -296,11 +296,11 @@
             <End Role="schedule" EntitySet="schedule" />
             <End Role="booking" EntitySet="booking" />
           </AssociationSet>
-          <AssociationSet Name="FK__booking_d__booki__74AE54BC" Association="Self.FK__booking_d__booki__74AE54BC">
+          <AssociationSet Name="FK__booking_d__booki__7F2BE32F" Association="Self.FK__booking_d__booki__7F2BE32F">
             <End Role="booking" EntitySet="booking" />
             <End Role="booking_detail" EntitySet="booking_detail" />
           </AssociationSet>
-          <AssociationSet Name="FK__booking_d__seat___75A278F5" Association="Self.FK__booking_d__seat___75A278F5">
+          <AssociationSet Name="FK__booking_d__seat___00200768" Association="Self.FK__booking_d__seat___00200768">
             <End Role="seats" EntitySet="seats" />
             <End Role="booking_detail" EntitySet="booking_detail" />
           </AssociationSet>
@@ -354,17 +354,17 @@
           <Property Name="total_price" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="member" Relationship="Self.FK__booking__member___72C60C4A" FromRole="booking" ToRole="members" />
           <NavigationProperty Name="schedule" Relationship="Self.FK__booking__schedul__73BA3083" FromRole="booking" ToRole="schedule" />
-          <NavigationProperty Name="booking_detail" Relationship="Self.FK__booking_d__booki__74AE54BC" FromRole="booking" ToRole="booking_detail" />
+          <NavigationProperty Name="booking_detail" Relationship="Self.FK__booking_d__booki__7F2BE32F" FromRole="booking" ToRole="booking_detail" />
         </EntityType>
         <EntityType Name="booking_detail">
           <Key>
-            <PropertyRef Name="booking_detail_id" />
+            <PropertyRef Name="bkdetail_id" />
           </Key>
+          <Property Name="bkdetail_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="booking_id" Type="Int32" />
           <Property Name="seat_id" Type="Int32" />
-          <Property Name="booking_detail_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="booking" Relationship="Self.FK__booking_d__booki__74AE54BC" FromRole="booking_detail" ToRole="booking" />
-          <NavigationProperty Name="seat" Relationship="Self.FK__booking_d__seat___75A278F5" FromRole="booking_detail" ToRole="seats" />
+          <NavigationProperty Name="booking" Relationship="Self.FK__booking_d__booki__7F2BE32F" FromRole="booking_detail" ToRole="booking" />
+          <NavigationProperty Name="seat" Relationship="Self.FK__booking_d__seat___00200768" FromRole="booking_detail" ToRole="seats" />
         </EntityType>
         <EntityType Name="comment">
           <Key>
@@ -490,7 +490,7 @@
           <Property Name="row" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="number" Type="Int32" />
           <Property Name="seats_status" Type="Boolean" />
-          <NavigationProperty Name="booking_detail" Relationship="Self.FK__booking_d__seat___75A278F5" FromRole="seats" ToRole="booking_detail" />
+          <NavigationProperty Name="booking_detail" Relationship="Self.FK__booking_d__seat___00200768" FromRole="seats" ToRole="booking_detail" />
           <NavigationProperty Name="room" Relationship="Self.FK__seats__room_id__6FE99F9F" FromRole="seats" ToRole="rooms" />
         </EntityType>
         <Association Name="FK__booking__member___72C60C4A">
@@ -517,7 +517,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__booking_d__booki__74AE54BC">
+        <Association Name="FK__booking_d__booki__7F2BE32F">
           <End Role="booking" Type="Self.booking" Multiplicity="0..1" />
           <End Role="booking_detail" Type="Self.booking_detail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -529,7 +529,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__booking_d__seat___75A278F5">
+        <Association Name="FK__booking_d__seat___00200768">
           <End Role="seats" Type="Self.seat" Multiplicity="0..1" />
           <End Role="booking_detail" Type="Self.booking_detail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -657,11 +657,11 @@
             <End Role="schedule" EntitySet="schedules" />
             <End Role="booking" EntitySet="bookings" />
           </AssociationSet>
-          <AssociationSet Name="FK__booking_d__booki__74AE54BC" Association="Self.FK__booking_d__booki__74AE54BC">
+          <AssociationSet Name="FK__booking_d__booki__7F2BE32F" Association="Self.FK__booking_d__booki__7F2BE32F">
             <End Role="booking" EntitySet="bookings" />
             <End Role="booking_detail" EntitySet="booking_detail" />
           </AssociationSet>
-          <AssociationSet Name="FK__booking_d__seat___75A278F5" Association="Self.FK__booking_d__seat___75A278F5">
+          <AssociationSet Name="FK__booking_d__seat___00200768" Association="Self.FK__booking_d__seat___00200768">
             <End Role="seats" EntitySet="seats" />
             <End Role="booking_detail" EntitySet="booking_detail" />
           </AssociationSet>
@@ -719,9 +719,9 @@
           <EntitySetMapping Name="booking_detail">
             <EntityTypeMapping TypeName="QUANLYXEMPHIMModel.booking_detail">
               <MappingFragment StoreEntitySet="booking_detail">
+                <ScalarProperty Name="bkdetail_id" ColumnName="bkdetail_id" />
                 <ScalarProperty Name="booking_id" ColumnName="booking_id" />
                 <ScalarProperty Name="seat_id" ColumnName="seat_id" />
-                <ScalarProperty Name="booking_detail_id" ColumnName="booking_detail_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

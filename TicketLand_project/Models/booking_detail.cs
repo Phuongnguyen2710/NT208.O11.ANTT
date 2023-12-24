@@ -14,9 +14,9 @@ namespace TicketLand_project.Models
     
     public partial class booking_detail
     {
+        public int bkdetail_id { get; set; }
         public Nullable<int> booking_id { get; set; }
         public Nullable<int> seat_id { get; set; }
-        public int booking_detail_id { get; set; }
     
         public virtual booking booking { get; set; }
         public virtual seat seat { get; set; }

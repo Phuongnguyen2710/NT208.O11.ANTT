@@ -1,0 +1,193 @@
+﻿@model IEnumerable<TicketLand_project.Models.booking_detail>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">Danh sách ghế của đơn hàng ID: @ViewBag.booking_id</h2>
+
+    <p>
+        @Html.ActionLink("Create New","Create", "booking_detail" ,null, new { @class = "btn btn-primary" })
+    </p>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Booking ID</th>
+                    <th>Seat ID</th>
+                    <th>Seat Type</th>
+                    <th>Row</th>
+                    <th>Number</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.booking.booking_id)</td>
+                        <td>@Html.DisplayFor(modelItem => item.seat_id)</td>
+                        <td>@Html.DisplayFor(modelItem => item.seat.seat_type)</td>
+                        <td>@Html.DisplayFor(modelItem => item.seat.row)</td>
+                        <td>@Html.DisplayFor(modelItem => item.seat.number)</td>
+                        <td>
+                            <div class="btn-group" role="group">
+
+                                <button class="btn btn-xs btn-warning btn-sm" data-toggle="modal" data-target="#EditModal_@item.bkdetail_id">
+                                    <i class="fas fa-edit" aria-hidden="true"></i>
+                                </button>
+
+                                <button class="btn btn-xs btn-danger btn-sm" data-toggle="modal" data-target="#DeleteModal_@item.bkdetail_id">
+                                    <i class="fas fa-ban" aria-hidden="true"></i>
+                                </button>
+
+                            </div>
+
+                            <!-- Edit Modal -->
+                            <div class="modal fade" id="EditModal_@item.bkdetail_id" tabindex="-1" role="dialog" aria-labelledby="EditLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="EditLabel">Chỉnh sửa thông tin</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!-- Nội dung form sửa thông tin -->
+                                            <form id="EditForm_@item.bkdetail_id">
+                                                @*<div class="form-group">
+                                                <label for="editSeatType">Seat Type</label>
+                                                <input type="text" class="form-control" id="editSeatType" value="@item.seat.seat_type">
+                                            </div>*@
+
+                                                <div class="form-group">
+                                                    <label for="editRoom">Room</label>
+                                                    <input type="text" class="form-control" id="editRoom" value="@item.">
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="editRow">Row</label>
+                                                    <input type="text" class="form-control" id="editRow" value="@item.seat.row">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="editNumber">Number</label>
+                                                    <input type="number" class="form-control" id="editNumber" value="@item.seat.number">
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary" onclick="editBookingDetail(@item.bkdetail_id)">Lưu</button>
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- Delete Modal -->
+                            <div class="modal fade" data-booking-id="@item.bkdetail_id" id="DeleteModal_@item.bkdetail_id" tabindex="-1" role="dialog" aria-labelledby="DeleteLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="DeleteLabel">Xác nhận xóa</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Bạn có chắc chắn muốn xóa?
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <form id="DeleteForm">
+                                                <input type="hidden" id="deleteId" value="@item.bkdetail_id" />
+                                                <div class="form-actions no-color text-center">
+                                                    <button type="submit" class="btn btn-danger" id="btnDelete">Xóa</button>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        @Html.ActionLink("Back to List", "Index", "bookings")
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $("#DeleteForm button[type='submit']").click(function (event) {
+                event.preventDefault(); // Ngăn chặn việc submit form mặc định
+             
+                // Lấy giá trị id cần xóa từ thuộc tính data-booking-id của modal
+                var booking_id = parseInt($('#deleteId').val());
+                console.log(booking_id);
+             
+                // Gửi Ajax request
+                $.ajax({
+                    url: '/Admin/booking_detail/Delete/' + booking_id,
+                    type: 'POST',
+                    data: { id: booking_id },
+                    success: function (result) {
+                        // Xử lý kết quả sau khi xóa thành công
+                        console.log(result);
+
+                        // Đóng modal nếu xóa thành công
+                        $('#DeleteModal_' + booking_id).data('bs.modal').hide();
+                        window.location.reload();     
+                        
+                    },
+                    error: function (error) {
+                        // Xử lý lỗi nếu có
+                        console.log(error);
+                    }
+                });
+            });
+        });
+
+
+        // Function xử lý sự kiện sửa
+        window.editBookingDetail = function (bookingDetailId) {
+            // Lấy giá trị từ form sửa
+/*            var seatType = $('#editSeatType').val();*/
+            var row = $('#editRow').val();
+            var number = $('#editNumber').val();
+            console.log(bookingDetailId);
+            // Gửi Ajax request để cập nhật thông tin
+            $.ajax({
+                url: '/Admin/booking_detail/Edit/' + bookingDetailId,
+                type: 'POST',
+                data: {
+                    id: bookingDetailId,
+                    row: row,
+                    number: number
+                },
+                success: function (result) {
+                    // Xử lý kết quả sau khi cập nhật thành công
+                    console.log(result);
+
+                    // Đóng modal nếu cập nhật thành công
+                    $('#EditModal_' + bookingDetailId).modal('hide');
+                    alert(result.message);
+                    window.location.reload();
+                },
+                error: function (error) {
+                    // Xử lý lỗi nếu có
+                    console.log(error);
+                }
+            });
+        };
+    </script>
+}

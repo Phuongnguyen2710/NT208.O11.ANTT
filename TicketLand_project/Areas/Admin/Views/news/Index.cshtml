@@ -1,4 +1,7 @@
-﻿@model IEnumerable<TicketLand_project.Models.news>
+﻿<!-- Thêm thư viện -->
+@model PagedList.IPagedList<TicketLand_project.Models.news>
+@using PagedList.Mvc;
+<!-- Kết thúc-->
 
 @{
     ViewBag.Title = "Index";
@@ -30,12 +33,14 @@
                             @Html.DisplayFor(modelItem => item.news_title)
                         </td>
                         <td style="word-wrap: break-word; white-space: unset;">
-                            @Html.DisplayFor(modelItem => item.news_content)
+                            <button class="btn btn-sm btn-bg-one" data-toggle="modal" data-target="#detailModal_@item.news_id">
+                                <i class="fa fa-info custom_i"></i> Xem thêm
+                            </button>
                         </td>
                         <td style="word-wrap: break-word; white-space: unset; ">
                             @Html.DisplayFor(modelItem => item.news_img)
                         </td>
-                        <td style="word-wrap: break-word; white-space: unset;"> 
+                        <td style="word-wrap: break-word; white-space: unset;">
                             @Html.DisplayFor(modelItem => item.news_release)
                         </td>
                         <td style="word-wrap: break-word; white-space: unset; ">
@@ -79,7 +84,25 @@
                                 </div>
                             </div>
 
-                    
+
+                            <!-- Chi tiết content Modal -->
+                            <div class="modal fade" id="detailModal_@item.news_id" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="myModalLabel">Chi tiết nội dung</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+
+                                        <div class="modal-body text-center" style="word-wrap: break-word; white-space: pre-line; overflow-wrap: break-word; display: flex; align-items: center; justify-content: center;">
+                                            @Html.DisplayFor(modelItem => item.news_content)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
 
                         </td>
                     </tr>
@@ -88,9 +111,40 @@
 
             </table>
         </div>
-    </div>
-    </div>
 
+    </div>
+    <!--    Phân trang  -->
+    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <div class="pagination custom-pagination" style="margin-right: 150px">
+
+                @if (Model.HasPreviousPage)
+                {
+                    <a href="@Url.Action("Index", new { page = Model.PageNumber - 1 })" class="page-link prev @(Model.PageNumber == 1 ? "current-page" : "")">&laquo; </a>
+                }
+                else
+                {
+                    <span class="page-link disabled">&laquo;</span>
+                }
+
+                @for (int i = 1; i <= Model.PageCount; i++)
+                {
+                    <a href="@Url.Action("Index", new { page = i })" class="page-link number @(i == Model.PageNumber ? "current-page" : "")">@i</a>
+                }
+
+                @if (Model.HasNextPage)
+                {
+                    <a href="@Url.Action("Index", new { page = Model.PageNumber + 1 })" class="page-link next">&raquo;</a>
+                }
+                else
+                {
+                    <span class="page-link disabled">&raquo;</span>
+                }
+            </div>
+        </div>
+    </div>
+</div>
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -100,36 +154,7 @@
 
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <script>
-        /*Ajax Xóa*/
-        $(document).ready(function () {
-            $("#DeleteForm button[type='submit']").click(function () {
-                // Lấy giá trị id cần xóa
-                var form = $(this).closest('form');
-                var newId = parseInt(form.closest('.modal').data('new-id'));
-                console.log(newId);
-                // Gửi Ajax request
-                $.ajax({
-                    url: '/Admin/news/Delete/' + newId,
-                    type: 'POST',
-                    data: { id: newId },
-                    success: function (result) {
-                        // Xử lý kết quả sau khi xóa thành công
-                        console.log(result);
-
-                        // Đóng modal nếu xóa thành công
-                        $('#deleteForm').closest('.modal').modal('hide');
-                    },
-                    error: function (error) {
-                        // Xử lý lỗi nếu có
-                        console.log(error);
-                    }
-                });
-            });
-        });
-        /*Kết thúc*/
-
-
-    </script>
+    <script src="~/Areas/Assets/js/news.js"></script>
+    
+    <script src="~/Areas/Assets/js/news_1.js"></script>
 

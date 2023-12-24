@@ -9,6 +9,8 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using PagedList;
+using System.Web.UI;
 using TicketLand_project.Models;
 
 namespace TicketLand_project.Areas.Admin.Controllers
@@ -18,10 +20,43 @@ namespace TicketLand_project.Areas.Admin.Controllers
         private QUANLYXEMPHIMEntities db = new QUANLYXEMPHIMEntities();
 
         // GET: Admin/news
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            var news = db.news.Include(n => n.movy);
-            return View(news.ToList());
+            var username = Session["Username"] as string;
+            var idMember = Session["idMember"] as string;
+            int Idmember;
+
+            // Covert sang int
+            int.TryParse(idMember, out Idmember);
+
+            var member = db.members.SingleOrDefault(m => m.member_id == Idmember);
+
+            if (member == null || member.role_id == 2)
+            {
+                return RedirectToAction("Login", "Home", new { area = "" });
+            }
+
+            // 1. Tham số int? dùng để thể hiện null và kiểu int
+            // page có thể có giá trị là null và kiểu int.
+
+            // 2. Nếu page = null thì đặt lại là 1.
+            if (page == null) page = 1;
+
+            // 3. Tạo truy vấn, lưu ý phải sắp xếp theo trường nào đó, ví dụ OrderBy
+            // theo memberID mới có thể phân trang.
+            var _news = (from l in db.news
+                           select l).OrderBy(x => x.news_id);
+
+            // 4. Tạo kích thước trang (pageSize) hay là số Link hiển thị trên 1 trang
+            int pageSize = 11;
+
+            // 4.1 Toán tử ?? trong C# mô tả nếu page khác null thì lấy giá trị page, còn
+            // nếu page = null thì lấy giá trị 1 cho biến pageNumber.
+            int pageNumber = (page ?? 1);
+
+            // 5. Trả về các member được phân trang theo kích thước và số trang.
+            return View(_news.ToPagedList(pageNumber, pageSize));
+
         }
 
         // GET: Admin/news/Details/5
@@ -109,17 +144,21 @@ namespace TicketLand_project.Areas.Admin.Controllers
 
         // POST: Admin/news/Edit/5
         [HttpPost]
- 
-        public JsonResult Edit([Bind(Include = "news_id,movie_id,news_title,news_content,news_img,news_release")] news news)
+
+        public ActionResult Edit([Bind(Include = "news_id,movie_id,news_title,news_content,news_img,news_release")] news news)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(news).State = EntityState.Modified;
                 db.SaveChanges();
-                return Json(new { success = true, message = "Chỉnh sửa thành công" });
+                // Chuyển hướng về trang Index
+                return RedirectToAction("Index");
             }
+
             ViewBag.movie_id = new SelectList(db.movies, "movie_id", "movie_name", news.movie_id);
-            return Json(new { success = false, message = "Chỉnh sửa thất bại!" });
+            // Truyền thông điệp lỗi vào ViewBag và trả về View
+            ViewBag.ErrorMessage = "Chỉnh sửa thất bại!";
+            return View(); // Tùy thuộc vào tên của view bạn muốn sử dụng
         }
 
         // GET: Admin/news/Delete/5

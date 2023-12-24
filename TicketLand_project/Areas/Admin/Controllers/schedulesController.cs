@@ -21,7 +21,7 @@ namespace TicketLand_project.Areas.Admin.Controllers
             var idMember = Session["idMember"] as string;
             int Idmember;
 
-            // Covert sang int
+            // Convert sang int
             int.TryParse(idMember, out Idmember);
 
             var member = db.members.SingleOrDefault(m => m.member_id == Idmember);
@@ -31,29 +31,32 @@ namespace TicketLand_project.Areas.Admin.Controllers
                 return RedirectToAction("Login", "Home", new { area = "" });
             }
 
-            // 1. Tham số int? dùng để thể hiện null và kiểu int
-            // page có thể có giá trị là null và kiểu int.
-
-            // 2. Nếu page = null thì đặt lại là 1.
-            if (page == null) page = 1;
-
-            // 3. Tạo truy vấn, lưu ý phải sắp xếp theo trường nào đó, ví dụ OrderBy
+            // 1. Tạo truy vấn, lưu ý phải sắp xếp theo trường nào đó, ví dụ OrderBy
             // theo memberID mới có thể phân trang.
-            var _schedules = (from l in db.schedules
-                           select l).OrderBy(x => x.show_date);
+            var schedulesQuery = (from l in db.schedules
+                                  select l).OrderBy(x => x.movie_id);
 
-            // 4. Tạo kích thước trang (pageSize) hay là số Link hiển thị trên 1 trang
-            int pageSize = 11;
+            // 2. Lấy dữ liệu từ truy vấn
+            var schedulesList = schedulesQuery.ToList();
+
+            // 3. Tạo kích thước trang (pageSize) hay là số Link hiển thị trên 1 trang
+            int pageSize = 100;
 
             // 4.1 Toán tử ?? trong C# mô tả nếu page khác null thì lấy giá trị page, còn
             // nếu page = null thì lấy giá trị 1 cho biến pageNumber.
             int pageNumber = (page ?? 1);
 
+            // 4. Phân trang trên danh sách đã lấy
+            var pagedList = schedulesList.ToPagedList(pageNumber, pageSize);
 
+            // 5. Tạo SelectList từ danh sách đã lấy
             ViewBag.movie_id = new SelectList(db.movies, "movie_id", "movie_name");
             ViewBag.room_id = new SelectList(db.rooms, "room_id", "room_name");
-            return View(_schedules.ToPagedList(pageNumber, pageSize));
+
+            // 6. Trả về view với danh sách đã phân trang
+            return View(pagedList);
         }
+
 
         //// GET: Admin/schedules/Details/5
         //public ActionResult Details(int? id)
