@@ -46,6 +46,7 @@ namespace TicketLand_project.Models
         public int DurationInMinutes { get; set; }
         public int numberMoviesEnable { get; set; }
         public int numberMoviesDisable { get; set; }
+        public string slugMovieName { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<comment> comments { get; set; }

@@ -338,3 +338,11 @@ input[type=email] {
 }
 
 
+.fadeIn.second img {
+    width: 100%; /* Make the image fill the container */
+    height: auto; /* Maintain aspect ratio */
+    max-width: 300px; /* Set a maximum width for the image */
+    justify-items: center;
+    justify-content: center;
+    margin: 0 auto; /* Center the image horizontally */
+}

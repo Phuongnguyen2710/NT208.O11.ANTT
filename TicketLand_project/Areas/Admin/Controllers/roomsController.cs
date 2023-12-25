@@ -43,7 +43,7 @@ namespace TicketLand_project.Areas.Admin.Controllers
             // 3. Tạo truy vấn, lưu ý phải sắp xếp theo trường nào đó, ví dụ OrderBy
             // theo memberID mới có thể phân trang.
             var _rooms = (from l in db.rooms
-                           select l).OrderBy(x => x.room_id);
+                          select l).OrderBy(x => x.room_id);
 
             // 4. Tạo kích thước trang (pageSize) hay là số Link hiển thị trên 1 trang
             int pageSize = 10;
@@ -103,7 +103,7 @@ namespace TicketLand_project.Areas.Admin.Controllers
                 // Kiểm tra định dạng của room_name (ví dụ: Phòng 3)
                 if (IsValidRoomNameFormat(room.room_name))
                 {
-                    bool check_room = db.rooms.Any(x=>x.room_name == room.room_name);
+                    bool check_room = db.rooms.Any(x => x.room_name == room.room_name);
                     if (!check_room)
                     {
                         db.rooms.Add(room);
@@ -128,7 +128,7 @@ namespace TicketLand_project.Areas.Admin.Controllers
             string pattern = @"^Phòng \d+$";
             return Regex.IsMatch(roomName, pattern);
         }
-        
+
         public PartialViewResult GetRooms(int? page)
         {
             int pageSize = 10; // Set your desired page size

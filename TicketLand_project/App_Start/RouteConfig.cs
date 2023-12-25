@@ -13,22 +13,28 @@ namespace TicketLand_project
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
+            
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapMvcAttributeRoutes();
+
+            // BotDetect requests must not be routed
+            routes.IgnoreRoute("{*botdetect}",
+            new { botdetect = @"(.*)BotDetectCaptcha\.ashx" });
+
 
             //Route của Admin Site
             //Member-Manage
             routes.MapRoute(
                 name: "User_manage",
                 url: "Admin/manage_members/Index",
-                defaults: new { area = "Admin", controller = "manage_members", action = "Index"}
+                defaults: new { area = "Admin", controller = "manage_members", action = "Index" }
             );
 
             routes.MapRoute(
                 name: "Create_Member",
                 url: "Admin/manage_members/Create",
-                defaults: new { area = "Admin", controller = "manage_members", action = "Create"}
+                defaults: new { area = "Admin", controller = "manage_members", action = "Create" }
             );
 
             routes.MapRoute(
@@ -261,6 +267,34 @@ namespace TicketLand_project
 
 
 
+            //Login
+            routes.MapRoute(
+                name: "Login",
+                url: "Home/Login",
+                defaults: new { controller = "Home", action = "Login" }
+            );
+            //Kết thúc
+
+
+            //Register
+            routes.MapRoute(
+                name: "Register",
+                url: "Home/Register",
+                defaults: new { controller = "Home", action = "Register" }
+            );
+            //Kết thúc
+
+
+            //Logout
+            routes.MapRoute(
+                name: "Logout",
+                url: "Home/Logout",
+                defaults: new { controller = "Home", action = "Logout" }
+            );
+            //Kết thúc
+
+
+
             //Route của User
 
 
@@ -269,7 +303,7 @@ namespace TicketLand_project
 
             routes.MapRoute(
                 name: "detail",
-                url: "{alias}-{id}",
+                url: "{alias}-p{id}",
                 defaults: new { controller = "Home", action = "MovieDetail", id = UrlParameter.Optional }
             );
 
@@ -279,6 +313,9 @@ namespace TicketLand_project
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
+
+
         }
     }
 }

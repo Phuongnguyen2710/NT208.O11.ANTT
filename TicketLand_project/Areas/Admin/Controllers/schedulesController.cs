@@ -136,8 +136,8 @@ namespace TicketLand_project.Areas.Admin.Controllers
             {
                 db.Entry(schedule).State = EntityState.Modified;
                 db.SaveChanges();
-                    return Json(new { success = true, message = "Thay đổi thành công" });
-                
+                return Json(new { success = true, message = "Thay đổi thành công" });
+
             }
 
             // Load danh sách phim và danh sách phòng để hiển thị lại trong trường hợp lỗi

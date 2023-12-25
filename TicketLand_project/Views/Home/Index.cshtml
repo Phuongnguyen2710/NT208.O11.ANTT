@@ -3,6 +3,7 @@
     ViewBag.Title = "Home Page";
 
 }
+
 @{
     List<int> movie_current = new List<int>();
     List<int> movie_coming = new List<int>();
@@ -64,6 +65,7 @@
 </div>
 <!-- Banner Area End -->
 <!-- Banner Form Area -->
+
 <div id="banner-head" class="containerbanner">
     <div class="banner-head">
         <form>
@@ -87,7 +89,7 @@
                                 int day = currentDate.Day;
 
                                 // Lưu ngày tháng năm hiện tại vào các biến
-                                string currentDateString = currentDate.ToString("dd/MM/yyyy");
+                                string currentDateString = currentDate.ToString();
                             }
                             <input id="datetimepicker-check" type="text" class="form-control d-flex justify-content-center align-items-center" placeholder=@currentDateString>
                             <span class="input-group-addon"></span>
@@ -109,7 +111,8 @@
                     </button>
                 </div>
                 <div class="col-lg-1 col-md-12 col-sm-12 mt-2 form-group d-flex justify-content-center align-items-center">
-                    <button type="button" class="banner-button btn btn-danger">GO</button>
+                    <button id="go-button" type="button" class="banner-button btn btn-danger">GO</button>
+
                 </div>
             </div>
         </form>
@@ -167,7 +170,7 @@
                                                 <div class="col-lg-3 col-md-4 col-sm-6">
                                                     <div class="room-card">
                                                         <div id="poster">
-                                                            <a href="/@($"{@Model.ElementAt(movie_current[i]).movie_name.ToLowerInvariant().Replace(" ", "-")}-{@Model.ElementAt(movie_current[i]).movie_id}")">
+                                                            <a href="/@($"{@Model.ElementAt(movie_current[i]).slugMovieName}-p{@Model.ElementAt(movie_current[i]).movie_id}")">
                                                                 <img class="poster_film" src="@Model.ElementAt(movie_current[i]).movie_poster" alt="Images" />
                                                             </a>
                                                         </div>
@@ -270,7 +273,7 @@
                                                 <div class="col-lg-3 col-md-4 col-sm-6">
                                                     <div class="room-card">
                                                         <div>
-                                                            <a href="/@($"{@Model.ElementAt(movie_coming[i]).movie_name.ToLowerInvariant().Replace(" ", "-")}-{@Model.ElementAt(movie_coming[i]).movie_id}")">
+                                                            <a href="/@($"{@Model.ElementAt(movie_coming[i]).slugMovieName}-p{@Model.ElementAt(movie_coming[i]).movie_id}")">
                                                                 <img class="poster_film" src="@Model.ElementAt(movie_coming[i]).movie_poster" alt="Images" />
                                                             </a>
                                                         </div>
@@ -406,7 +409,8 @@
                 console.log('Đây vẫn là Guest user');
             }
         });
-    }
+            }
+     
 
     function convertTimeToMinutes(timeString) {
         var timeParts = timeString.split(':');
@@ -417,14 +421,16 @@
         var totalMinutes = (hours * 60) + minutes + Math.round(seconds / 60);
 
         return totalMinutes;
-            }
+    }
 
-    $(document).ready(function () {
+
+     $(document).ready(function () {
          var availableTags = JSON.parse('@Html.Raw(encodedJsonAvailableTutorials)');
-        $('#tags').autocomplete({
-            source: availableTags
-        });
-    });
+         console.log(availableTags + "avai");
+     $('#tags').autocomplete({
+         source: availableTags
+     });
+ });
             $(document).ready(function () {
                 $('#load-film').hide();
                 $('#find-film').click(function () {
@@ -441,11 +447,11 @@
                         url: '/Home/GetMovieTimes',
                         type: 'GET',
                         data: { movieName: movieName, scheduleDate: scheduleDate },
-                        success: function (data) {
-                            console.log(data);
+                        success: function (globalData) {
+                            console.log("global: " + globalData);
                             $('#time-of-film').empty();
                             // Xóa các option hiện tại trong #time-of-film
-                            if (data == null) {
+                            if (globalData == null) {
                                 var optionText = "Không có lịch chiếu";
                                 var optionValue = optionText;
                                 $('#time-of-film').append($('<option>', {
@@ -454,8 +460,9 @@
                                 }));
                             }
                             else {
-                                $.each(data, function (index, time) {
-                                    var optionText = time.Hours + ":" + time.Minutes;
+                                $.each(globalData, function (index, item) {
+                                    console.log("Function called");
+                                    var optionText = item.time_start.Hours + ":" + item.time_start.Minutes;
                                     var optionValue = optionText;
                                     $('#time-of-film').append($('<option>', {
                                         value: optionValue,
@@ -486,8 +493,43 @@
                     }
                 );
             });
-
             $(document).ready(function () {
+    $('#go-button').click(function () {
+        var movieName = $('#tags').val();
+        var scheduleDate = $('#datetimepicker-check').val();
+        $.ajax({
+            url: '/Home/GetMovieTimes',
+            type: 'GET',
+            data: { movieName: movieName, scheduleDate: scheduleDate },
+            success: function (globalData) {
+                console.log("global: " + globalData);
+                //$('#time-of-film').empty();
+                // Xóa các option hiện tại trong #time-of-film
+                if (globalData == null) {
+                    var optionText = "Không có lịch chiếu";
+                    var optionValue = optionText;
+                    $('#time-of-film').append($('<option>', {
+                        value: optionValue,
+                        text: optionText
+                    }));
+                }
+                else {
+                    var timeOfFilm = document.getElementById("time-of-film").value;
+                    $.each(globalData, function (index, item) {
+                        console.log("Function called");
+                        if (timeOfFilm == (item.time_start.Hours + ":" + item.time_start.Minutes)) {
+                            scheduleID = item.schedule_id;
+                        }
+                    });
+                    console.log("schedule: " + scheduleID);
+                }
+                var url = '@Url.Action("SelectSeat", "Home")?scheduleId=' + scheduleID;
+                window.location.href = url;
+            }
+        });
+    });
+            });
+    $(document).ready(function () {
                     $.ajax({
                         url: '/Home/GetNews',
                         type: 'GET',

@@ -31,6 +31,7 @@
     }
 
     #infoScreen {
+        font-family:'UTM Avo';
         background-color: #f0f0f0;
         padding: 10px;
         margin-top: 20px;
@@ -44,9 +45,9 @@
 </style>
 
 <div class="center">
-    <div id="infoScreen">
+    <div id="infoScreen" style="background-color:bisque; border-radius:0.25rem;">
         <!-- Màn hình ở đầu trang -->
-        <h4>Thông tin suất chiếu</h4>
+        <h4 style="font-family:'UTM Avo'; font-weight:bold;">Thông tin suất chiếu</h4>
         <p>Ngày chiếu: @Model.Schedule.show_date.ToShortDateString()</p>
         <p>Giờ chiếu: @Model.Schedule.time_start.ToString("hh\\:mm")</p>
         <p id="selectedSeatsInfo">Ghế đã chọn: </p>
@@ -55,7 +56,7 @@
 
         <div class="ticket-selector">
             <div class="head">
-                <div class="title">SƠ ĐỒ CHỖ NGỒI</div>
+                <div class="title" style="font-family: 'UTM Avo'; font-weight:bold;">SƠ ĐỒ CHỖ NGỒI</div>
             </div>
 
 
@@ -115,7 +116,7 @@
                     }
                 </div>
                 <!-- Nút để xác nhận việc chọn ghế -->
-                <button type="button" class="btn" onclick="showConfirmationModal()">Submit</button>
+                <button type="button" style="display:flex; justify-items:center; justify-content:center; font-family:'UTM Avo';" class="btn btn-success" onclick="showConfirmationModal()">XÁC NHẬN</button>
                 <!-- Modal for confirmation -->
                 <div class="modal" id="confirmationModal" tabindex="-1" role="dialog">
                     <div class="modal-dialog" role="document">
@@ -129,8 +130,8 @@
                                 <p>Are you sure you want to confirm the booking?</p>
                             </div>
                             <div class="modal-footer">
-                                <button class="btn btn-primary" onclick="submitForm()">Confirm</button>
-                                <button class="btn" onclick="hideConfirmationModal()">Cancel</button>
+                                <button class="btn btn-primary"  onclick="submitForm()">Confirm</button>
+                                <button class="btn" type="button" onclick="hideConfirmationModal()">Cancel</button>
                             </div>
                         </div>
                     </div>
@@ -231,6 +232,7 @@
 
                 function submitForm() {
                     // Submit the form
+                    alert("Đặt vé thành công!");
                     document.getElementById('seatForm').submit();
                 }
 

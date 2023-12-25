@@ -14,7 +14,9 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using BotDetect.Web.Mvc;
 using Newtonsoft.Json;
+using Slugify;
 using TicketLand_project.Models;
 using TicketLand_project.ViewModels;
 
@@ -31,7 +33,7 @@ namespace TicketLand_project.Controllers
             {
                 using (HttpClient client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri("https://apitikketland.azurewebsites.net/api/");
+                    client.BaseAddress = new Uri("https://apitikketland.azurewebsites.net/api/movies");
                     HttpResponseMessage response = await client.GetAsync("movies");
 
                     if (response.IsSuccessStatusCode)
@@ -40,6 +42,7 @@ namespace TicketLand_project.Controllers
                         foreach (movy movie in movies)
                         {
                             movie.DurationInMinutes = ConvertTimeToMinutes(movie.movie_duration.ToString());
+                            movie.slugMovieName = GenerateSlug(movie.movie_name);
                         }
                         return View(movies);
                     }
@@ -79,16 +82,12 @@ namespace TicketLand_project.Controllers
         }
 
 
-        public class News
+       
+        public class Schedule
         {
-            public int news_id { get; set; }
-            public int movie_id { get; set; }
-            public string news_title { get; set; }
-            public string news_content { get; set; }
-            public string news_img { get; set; }
-            public DateTime news_release { get; set; }
+            public TimeSpan time_start { get; set; }
+            public int schedule_id { get; set; }
         }
-
 
 
         public async Task<ActionResult> GetMovieTimes(string movieName, DateTime scheduleDate)
@@ -120,21 +119,38 @@ namespace TicketLand_project.Controllers
                 var filteredSchedules = schedules.Where(s => s.movie_id == movie_id && s.show_date == scheduleDate);
 
                 // Lấy danh sách các time_start
-                var movieTimes = filteredSchedules.Select(s => s.time_start).ToList();
+                //var movieTimes = filteredSchedules.Select(s => s.time_start).ToList();
 
+                //var scheduleId = filteredSchedules.Select(ft => ft.schedule_id);
                 // In danh sách time_start ra Output Debug
-                foreach (var time in movieTimes)
+                List<Schedule> schedules1 = new List<Schedule>();
+                foreach (var Schedules in filteredSchedules)
                 {
-                    Debug.WriteLine("time_start: " + time);
-                }
+                    Schedule sd = new Schedule();
+                    sd.time_start = Schedules.time_start;
+                    sd.schedule_id = Schedules.schedule_id;
+                    schedules1.Add(sd);
 
-                return Json(movieTimes, JsonRequestBehavior.AllowGet);
+                }
+                
+                Debug.WriteLine("schedule ID: " + schedules1);
+                return Json(schedules1, JsonRequestBehavior.AllowGet);
             }
             else
             {
                 Debug.WriteLine("Không có lịch chiếu");
                 return View();
             }
+        }
+
+        public class News
+        {
+            public int news_id { get; set; }
+            public int movie_id { get; set; }
+            public string news_title { get; set; }
+            public string news_content { get; set; }
+            public string news_img { get; set; }
+            public DateTime news_release { get; set; }
         }
 
 
@@ -164,22 +180,31 @@ namespace TicketLand_project.Controllers
                     filteredNewsList.Add(news);
                 }
             }
-
             return Json(filteredNewsList, JsonRequestBehavior.AllowGet);
         }
 
+        //public static string GenerateSlug(string title)
+        //{
+        //    string slug = Regex.Replace(title, @"[^a-zA-Z0-9-]", "-");
+        //    slug = Regex.Replace(slug, @"-{2,}", "-");
+        //    slug = slug.Trim('-').ToLower();
+        //    return slug;
+        //}
+
+
+
 
         public static string GenerateSlug(string title)
-        {
-            string slug = Regex.Replace(title, @"[^a-zA-Z0-9-]", "-");
-            slug = Regex.Replace(slug, @"-{2,}", "-");
-            slug = slug.Trim('-').ToLower();
-            return slug;
-        }
+    {
+        SlugHelper slugHelper = new SlugHelper();
+        string slug = slugHelper.GenerateSlug(title);
+        return slug;
+    }
 
-        // Chức năng đăng kí
-        //POST: Register
-        [HttpPost]
+
+    // Chức năng đăng kí
+    //POST: Register
+    [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Register(member _user, HttpPostedFileBase imageFile)
         {
@@ -252,7 +277,10 @@ namespace TicketLand_project.Controllers
             return View();
         }
 
+        public string CaptchaCode { get; set; }
+
         [HttpPost]
+        [CaptchaValidationActionFilter("CaptchaCode", "ExampleCaptcha", "Wrong Captcha!")]
         [ValidateAntiForgeryToken]
         public ActionResult Login(string username, string password)
         {
@@ -295,6 +323,8 @@ namespace TicketLand_project.Controllers
                 else
                 {
                     ViewBag.Message = "Vui lòng nhập thông tin tài khoản";
+                    // Reset the captcha if your app's workflow continues with the same view
+                    MvcCaptcha.ResetCaptcha("ExampleCaptcha");
                 }
             }
             return View();
@@ -490,6 +520,12 @@ namespace TicketLand_project.Controllers
 
         public ActionResult SelectSeat(int scheduleId)
         {
+            int id = GetCurrentUserId();
+            if (id == -1)
+            {
+                return RedirectToAction("Login");
+            }
+
             var schedule = objModel.schedules.FirstOrDefault(s => s.schedule_id == scheduleId);
 
             if (schedule == null)

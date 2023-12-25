@@ -83,10 +83,15 @@ namespace TicketLand_project.Areas.Admin.Controllers
 
         public static string GenerateSlug(string title)
         {
-            string slug = Regex.Replace(title, @"[^a-zA-Z0-9-]", "-");
-            slug = Regex.Replace(slug, @"-{2,}", "-");
-            slug = slug.Trim('-').ToLower();
-            return slug;
+            string slug = Regex.Replace(title, @"à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ", "a");
+            slug = Regex.Replace(slug, @"è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ", "e");
+            slug = Regex.Replace(slug, @"ì|í|ị|ỉ|ĩ", "i");
+            slug = Regex.Replace(slug, @"ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ", "o");
+            slug = Regex.Replace(slug, @"ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ", "u");
+            slug = Regex.Replace(slug, @"ỳ|ý|ỵ|ỷ|ỹ", "y");
+            slug = Regex.Replace(slug, @"đ", "d");
+
+            return slug.ToLowerInvariant().Replace(" ", "-");
         }
 
         // POST: Admin/news/Create
