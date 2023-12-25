@@ -167,7 +167,7 @@
                                                 <div class="col-lg-3 col-md-4 col-sm-6">
                                                     <div class="room-card">
                                                         <div id="poster">
-                                                            <a href="@Url.Action("MovieDetail", "Home", new { id = Model.ElementAt(movie_current[i]).movie_id })">
+                                                            <a href="/@($"{@Model.ElementAt(movie_current[i]).movie_name.ToLowerInvariant().Replace(" ", "-")}-{@Model.ElementAt(movie_current[i]).movie_id}")">
                                                                 <img class="poster_film" src="@Model.ElementAt(movie_current[i]).movie_poster" alt="Images" />
                                                             </a>
                                                         </div>
@@ -270,7 +270,7 @@
                                                 <div class="col-lg-3 col-md-4 col-sm-6">
                                                     <div class="room-card">
                                                         <div>
-                                                            <a href="@Url.Action("MovieDetail", "Home", new { id = Model.ElementAt(movie_coming[i]).movie_id })">
+                                                            <a href="/@($"{@Model.ElementAt(movie_coming[i]).movie_name.ToLowerInvariant().Replace(" ", "-")}-{@Model.ElementAt(movie_coming[i]).movie_id}")">
                                                                 <img class="poster_film" src="@Model.ElementAt(movie_coming[i]).movie_poster" alt="Images" />
                                                             </a>
                                                         </div>

@@ -267,7 +267,11 @@ namespace TicketLand_project
 
             //Kết thúc
 
-
+            routes.MapRoute(
+                name: "detail",
+                url: "{alias}-{id}",
+                defaults: new { controller = "Home", action = "MovieDetail", id = UrlParameter.Optional }
+            );
 
             ////Default
             routes.MapRoute(
