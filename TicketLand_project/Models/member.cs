@@ -23,10 +23,10 @@ namespace TicketLand_project.Models
         }
 
         public int member_id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Vui lòng nhập họ tên!")]
         public string member_name { get; set; }
 
-        [Required(ErrorMessage = "Vui lòng nhập họ tên!")]
+        [Required(ErrorMessage = "Vui lòng nhập tên tài khoản!")]
         [StringLength(50, MinimumLength = 3, ErrorMessage = "Username must be between 3 and 50 characters.")]
         public string username { get; set; }
 
@@ -34,9 +34,12 @@ namespace TicketLand_project.Models
         [RegularExpression(@"^[a-zA-Z0-9]+$", ErrorMessage = "Password must contain only letters and numbers.")]
         public string password { get; set; }
         public Nullable<bool> gender { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> date_of_birth { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Vui lòng nhập Email!")]
         [EmailAddress(ErrorMessage = "Email không hợp lệ!")]
         public string email { get; set; }
         public string city { get; set; }

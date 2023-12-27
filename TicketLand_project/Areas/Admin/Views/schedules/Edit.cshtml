@@ -37,7 +37,7 @@
                         <b class="text-danger" style="font-weight: bold">Thời gian kết thúc</b>
                         <br />
                         <div class="col-md-12">
-                            @Html.EditorFor(model => model.time_end, new { htmlAttributes = new { @class = "form-control text-center", @type = "time", @id = "time_start" } })
+                            @Html.EditorFor(model => model.time_end, new { htmlAttributes = new { @class = "form-control text-center", @type = "time", @id = "time_end" } })
                             @Html.ValidationMessageFor(model => model.time_end, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -106,7 +106,7 @@ $(document).ready(function () {
             data: formData,
             success: function (result) {
             // Xử lý kết quả sau khi post thành công
-            alert("Thành công")
+                alert(result);
                 console.log(result);
                 // Chuyển hướng người dùng về trang trước
                 window.history.back();

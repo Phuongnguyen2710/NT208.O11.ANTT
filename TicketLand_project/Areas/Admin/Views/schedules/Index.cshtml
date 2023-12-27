@@ -47,6 +47,12 @@
                         <br />
 
                         <div class="form-group">
+                            <label for="time_end" class="text-center">Suất chiếu kết thúc lúc:</label>
+                            <input type="time" class="form-control text-center" id="time_end" name="time_end" />
+                        </div>
+                        <br />
+
+                        <div class="form-group">
                             <label for="room_id" class="text-center">Phòng:</label>
                             <select class="form-control" id="room_id" name="room_id">
                                 <option value="" class="text-center">-- Chọn phòng --</option>
@@ -62,6 +68,7 @@
                             <label for="show_date">Ngày suất chiếu:</label>
                             <input type="date" class="form-control text-center" id="show_date" name="show_date" />
                         </div>
+
 
                         <br />
                         <button type="submit" class="btn btn-primary" id="submitSave">Lưu</button>
@@ -87,10 +94,14 @@
             }
 
             @{
-                var movies = Model.Select(item => item.movy).Distinct();
+                // Lấy danh sách movie_id không trùng lặp từ Model
+                var uniqueMovieIds = Model.Select(item => item.movy.movie_id).Distinct().ToList();
+
+                // Lấy danh sách các movie tương ứng với uniqueMovieIds
+                var uniqueMovies = uniqueMovieIds.Select(movieId => Model.First(item => item.movy.movie_id == movieId).movy);
             }
 
-            @foreach (var movie in movies)
+            @foreach (var movie in uniqueMovies)
             {
                 <tr>
                     <td>
@@ -106,12 +117,10 @@
                         <button class="btn btn-primary" onclick="location.href='@Url.Action("Detail","schedules",new { id = movie.movie_id })'">
                             <i class="fa fa-info custom_i"></i> Xem suất chiếu
                         </button>
-
                     </td>
                 </tr>
-
-
             }
+
 
 
 
@@ -176,11 +185,11 @@
                 data: formData,
                 success: function (response) {
                     $('#addRoomModal').modal('hide');
-                    alert("Thêm thành công")
+                    alert(response.message);
                     window.location.reload();
                 },
                 error: function (xhr, status, error) {
-                    console.log(error);
+                    alert("Thất bại!")
                 }
             });
         });

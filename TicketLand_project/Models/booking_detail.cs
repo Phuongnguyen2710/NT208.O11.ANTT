@@ -12,16 +12,13 @@ namespace TicketLand_project.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class @event
+    public partial class booking_detail
     {
-        public int event_id { get; set; }
-        public Nullable<int> movie_id { get; set; }
-        public string event_name { get; set; }
-        public string event_description { get; set; }
-        public Nullable<System.DateTime> event_date_start { get; set; }
-        public Nullable<System.DateTime> event_time_end { get; set; }
-        public string event_image { get; set; }
+        public int bkdetail_id { get; set; }
+        public Nullable<int> booking_id { get; set; }
+        public Nullable<int> seat_id { get; set; }
     
-        public virtual movy movy { get; set; }
+        public virtual booking booking { get; set; }
+        public virtual seat seat { get; set; }
     }
 }

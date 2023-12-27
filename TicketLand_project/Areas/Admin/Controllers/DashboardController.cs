@@ -13,6 +13,7 @@ namespace TicketLand_project.Areas.Admin.Controllers
         // GET: Admin/Dashboard
         public ActionResult Index()
         {
+
             var username = Session["Username"] as string;
             var idMember = Session["idMember"] as string;
             int Idmember;

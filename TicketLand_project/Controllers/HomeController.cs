@@ -5,13 +5,18 @@ using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using BotDetect.Web.Mvc;
+using Newtonsoft.Json;
+using Slugify;
 using TicketLand_project.Models;
 using TicketLand_project.ViewModels;
 
@@ -22,20 +27,32 @@ namespace TicketLand_project.Controllers
     {
 
         QUANLYXEMPHIMEntities objModel = new QUANLYXEMPHIMEntities();
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             if (Session["Username"] != null)
             {
-                var movies = objModel.movies.ToList();
-                int numberMoviesEnable = 0;
-                foreach (var movie in movies)
+                using (HttpClient client = new HttpClient())
                 {
-                    movie.DurationInMinutes = ConvertTimeToMinutes(movie.movie_duration.ToString());
-                    if (movie.movie_status == 1) numberMoviesEnable++;
+                    client.BaseAddress = new Uri("https://apitikketland.azurewebsites.net/api/movies");
+                    HttpResponseMessage response = await client.GetAsync("movies");
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var movies = await response.Content.ReadAsAsync<List<movy>>();
+                        foreach (movy movie in movies)
+                        {
+                            movie.DurationInMinutes = ConvertTimeToMinutes(movie.movie_duration.ToString());
+                            movie.slugMovieName = GenerateSlug(movie.movie_name);
+                        }
+                        return View(movies);
+                    }
+                    else
+                    {
+                        // Xử lý khi không nhận được phản hồi thành công từ API
+                        // Ví dụ: ghi log, hiển thị thông báo lỗi, vv.
+                        return View("Error");
+                    }
                 }
-                ViewBag.numberMoviesEnable = numberMoviesEnable;
-                return View(movies);
-                //return View(objModel.movies.ToList());
             }
 
             else
@@ -64,17 +81,130 @@ namespace TicketLand_project.Controllers
             return View();
         }
 
-        public static string GenerateSlug(string title)
+
+       
+        public class Schedule
         {
-            string slug = Regex.Replace(title, @"[^a-zA-Z0-9-]", "-");
-            slug = Regex.Replace(slug, @"-{2,}", "-");
-            slug = slug.Trim('-').ToLower();
-            return slug;
+            public TimeSpan time_start { get; set; }
+            public int schedule_id { get; set; }
         }
 
-        // Chức năng đăng kí
-        //POST: Register
-        [HttpPost]
+
+        public async Task<ActionResult> GetMovieTimes(string movieName, DateTime scheduleDate)
+        {
+            if (scheduleDate != null)
+            {
+                // Gọi API và lấy dữ liệu trả về
+                var apiUrl = "https://apitikketland.azurewebsites.net/api/schedules";
+                var httpClient = new HttpClient();
+                var response = await httpClient.GetAsync(apiUrl);
+                var responseData = await response.Content.ReadAsStringAsync();
+
+                var apiUrl_2 = "https://apitikketland.azurewebsites.net/api/movies";
+                var httpClient2 = new HttpClient();
+                var response2 = await httpClient2.GetAsync(apiUrl_2);
+                var responseData2 = await response2.Content.ReadAsStringAsync();
+
+                var movies = Newtonsoft.Json.JsonConvert.DeserializeObject<List<movy>>(responseData2);
+                // Chuyển đổi dữ liệu từ JSON sang danh sách lịch chiếu
+                var schedules = Newtonsoft.Json.JsonConvert.DeserializeObject<List<schedule>>(responseData);
+                Debug.WriteLine("movies: " + movieName);
+
+                var filterMovies = movies.Where(m => m.movie_name == movieName);
+                Debug.WriteLine("movies: " + filterMovies);
+                int movie_id = filterMovies.Select(m => m.movie_id).FirstOrDefault();
+
+                Debug.WriteLine("movies: " + movie_id);
+                // Lọc danh sách lịch chiếu theo movie_id và schedule_date
+                var filteredSchedules = schedules.Where(s => s.movie_id == movie_id && s.show_date == scheduleDate);
+
+                // Lấy danh sách các time_start
+                //var movieTimes = filteredSchedules.Select(s => s.time_start).ToList();
+
+                //var scheduleId = filteredSchedules.Select(ft => ft.schedule_id);
+                // In danh sách time_start ra Output Debug
+                List<Schedule> schedules1 = new List<Schedule>();
+                foreach (var Schedules in filteredSchedules)
+                {
+                    Schedule sd = new Schedule();
+                    sd.time_start = Schedules.time_start;
+                    sd.schedule_id = Schedules.schedule_id;
+                    schedules1.Add(sd);
+
+                }
+                
+                Debug.WriteLine("schedule ID: " + schedules1);
+                return Json(schedules1, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                Debug.WriteLine("Không có lịch chiếu");
+                return View();
+            }
+        }
+
+        public class News
+        {
+            public int news_id { get; set; }
+            public int movie_id { get; set; }
+            public string news_title { get; set; }
+            public string news_content { get; set; }
+            public string news_img { get; set; }
+            public DateTime news_release { get; set; }
+        }
+
+
+        public async Task<ActionResult> GetNews()
+        {
+            // Gọi API và lấy dữ liệu trả về
+            var apiUrl = "https://apitikketland.azurewebsites.net/api/news";
+            var httpClient = new HttpClient();
+            var response = await httpClient.GetAsync(apiUrl);
+            var responseData = await response.Content.ReadAsStringAsync();
+
+            // Chuyển đổi dữ liệu từ chuỗi JSON sang đối tượng C#
+            var newsList = JsonConvert.DeserializeObject<List<News>>(responseData);
+
+            // Lọc ra những news có news_release cách ngày hiện tại không quá 10 ngày
+            var filteredNewsList = new List<News>();
+
+            foreach (var news in newsList)
+            {
+                DateTime now = DateTime.Now;
+                DateTime newsRelease = news.news_release; // hoặc news.news_release.GetValueOrDefault()
+                TimeSpan timeDiff = now - newsRelease;
+
+                double daysDiff = timeDiff.TotalDays;
+                if (daysDiff <= 10)
+                {
+                    filteredNewsList.Add(news);
+                }
+            }
+            return Json(filteredNewsList, JsonRequestBehavior.AllowGet);
+        }
+
+        //public static string GenerateSlug(string title)
+        //{
+        //    string slug = Regex.Replace(title, @"[^a-zA-Z0-9-]", "-");
+        //    slug = Regex.Replace(slug, @"-{2,}", "-");
+        //    slug = slug.Trim('-').ToLower();
+        //    return slug;
+        //}
+
+
+
+
+        public static string GenerateSlug(string title)
+    {
+        SlugHelper slugHelper = new SlugHelper();
+        string slug = slugHelper.GenerateSlug(title);
+        return slug;
+    }
+
+
+    // Chức năng đăng kí
+    //POST: Register
+    [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Register(member _user, HttpPostedFileBase imageFile)
         {
@@ -147,7 +277,10 @@ namespace TicketLand_project.Controllers
             return View();
         }
 
+        public string CaptchaCode { get; set; }
+
         [HttpPost]
+        [CaptchaValidationActionFilter("CaptchaCode", "ExampleCaptcha", "Wrong Captcha!")]
         [ValidateAntiForgeryToken]
         public ActionResult Login(string username, string password)
         {
@@ -190,6 +323,8 @@ namespace TicketLand_project.Controllers
                 else
                 {
                     ViewBag.Message = "Vui lòng nhập thông tin tài khoản";
+                    // Reset the captcha if your app's workflow continues with the same view
+                    MvcCaptcha.ResetCaptcha("ExampleCaptcha");
                 }
             }
             return View();
@@ -204,6 +339,8 @@ namespace TicketLand_project.Controllers
             string avatar = Session["Avartar"] as string ?? "Null";
             return Json(new { Username = username, IdMember = idMember, IsLogin = isLogin, Avatar = avatar }, JsonRequestBehavior.AllowGet);
         }
+
+
 
 
         //Logout
@@ -365,19 +502,234 @@ namespace TicketLand_project.Controllers
             // Lấy danh sách thời gian chiếu từ cơ sở dữ liệu dựa trên phòng, phim và ngày
             var rawShowtimes = objModel.schedules
                 .Where(s => s.movie_id == movieId && s.room_id == roomNumber && DbFunctions.TruncateTime(s.show_date) == targetDate)
-                .Select(s => new { StartTime = s.time_start, EndTime = s.time_end })
+                .Select(s => new { StartTime = s.time_start, EndTime = s.time_end, ScheduleId = s.schedule_id })
                 .ToList();
 
             var showtimes = rawShowtimes
              .Where(s => s.StartTime != null && s.EndTime != null)
              .Select(s => new
              {
+                 ScheduleId = s.ScheduleId,
                  StartTime = ((TimeSpan)s.StartTime).ToString(@"hh\:mm"),
                  EndTime = ((TimeSpan)s.EndTime).ToString(@"hh\:mm")
              })
              .ToList();
 
             return Json(showtimes, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult SelectSeat(int scheduleId)
+        {
+            int id = GetCurrentUserId();
+            if (id == -1)
+            {
+                return RedirectToAction("Login");
+            }
+
+            var schedule = objModel.schedules.FirstOrDefault(s => s.schedule_id == scheduleId);
+
+            if (schedule == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Lấy danh sách ghế dựa trên room_id
+            var seats = objModel.seats.Where(s => s.room_id == schedule.room_id).ToList();
+
+            // Truyền thông tin lịch chiếu và danh sách ghế vào view
+            var viewModel = new SeatViewModel
+            {
+                Schedule = schedule,
+                Seats = seats
+            };
+
+            return View(viewModel);
+        }
+
+        public decimal CalculateTotalPrice(int scheduleId, List<string> selectedSeats)
+        {
+            // Lấy thông tin về phòng chiếu từ cơ sở dữ liệu dựa trên scheduleId
+            var schedule = objModel.schedules.FirstOrDefault(s => s.schedule_id == scheduleId);
+
+            if (schedule != null)
+            {
+                // Lấy giá của ghế từ cơ sở dữ liệu hoặc cố định giá nếu không có trong cơ sở dữ liệu
+                decimal defaultSeatPrice = 50000;
+
+                // Tính toán tổng giá dựa trên loại ghế
+                decimal totalPrice = 0;
+
+                foreach (var seatId in selectedSeats)
+                {
+                    // Tách thông tin về hàng (row) và số (number) từ seatId
+                    char row = seatId[0];
+                    string Row = row.ToString();
+                    int number = int.Parse(seatId[1].ToString());
+
+                    // Lấy thông tin về loại ghế từ cơ sở dữ liệu dựa trên row và number
+                    var seat = objModel.seats
+                        .FirstOrDefault(s => s.room_id == schedule.room_id && s.row == Row && s.number == number);
+
+                    if (seat != null)
+                    {
+                        if (seat.seat_type == "Couple")
+                        {
+                            // Nếu là ghế đôi, giá là 120000 đồng
+                            totalPrice += 120000;
+                        }
+                        else
+                        {
+                            // Nếu là ghế đơn, sử dụng giá mặc định hoặc lấy giá từ cơ sở dữ liệu
+                            totalPrice += defaultSeatPrice;
+                        }
+                    }
+                }
+
+                return totalPrice;
+            }
+
+            // Trả về 0 nếu không tìm thấy lịch chiếu
+            return 0;
+        }
+
+
+        [HttpPost]
+        public ActionResult ConfirmBooking(int scheduleId, List<string> selectedSeats)
+        {
+            // Remove duplicates from selectedSeats in-place
+            var set = new HashSet<string>();
+            selectedSeats.RemoveAll(seat => !set.Add(seat));
+            foreach (var seat in selectedSeats)
+            {
+                System.Diagnostics.Debug.WriteLine("Selected Seat: " + seat);
+            }
+            // Lấy schedule từ database dựa trên scheduleId
+            var schedule = objModel.schedules.FirstOrDefault(s => s.schedule_id == scheduleId);
+            // Lấy member_id từ session
+            int memberId = GetCurrentUserId();
+
+            // Kiểm tra nếu không có người dùng đăng nhập
+            if (memberId == -1)
+            {
+                return RedirectToAction("Login"); // Hoặc chuyển hướng đến trang đăng nhập
+            }
+
+            // Tạo đối tượng Booking mới
+            var booking = new booking
+            {
+                member_id = memberId,
+                schedule_id = scheduleId,
+                booking_status = 1,
+                booking_date = DateTime.Now,
+                total_price = CalculateTotalPrice(scheduleId, selectedSeats).ToString(),
+            };
+
+            // Thêm đối tượng Booking vào cơ sở dữ liệu
+            objModel.bookings.Add(booking);
+            objModel.SaveChanges();
+
+            // Lấy booking_id vừa được tạo
+            int bookingId = booking.booking_id;
+
+            // Lưu thông tin chi tiết đặt ghế
+            foreach (var seatId in selectedSeats)
+            {
+                // Chia chuỗi seatId thành row và number
+                string row = seatId[0].ToString();
+                int number = int.Parse(seatId[1].ToString());
+
+                // Tìm seat trong cơ sở dữ liệu dựa trên room_id, row và number
+                var seat = objModel.seats.FirstOrDefault(s => s.room_id == schedule.room_id && s.row == row && s.number == number);
+
+                if (seat != null)
+                {
+                    // Nếu seat không null, có thể tạo đối tượng booking_detail
+                    var bookingDetail = new booking_detail
+                    {
+                        booking_id = bookingId,
+                        seat_id = seat.seat_id
+                    };
+
+                    objModel.booking_detail.Add(bookingDetail);
+
+                }
+
+            }
+
+            // Lưu thông tin chi tiết đặt ghế vào cơ sở dữ liệu
+            objModel.SaveChanges();
+
+            // Hiển thị modal thành công và đếm ngược
+            ViewBag.ShowSuccessModal = true;
+
+            return RedirectToAction("Index");
+
+
+        }
+
+
+        public class Seat
+        {
+            public string row { get; set; }
+            public int? number { get; set; }
+        }
+        public async Task<ActionResult> GetAvailableSeats(int scheduleId)
+        {
+
+            // Gọi API và lấy dữ liệu trả về
+            var apiUrl = "https://apitikketland.azurewebsites.net/api/bookings";
+            var httpClient = new HttpClient();
+            var response = await httpClient.GetAsync(apiUrl);
+            var responseData = await response.Content.ReadAsStringAsync();
+            var Booking = Newtonsoft.Json.JsonConvert.DeserializeObject<List<booking>>(responseData);
+            var bookingId = Booking.Where(b => b.schedule_id == scheduleId);
+
+            var apiUrl2 = "https://apitikketland.azurewebsites.net/api/booking_detail";
+            var httpClient2 = new HttpClient();
+            var response2 = await httpClient2.GetAsync(apiUrl2);
+            var responseData2 = await response2.Content.ReadAsStringAsync();
+            var BookingDetail = Newtonsoft.Json.JsonConvert.DeserializeObject<List<booking_detail>>(responseData2);
+            List<int?> SeatId = new List<int?>();
+            foreach (var bookingid in bookingId)
+            {
+                var filterBookingDetail = BookingDetail.Where(bk => bk.booking_id == bookingid.booking_id);
+                var seatId = filterBookingDetail.Select(ft => ft.seat_id).ToList();
+                SeatId.AddRange(seatId);
+            }
+            Debug.WriteLine(SeatId);
+
+            var apiUrl3 = "https://apitikketland.azurewebsites.net/api/seats";
+            var httpClient3 = new HttpClient();
+            var response3 = await httpClient3.GetAsync(apiUrl3);
+            var responseData3 = await response3.Content.ReadAsStringAsync();
+            var Seats = Newtonsoft.Json.JsonConvert.DeserializeObject<List<seat>>(responseData3);
+            List<Seat> seats = new List<Seat>();
+            foreach (var seatid in SeatId)
+            {
+                var filterSeat = Seats.Where(b => b.seat_id == seatid);
+                Seat s = new Seat();
+                s.row = filterSeat.Select(a => a.row).FirstOrDefault();
+                s.number = filterSeat.Select(c => c.number).FirstOrDefault();
+                seats.Add(s);
+            }
+
+
+            return Json(seats, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public ActionResult Profile(int id)
+        {
+            var data = objModel.members.Where(s => s.member_id.Equals(id)).ToList();
+            var user = data.FirstOrDefault();
+            return View(user);
+        }
+        
+        public ActionResult EditProfile(int id)
+        {
+            var data = objModel.members.Where(s => s.member_id.Equals(id)).ToList();
+            var user = data.FirstOrDefault();
+            return View(user);
         }
     }
 }

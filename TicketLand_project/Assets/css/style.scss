@@ -1,5 +1,5 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+/*@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap');
 
 $title-fonts: 'Noto Serif', serif;
@@ -105,11 +105,11 @@ h3 {
 }
 .section-bg-2 {
     background-color: $optional-bg-3;
-}
+}*/
 /*================================
 Default Btn Style 
 ===================================*/
-.default-btn {
+/*.default-btn {
     display: inline-block;
     padding: 12px 42px;
     color: $color-white;
@@ -163,7 +163,7 @@ Default Btn Style
 }
 .btn-bg-three {
     background-color: $optional-color3;
-}
+}*/
 /*================================
 Default Btn Style End
 ===================================*/
@@ -171,7 +171,7 @@ Default Btn Style End
 /*================================
 Section Title Style 
 ===================================*/
-.section-title {
+/*.section-title {
     span {
         line-height: 0;
         text-transform: capitalize;
@@ -194,7 +194,7 @@ Section Title Style
 }
 .sp-color {
     color: $optional-color3 !important;
-}
+}*/
 /*================================
 Section Title Style End
 ===================================*/
@@ -202,7 +202,7 @@ Section Title Style End
 /*================================
 Top Header
 ===================================*/
-.top-header {
+/*.top-header {
     padding: 7px 0 10px;
 }
 .top-header-bg {
@@ -341,7 +341,7 @@ Top Header
 }
 .side-nav .nav-flag-dropdown {
     display: inline-block;
-}
+}*/
   
 /*================================
 Top Header End
@@ -350,7 +350,7 @@ Top Header End
 /*=================================
 Navbar Area
 ====================================*/
-.navbar-light {
+/*.navbar-light {
     .navbar-brand {
         .logo-two {
             display: none;
@@ -826,7 +826,7 @@ Navbar Area
 }
 .nav-item-btn {
     display: none;
-}
+}*/
 /*=================================
 Navbar Area End
 ====================================*/
@@ -834,7 +834,7 @@ Navbar Area End
 /*=================================
 Sidebar Modal
 ====================================*/
-.sidebar-modal {
+/*.sidebar-modal {
     position: fixed;
     right: 0;
     top: 0;
@@ -1018,7 +1018,7 @@ Sidebar Modal
             right: 0;
         }
     }
-}
+}*/
 /*=================================
 Sidebar Modal
 ====================================*/
@@ -1026,7 +1026,7 @@ Sidebar Modal
 /*=================================
 Main Banner Area
 ====================================*/
-.banner-area {
+/*.banner-area {
     background-image: url(../img/home-one.jpg);
     background-position: center center;
     background-size: cover;
@@ -1128,7 +1128,7 @@ Main Banner Area
     img {
         border-radius: 50px;
     }
-}
+}*/
 /*=================================
 Main Banner Area End
 ====================================*/
@@ -1136,7 +1136,7 @@ Main Banner Area End
 /*=================================
 Banner Form Area 
 ====================================*/
-.banner-form {
+/*.banner-form {
     position: relative;
     z-index: 1;
     margin-top: -70px;
@@ -1229,7 +1229,7 @@ Banner Form Area
             left: 35px;
         }
     }
-}
+}*/
 
 /*=================================
 Banner Form Area End
@@ -1238,7 +1238,7 @@ Banner Form Area End
 /*================================
 Inner Banner
 ==================================*/
-.inner-banner {
+/*.inner-banner {
     position: relative;
     background-position: center center;
     background-size: cover;
@@ -1332,11 +1332,11 @@ Inner Banner
 }
 .inner-bg12 {
     background-image: url(../img/inner-banner/inner-banner12.jpg);
-}
+}*/
 /*=================================
 About Area 
 ====================================*/
-.about-img {
+/*.about-img {
     max-width: 540px;
     margin-left: auto;
     margin-bottom: 70px;
@@ -1492,7 +1492,7 @@ About Area
             }
         }
     }
-}
+}*/
 /*=================================
 About Area End
 ====================================*/
@@ -1500,7 +1500,7 @@ About Area End
 /*=================================
 Choose Area
 ====================================*/
-.choose-area {
+/*.choose-area {
     .section-title {
         h2 {
             max-width: 600px;
@@ -1565,7 +1565,7 @@ Choose Area
             background-color: $optional-color3;
         }
     }
-}
+}*/
 /*=================================
 Choose Area End
 ====================================*/
@@ -1573,7 +1573,7 @@ Choose Area End
 /*=================================
 Gallery Area
 ====================================*/
-.gallery-tab {
+/*.gallery-tab {
     .tabs {
         margin: 0;
         padding: 0;
@@ -1647,7 +1647,7 @@ Gallery Area
             animation: scale 1s linear 2s infinite;
         }
     }
-}
+}*/
 /*=================================
 Gallery Area End
 ====================================*/
@@ -1655,7 +1655,7 @@ Gallery Area End
 /*=================================
 Services Area 
 ====================================*/
-.services-area {
+/*.services-area {
     position: relative;
     .section-title {
         h2 {
@@ -2074,7 +2074,7 @@ Services Area
             }              
         }
     }
-}
+}*/
 /*=================================
 Services Area End
 ====================================*/
@@ -2082,7 +2082,7 @@ Services Area End
 /*=================================
 Reservation Area 
 ====================================*/
-.reservation-content {
+/*.reservation-content {
     margin-bottom: 30px;
     .section-title {
         margin-bottom: 25px;
@@ -2169,7 +2169,7 @@ Reservation Area
             }
         }
     }
-}
+}*/
 /*=================================
 Reservation Area End
 ====================================*/
@@ -2177,7 +2177,7 @@ Reservation Area End
 /*=================================
 Ability Area 
 ====================================*/
-.ability-content {
+/*.ability-content {
     .section-title {
         margin-bottom: 30px;
         p {
@@ -2246,7 +2246,7 @@ Ability Area
 }
 .text-color {
     color: $optional-color3 !important;
-}
+}*/
 /*=================================
 Ability Area End
 ====================================*/
@@ -2254,7 +2254,7 @@ Ability Area End
 /*=================================
 Specialty Area 
 ====================================*/
-.specialty-area {
+/*.specialty-area {
     .section-title {
         h2 {
             max-width: 540px;
@@ -2355,7 +2355,7 @@ Specialty Area
             margin-bottom: 0;
         }
     }
-}
+}*/
 /*=================================
 Specialty Area End
 ====================================*/
@@ -2363,7 +2363,7 @@ Specialty Area End
 /*=================================
 Room Area
 ====================================*/
-.room-card {
+/*.room-card {
     margin-bottom: 30px;
     
     background-color: $color-white;
@@ -2897,7 +2897,7 @@ Room Area
             margin-bottom: 0;
         }
     }
-}
+}*/
 /*=================================
 Room Area End
 ====================================*/
@@ -2905,7 +2905,7 @@ Room Area End
 /*=================================
 Testimonials Area
 ====================================*/
-.testimonials-area {
+/*.testimonials-area {
     position: relative;
     .section-title {
         h2 {
@@ -3188,7 +3188,7 @@ Testimonials Area
             }
         }
     }
-}
+}*/
 /*=================================
 Testimonials Area End
 ====================================*/
@@ -3196,7 +3196,7 @@ Testimonials Area End
 /*=================================
 Faq Area 
 ====================================*/
-.faq-img {
+/*.faq-img {
     margin-bottom: 30px;
     img {
         border-radius: 50px;
@@ -3346,7 +3346,7 @@ Faq Area
             margin-bottom: 30px;
         }
     }
-}
+}*/
 /*=================================
 Faq Area End
 ====================================*/
@@ -3354,7 +3354,7 @@ Faq Area End
 /*=================================
 Contact Area 
 ====================================*/
-.contact-content {
+/*.contact-content {
     .section-title {
         margin-bottom: 30px;
     }
@@ -3519,7 +3519,7 @@ Contact Area
     img {
         border-radius: 50px;
     }
-}
+}*/
 /*=================================
 Contact Area End
 ====================================*/
@@ -3527,11 +3527,11 @@ Contact Area End
 /*=================================
 Map Area 
 ====================================*/
-.map-area iframe {
+/*.map-area iframe {
     display: block;
     width: 100%;
     height: 400px;
-}
+}*/
 /*=================================
 Map Area End
 ====================================*/
@@ -3539,7 +3539,7 @@ Map Area End
 /*=================================
 User All Form
 ====================================*/
-.user-all-form {
+/*.user-all-form {
     margin-bottom: 30px;
     .contact-form {
         max-width: 650px;
@@ -3578,7 +3578,7 @@ User All Form
             }
         }
     }
-}
+}*/
 /*=================================
 User All Form End
 ====================================*/
@@ -3586,7 +3586,7 @@ User All Form End
 /*=================================
 Team Area 
 ====================================*/
-.team-area {
+/*.team-area {
     .section-title {
         h2 {
             max-width: 640px;
@@ -3857,7 +3857,7 @@ Team Area
             margin-right: auto;
         }
     }
-}
+}*/
 /*=================================
 Team Area End
 ====================================*/
@@ -3865,7 +3865,7 @@ Team Area End
 /*=================================
 Booking Area
 ====================================*/
-.book-img {
+/*.book-img {
     margin-bottom: 30px;
     position: relative;
     z-index: 1;
@@ -4003,7 +4003,7 @@ Booking Area
            right: 20px;
         }
     }
-}
+}*/
 /*=================================
 Booking Area End
 ====================================*/
@@ -4011,7 +4011,7 @@ Booking Area End
 /*=================================
 Checkout Area 
 ===================================*/
-.billing-details {
+/*.billing-details {
     margin-bottom: 30px;
     background-color: $color-white;
     padding: 50px 30px 25px 30px;
@@ -4248,11 +4248,11 @@ Checkout Area
 .billing-details .form-group .nice-select .option:hover,  .billing-details .form-group .nice-select .option.focus, .billing-details .form-group .nice-select .option.selected.focus {
     background-color: $main-color !important;
     color: #ffffff !important;
-}
+}*/
 /*=================================
 Checkout Area End
 ===================================*/
-.terms-conditions-img {
+/*.terms-conditions-img {
     margin-bottom: 30px;
     img {
         width: 100%;
@@ -4268,11 +4268,11 @@ Checkout Area End
     p {
         margin-bottom: 15px;
     }
-}
+}*/
 /*=================================
 Blog Area
 ====================================*/
-.blog-area {
+/*.blog-area {
     .section-title {
         h2 {
             max-width: 640px;
@@ -4788,7 +4788,7 @@ Blog Area
             }
         }
     }
-}
+}*/
 /*=================================
 Blog Area End
 ====================================*/
@@ -4796,7 +4796,7 @@ Blog Area End
 /*=================================
 Restaurant Item 
 ====================================*/
-.restaurant-item {
+/*.restaurant-item {
     padding: 20px;
     margin-bottom: 30px;
     background-color: $optional-bg-3;
@@ -4827,7 +4827,7 @@ Restaurant Item
             margin-bottom: 0;
         }
     }
-}
+}*/
 /*=================================
 Restaurant Item End
 ====================================*/
@@ -4835,7 +4835,7 @@ Restaurant Item End
 /*==============================
 Pagination Area 
 =================================*/
-.pagination-area {
+/*.pagination-area {
     margin-top: 10px;
     margin-bottom: 30px;
     text-align: center;
@@ -4866,7 +4866,7 @@ Pagination Area
             color: $color-white;
         }
     }
-}
+}*/
 /*==============================
 Pagination Area End
 =================================*/
@@ -4874,7 +4874,7 @@ Pagination Area End
 /*=================================
 404 Error Area
 ===================================*/
-.error-area {
+/*.error-area {
     .error-content {
         text-align: center;
         position: relative;
@@ -4906,7 +4906,7 @@ Pagination Area End
             color: $main-color;
         }
     }
-}
+}*/
 /*=================================
 404 Error Area End
 ===================================*/
@@ -4914,7 +4914,7 @@ Pagination Area End
 /*================================== 
 Coming Soon Area 
 ====================================*/
-.coming-soon-area {
+/*.coming-soon-area {
     position: relative;
     height: 100vh;
     overflow: hidden;
@@ -5073,7 +5073,7 @@ Coming Soon Area
         text-align: left;
         color: #dc3545 !important;
     }
-}
+}*/
 /*================================== 
 Coming Soon Area End
 ====================================*/
@@ -5081,7 +5081,7 @@ Coming Soon Area End
 /*=================================
 Footer Area
 ====================================*/
-.footer-bg {
+/*.footer-bg {
     background-color: $optional-bg;
 }
 .footer-widget {
@@ -5244,7 +5244,7 @@ Footer Area
 }
 .copy-right-top {
     border-top: 1px solid $optional-color2;
-}
+}*/
 /*=================================
 Footer Area End
 ====================================*/
@@ -5252,7 +5252,7 @@ Footer Area End
 /*==================================
 Back To Top Button 
 =====================================*/
-#toTop {
+/*#toTop {
 	position: fixed;
 	bottom: 20px;
 	right: 20px;
@@ -5276,7 +5276,7 @@ Back To Top Button
        background-color: $optional-color;
         box-shadow: 0 0 15px $optional-color;
     }
-}
+}*/
 /*==============================
 Back To Top Button 
 =================================*/
@@ -5284,7 +5284,7 @@ Back To Top Button
 /*=================================
 Buy Now Btn
 ====================================*/
-.buy-now-btn {
+/*.buy-now-btn {
     img {
         top: 50%;
         left: 20px;
@@ -5309,7 +5309,7 @@ Buy Now Btn
         color: $color-white;
         background-color: #94be5d;
     }
-}
+}*/
 /*=================================
 Buy Now Btn End
 ====================================*/
@@ -5317,7 +5317,7 @@ Buy Now Btn End
 /*==============================
 PreLoader CSS 
 =================================*/
-.preloader {
+/*.preloader {
     background: $optional-bg;
     height: 100%;
     width: 100%;
@@ -5405,12 +5405,12 @@ PreLoader CSS
               transform: perspective(140px) rotateY(180deg);
       opacity: 0;
     }
-}
+}*/
 /*==============================
 PreLoader CSS End
 =================================*/
 
-@-webkit-keyframes scale {
+/*@-webkit-keyframes scale {
     0% {
         transform: scale(0);
         opacity: 0;
@@ -5497,5 +5497,5 @@ PreLoader CSS End
     84% {
         border-radius: 46% 54% 50% 50% / 35% 61% 39% 65%;
     }
-}
+}*/
   

@@ -1,0 +1,165 @@
+﻿﻿@model TicketLand_project.Models.member
+
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-3 col-md-3">
+            <h2 style="font-family:'UTM Avo'; font-weight:bold; display:flex; justify-content:center; padding-bottom:2rem;">Thông tin</h2>
+            <div class="nav-item text-center">
+                @if (!string.IsNullOrEmpty((string)Session["Avartar"]))
+                {
+                    <img src="@Url.Content((string)Session["Avartar"])" class="img_avartar" style="border-radius: 50%; height: 100px; width: 100px;" />
+                }
+                else
+                {
+                    <span>No image available</span>
+                }
+            </div>
+
+            <form>
+                <div class="form-group">
+                    <label>Họ và tên</label>
+                    <input type="text" class="form-control" id="fullname" value="@Model.member_name" disabled>
+                </div>
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" class="form-control" id="username" value="@Model.username" disabled>
+                </div>
+                <div class="form-group">
+                    <label>Giới tính</label>
+                    <input type="text" class="form-control" id="gender" value="@((bool)Model.gender ? "Nam" : "Nữ")" disabled>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" id="email" value="@Model.email" disabled>
+                </div>
+                <div class="form-group">
+                    <label>Ngày sinh</label>
+                    <input type="date" class="form-control" id="dateofbirth" value="@Model.date_of_birth" disabled>
+                </div>
+                <div class="form-group">
+                    <label>Thành phố</label>
+                    <input type="text" class="form-control" id="city" value="@Model.city" disabled>
+                </div>
+                <br>
+                @Html.ActionLink("Chỉnh sửa", "EditProfile", "Home", new { id = Session["idMember"] }, new { @class = "nav-link" })
+            </form>
+        </div>
+        <div class="col-lg-9 col-md-9">
+            <h2  style="font-family:'UTM Avo'; font-weight:bold;" >Lịch sử đặt vé</h2>
+            <table  style="font-family:'UTM Avo';" class="table">
+                <thead>
+                    <tr>
+                        <th>Phim</th>
+                        <th>Ngày chiếu</th>
+                        <th>Ngày đặt</th>
+                        <th>Tổng tiền</th>
+                    </tr>
+                </thead>
+                <tbody id="booking-history">
+                    <!-- Booking history will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function formatCurrency(amount) {
+        const formatter = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND'
+        });
+        return formatter.format(amount);
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        const urlParts = window.location.pathname.split('/');
+        const id = urlParts[urlParts.length - 1];
+
+        if (id) {
+            $.ajax({
+                url: `https://apitikketland.azurewebsites.net/api/members/${id}`,
+                type: 'GET',
+                success: function (data) {
+                    const member = data;
+                    $('#fullname').val(member.data.member_name);
+                    $('#username').val(member.data.username);
+                    $('#gender').val(member.data.gender ? 'Nam' : 'Nữ');
+                    $('#email').val(member.data.email);
+                    $('#dateofbirth').val(member.data.date_of_birth.split('T')[0]);
+                    $('#city').val(member.data.city);
+                    if (member.data.member_avatar) {
+                        $('.img_avatar').attr('src', member.member_avatar);
+                    } else {
+                        $('.img_avatar').attr('src', 'no_image_available.jpg');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Lỗi khi gửi yêu cầu:', error);
+                }
+            });
+        } else {
+            console.error('Không tìm thấy ID trong URL.');
+        }
+        if (id) {
+            $.ajax({
+                url: `https://apitikketland.azurewebsites.net/api/bookings`,
+                type: 'GET',
+                success: function (data) {
+                    const bookings = data;
+                    let bookingHistory = '';
+                    for (let i = 0; i < bookings.length; i++) {
+                        if (bookings[i].member_id == id) {
+                            (function (i) {
+                                $.ajax({
+                                    url: `https://apitikketland.azurewebsites.net/api/schedules/${bookings[i].schedule_id}`,
+                                    type: 'GET',
+                                    success: function (scheduleData) {
+                                        const schedule = scheduleData.data;
+                                        $.ajax({
+                                            url: `https://apitikketland.azurewebsites.net/api/movies/${schedule.movie_id}`,
+                                            type: 'GET',
+                                            success: function (movieData) {
+                                                const movie = movieData.data;
+                                                const bookingDate = new Date(bookings[i].booking_date);
+                                                const formattedBookingDate = bookingDate.toISOString().split('T')[0];
+                                                const showDate = new Date(schedule.show_date);
+                                                const formattedShowDate = showDate.toISOString().split('T')[0];
+                                                bookingHistory += `
+                                                <tr>
+                                                    <td>${movie.movie_name}</td>
+                                                    <td>${formattedShowDate}</td>
+                                                    <td>${formattedBookingDate}</td>
+                                                    <td>${formatCurrency(bookings[i].total_price)}</td>
+                                                </tr>
+                                            `;
+                                                $('#booking-history').html(bookingHistory);
+                                            },
+                                            error: function (xhr, status, error) {
+                                                console.error('Lỗi khi gửi yêu cầu API movies:', error);
+                                            }
+                                        });
+                                    },
+                                    error: function (xhr, status, error) {
+                                        console.error('Lỗi khi gửi yêu cầu API schedules:', error);
+                                    }
+                                });
+                            })(i);
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Lỗi khi gửi yêu cầu API bookings:', error);
+                }
+            });
+        } else {
+            console.error('Không tìm thấy memberId.');
+        }
+    });
+</script>

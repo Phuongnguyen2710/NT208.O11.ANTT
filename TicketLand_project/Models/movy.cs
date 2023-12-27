@@ -19,11 +19,10 @@ namespace TicketLand_project.Models
         public movy()
         {
             this.comments = new HashSet<comment>();
-            this.events = new HashSet<@event>();
             this.news = new HashSet<news>();
             this.schedules = new HashSet<schedule>();
         }
-
+    
         public int movie_id { get; set; }
         public string movie_name { get; set; }
         public string movie_description { get; set; }
@@ -32,7 +31,7 @@ namespace TicketLand_project.Models
         public string movie_genres { get; set; }
 
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> movie_release { get; set; }
         public Nullable<System.TimeSpan> movie_duration { get; set; }
         public string movie_format { get; set; }
@@ -42,14 +41,15 @@ namespace TicketLand_project.Models
         public Nullable<int> movie_status { get; set; }
         public Nullable<double> rate { get; set; }
         public string movie_banner { get; set; }
+
+
         public int DurationInMinutes { get; set; }
         public int numberMoviesEnable { get; set; }
         public int numberMoviesDisable { get; set; }
+        public string slugMovieName { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<comment> comments { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<@event> events { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<news> news { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

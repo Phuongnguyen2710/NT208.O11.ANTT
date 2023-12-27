@@ -117,8 +117,13 @@ namespace TicketLand_project.Areas.Admin.Controllers
             {
                 try
                 {
+
                     var check_movies = db.movies.Any(x => x.movie_name == movy.movie_name);
-                    if (!check_movies) {
+                    if (check_movies)
+                    {
+                        return Json(new { success = false, message = "Phim đã tồn tại" });
+                    }
+                    else{
                         // Xử lý trường input kiểu file (poster)
                         if (movie_poster != null && movie_poster.ContentLength > 0)
                         {
@@ -173,14 +178,11 @@ namespace TicketLand_project.Areas.Admin.Controllers
                         else{
                             movy.movie_status = 1;
                         }
-
-                        // Thêm đối tượng movy vào DbContext và lưu thay đổi
                         db.movies.Add(movy);
                         db.SaveChanges();
-
-                        return Json(new { success = true, message = "Thêm phim thành công" });
+                        return Json(new { success = true, message = "Tạo phim thành công" });
                     }
-                    return Json(new { success = false, message = "Phim đã tồn tại" });
+                    
                 }
                 catch (Exception ex)
                 {

@@ -21,7 +21,7 @@ namespace TicketLand_project.Models
         public string news_content { get; set; }
         public string news_img { get; set; }
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> news_release { get; set; }
     
         public virtual movy movy { get; set; }

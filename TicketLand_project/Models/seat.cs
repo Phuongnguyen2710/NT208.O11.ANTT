@@ -14,6 +14,12 @@ namespace TicketLand_project.Models
     
     public partial class seat
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public seat()
+        {
+            this.booking_detail = new HashSet<booking_detail>();
+        }
+    
         public int seat_id { get; set; }
         public string seat_type { get; set; }
         public Nullable<int> room_id { get; set; }
@@ -21,6 +27,8 @@ namespace TicketLand_project.Models
         public Nullable<int> number { get; set; }
         public Nullable<bool> seats_status { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<booking_detail> booking_detail { get; set; }
         public virtual room room { get; set; }
     }
 }
