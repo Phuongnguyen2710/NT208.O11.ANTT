@@ -1,0 +1,476 @@
+﻿<!-- Thêm thư viện -->
+@model PagedList.IPagedList<TicketLand_project.Models.movy>
+@using PagedList.Mvc;
+<!-- Kết thúc-->
+
+<style>
+    .dl-horizontal {
+        white-space: normal;
+    }
+
+        .dl-horizontal dt {
+            margin-bottom: 10px; /* Thêm khoảng cách dưới mỗi title */
+            color: #1e2fe9; /* Đổi màu title thành màu đỏ (#e74c3c) */
+        }
+
+        .dl-horizontal dd {
+            margin-bottom: 20px; /* Thêm khoảng cách dưới mỗi item */
+        }
+
+    #EditmovieForm label {
+        color: #e74c3c; /* Đổi màu title thành màu đỏ (#e74c3c) */
+        margin-bottom: 10px; /* Thêm khoảng cách dưới mỗi title */
+        font-weight: bold
+    }
+
+    #EditmovieForm .form-group {
+        margin-bottom: 20px; /* Thêm khoảng cách dưới mỗi form-group (mỗi thông tin) */
+    }
+
+    #addmovieModal label {
+        color: #e74c3c; /* Đổi màu title thành màu đỏ (#e74c3c) */
+        margin-bottom: 10px; /* Thêm khoảng cách dưới mỗi title */
+        font-weight: bold;
+    }
+
+    #addmovieModal .form-group {
+        margin-bottom: 20px; /* Thêm khoảng cách dưới mỗi form-group (mỗi thông tin) */
+    }
+
+</style>
+
+
+<div class="box_shadow">
+    <table class="tableStyle">
+        <tr>
+            <th>STT</th>
+            <th>Tên phim</th>
+            <th>Giới hạn độ tuổi</th>
+            <th>Thể loại</th>
+            <th>Ngày ra mắt</th>
+            <th>Thời lượng</th>
+            <th>Format</th>
+            <th>Trạng thái</th>
+            <th>Action</th>
+        </tr>
+        @{
+            var count = 1;
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @count
+                    @{
+                        count++;
+                    }
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.movie_name)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.movie_cens)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.movie_genres)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.movie_release)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.movie_duration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.movie_format)
+                </td>
+                <td>
+                    @if (item.movie_status == 1)
+                    {
+                        <div class="text-success"><b>Đang chiếu</b></div>
+                    }
+                    else if (item.movie_status == 2)
+                    {
+                        <div class="text-warning"><b>Sắp chiếu</b></div>
+                    }
+                    else if (item.movie_status == 0)
+                    {
+                        <div class="text-danger"><b>Dừng chiếu</b></div>
+                    }
+                </td>
+
+                <td>
+                    <button class="btn btn-xs btn-primary " data-toggle="modal" data-target="#EditModal_@item.movie_id">
+                        <i class="fa fa-edit custom_i"></i>
+                    </button>
+
+                    <button class="btn btn-xs btn-warning " data-toggle="modal" data-target="#InfoModal_@item.movie_id">
+                        <i class="fa fa-info-circle custom_i"></i>
+                    </button>
+
+                    <button class="btn btn-xs btn-danger" data-toggle="modal" data-target="#DeleteModal_@item.movie_id">
+                        <i class="fa fa-trash custom_i"></i>
+                    </button>
+
+
+                    <!-- Modal-->
+                    <!-- Info Modal-->
+                    <div class="modal fade " id="InfoModal_@item.movie_id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <!-- Modal header -->
+                            <div class="modal-content text-center">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">THÔNG TIN PHÒNG</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <!-- Modal Body -->
+                                <div class="modal-body">
+                                    <dl class="dl-horizontal">
+                                        <!-- Thêm các thông tin mới cho mỗi bộ phim -->
+                                        <dt>Mô tả phim</dt>
+                                        <dd>
+                                            @Html.DisplayFor(model => item.movie_description)
+                                        </dd>
+
+                                        <dt>Trailer</dt>
+                                        <dd>
+                                            @Html.DisplayFor(model => item.movie_trailer)
+                                        </dd>
+
+                                        <dt>Độ tuổi xem</dt>
+                                        <dd>
+                                            @Html.DisplayFor(model => item.movie_cens)
+                                        </dd>
+
+                                        <dt>Thể loại</dt>
+                                        <dd>
+                                            @Html.DisplayFor(model => item.movie_genres)
+                                        </dd>
+
+                                        <dt>Ngày phát hành</dt>
+                                        <dd >
+                                            @if (item.movie_release != null)
+                                            {
+                                                <input type="date" class="form-control text-center" id="movie_release" name="movie_release" value="@item.movie_release.Value.ToString("yyyy-MM-dd")" disabled/>
+                                            }
+                                            else
+                                            {
+                                                <input type="date" class="form-control text-center" id="movie_release" name="movie_release" disabled/>
+                                            }
+                                        </dd>
+
+                                        <dt>Thời lượng</dt>
+                                        <dd>
+                                            @Html.DisplayFor(model => item.movie_duration)
+                                        </dd>
+
+                                        <dt>Định dạng</dt>
+                                        <dd>
+                                            @Html.DisplayFor(model => item.movie_format)
+                                        </dd>
+
+                                        <dt>Poster Link</dt>
+                                        <dd class="text-break">
+                                            @Html.DisplayFor(model => item.movie_poster)
+                                        </dd>
+
+                                        <dt>Diễn viên</dt>
+                                        <dd>
+                                            @Html.DisplayFor(model => item.movie_actor)
+                                        </dd>
+
+                                        <dt>Đạo diễn</dt>
+                                        <dd>
+                                            @Html.DisplayFor(model => item.movie_director)
+                                        </dd>
+
+                                        <dt>Trạng thái</dt>
+                                        <dd>
+                                            @if (item.movie_status == 1)
+                                            {
+                                                <div class="text-success"><b>Đang chiếu</b></div>
+                                            }
+                                            else if (item.movie_status == 2)
+                                            {
+                                                <div class="text-warning"><b>Sắp chiếu</b></div>
+                                            }
+                                            else if (item.movie_status == 0)
+                                            {
+                                                <div class="text-danger"><b>Dừng chiếu</b></div>
+                                            }
+                                        </dd>
+
+                                        <dt>Đánh giá</dt>
+                                        <dd>@Html.DisplayFor(model => item.rate)</dd>
+
+                                        <dt>Banner Link</dt>
+                                        <dd class="text-break">@Html.DisplayFor(model => item.movie_banner)</dd>
+
+                                    </dl>
+                                </div>
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    @*<button type="button" class="btn btn-primary" location.href="@Url.Action("Edit", new {id = item.movie_id})">Edit</button>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Delete Modal -->
+                    <div class="modal fade" data-movie-id="@item.movie_id" id="DeleteModal_@item.movie_id" tabindex="-1" role="dialog" aria-labelledby="DeleteLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="DeleteLabel">Xác nhận xóa</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Bạn có chắc chắn muốn xóa đối tượng này không?
+                                    <input type="hidden" id="deleteId" value="" />
+                                </div>
+
+                                <div class="modal-footer">
+                                    <form id="DeleteForm">
+                                        <input type="hidden" id="deleteId_" name="id" value="@item.movie_id" />
+                                        <div class="form-actions no-color text-center">
+                                            <button type="submit" class="btn btn-danger" id="btnDelete">Xóa</button>
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Edit Modal -->
+                    <div class="modal fade" id="EditModal_@item.movie_id" data-movie-id="@item.movie_id" tabindex="-1" role="dialog" aria-labelledby="EditLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Chỉnh Sửa Thông Tin Phòng</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="EditmovieForm" onsubmit="submitForm(e)">
+                                        <div class="form-group">
+                                            <label for="movie_name">Tên phim:</label>
+                                            <input type="text" class="form-control" id="movie_name" name="movie_name" value="@item.movie_name" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_description">Mô tả phim:</label>
+                                            <input type="text" class="form-control" id="movie_description" name="movie_description" value="@item.movie_description" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_trailer">Trailer:</label>
+                                            <input type="text" class="form-control" id="movie_trailer" name="movie_trailer" value="@item.movie_trailer" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_cens">Độ tuổi xem:</label>
+                                            <input type="text" class="form-control" id="movie_cens" name="movie_cens" value="@item.movie_cens" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_genres">Thể loại:</label>
+                                            <input type="text" class="form-control" id="movie_genres" name="movie_genres" value="@item.movie_genres" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_release">Ngày phát hành:</label>
+                                            @if (item.movie_release != null)
+                                            {
+                                                <input type="date" class="form-control text-center" id="movie_release" name="movie_release" value="@item.movie_release.Value.ToString("yyyy-MM-dd")" />
+                                            }
+                                            else
+                                            {
+                                                <input type="date" class="form-control text-center" id="movie_release" name="movie_release" />
+                                            }
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_duration">Thời lượng:</label>
+                                            <input type="text" pattern="[0-2][0-9]:[0-5][0-9]:[0-5][0-9]" class="form-control" id="movie_duration" name="movie_duration" value="@item.movie_duration" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_format">Định dạng:</label>
+                                            <input type="text" class="form-control" id="movie_format" name="movie_format" value="@item.movie_format" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_poster">Poster Link:</label>
+                                            <input type="text" class="form-control" id="movie_poster" name="movie_poster" value="@item.movie_poster" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_actor">Diễn viên:</label>
+                                            <input type="text" class="form-control" id="movie_actor" name="movie_actor" value="@item.movie_actor" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_director">Đạo diễn:</label>
+                                            <input type="text" class="form-control" id="movie_director" name="movie_director" value="@item.movie_director" />
+                                        </div>
+
+                                        <!-- 1: Đang chiếu / 2: Sắp chiếu / 0: Dừng chiếu -->
+                                        <div class="form-group">
+                                            <label for="movie_status">Tình trạng:</label>
+                                            <select class="form-control" id="movie_status" name="movie_status_">
+                                                <option value="1" @(item.movie_status == 1 ? "selected" : "")>Đang chiếu</option>
+                                                <option value="2" @(item.movie_status == 2 ? "selected" : "")>Sắp chiếu</option>
+                                                <option value="0" @(item.movie_status == 0 ? "selected" : "")>Dừng chiếu</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="rate">Đánh giá:</label>
+                                            <input type="text" class="form-control" id="rate" name="rate" value="@item.rate" disabled />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_banner">Banner Link:</label>
+                                            <input type="text" class="form-control" id="movie_banner" name="movie_banner" value="@item.movie_banner" />
+                                        </div>
+
+                                        @*Submit button*@
+                                        <button type="submit" class="btn btn-primary">Thay đổi</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Add Modal -->
+                    <div class="modal fade" id="addmovieModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Thêm Phim Mới</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="addmovieForm">
+                                        <div class="form-group">
+                                            <label for="movie_name">Tên phim:</label>
+                                            <input type="text" class="form-control" id="movie_name" name="movie_name" required />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_description">Mô tả phim:</label>
+                                            <input type="text" class="form-control" id="movie_description" name="movie_description" required />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_trailer">Trailer:</label>
+                                            <input type="text" class="form-control" id="movie_trailer" name="movie_trailer" required />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_cens">Độ tuổi xem:</label>
+                                            <input type="text" class="form-control" id="movie_cens" name="movie_cens" required />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_genres">Thể loại:</label>
+                                            <input type="text" class="form-control" id="movie_genres" name="movie_genres" required />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_release">Ngày phát hành:</label>
+                                            <input type="date" class="form-control" id="movie_release" name="movie_release" required />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_duration">Thời lượng:</label>
+                                            <input type="text" pattern="[0-2][0-9]:[0-5][0-9]:[0-5][0-9]" required class="form-control" id="movie_duration" name="movie_duration" placeholder="VD:01:46:00 " />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_format">Định dạng:</label>
+                                            <input type="text" class="form-control" id="movie_format" name="movie_format" required />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_poster">Poster File:</label>
+                                            <input type="file" accept="image/*" class="form-control" id="movie_poster" name="movie_poster" required />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_actor">Diễn viên:</label>
+                                            <input type="text" class="form-control" id="movie_actor" name="movie_actor" required />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_director">Đạo diễn:</label>
+                                            <input type="text" class="form-control" id="movie_director" name="movie_director" required />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="movie_banner">Banner Link:</label>
+                                            <input type="file" accept="image/*" class="form-control" id="movie_banner" name="movie_banner" required />
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary">Lưu</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+    <!--    Phân trang  -->
+    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <div class="pagination custom-pagination" style="margin-right: 150px">
+
+                @if (Model.HasPreviousPage)
+                {
+                    <a href="@Url.Action("Index", new { page = Model.PageNumber - 1 })" class="page-link prev @(Model.PageNumber == 1 ? "current-page" : "")">&laquo; </a>
+                }
+                else
+                {
+                    <span class="page-link disabled">&laquo;</span>
+                }
+
+                @for (int i = 1; i <= Model.PageCount; i++)
+                {
+                    <a href="@Url.Action("Index", new { page = i })" class="page-link number @(i == Model.PageNumber ? "current-page" : "")">@i</a>
+                }
+
+                @if (Model.HasNextPage)
+                {
+                    <a href="@Url.Action("Index", new { page = Model.PageNumber + 1 })" class="page-link next">&raquo;</a>
+                }
+                else
+                {
+                    <span class="page-link disabled">&raquo;</span>
+                }
+            </div>
+        </div>
+
+    </div>
+    <!--    Kết thúc    -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>

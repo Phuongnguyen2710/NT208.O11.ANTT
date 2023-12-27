@@ -1,0 +1,72 @@
+﻿@model IEnumerable<TicketLand_project.Models.booking_detail>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Booking ID
+        </th>
+        <th>
+            Giá
+        </th>
+        <th>
+            Loại ghế
+        </th>
+        <th>
+            Hàng
+        </th>
+        <th>
+            Cột
+        </th>
+        <th>
+            Loại ghế
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.booking.booking_id)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.booking.total_price)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.booking.total_price)
+        </td>
+
+
+        <td>
+            @Html.DisplayFor(modelItem => item.seat.row)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.seat.number)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.seat.seat_type)
+        </td>
+
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.bkdetail_id }) |
+            @Html.ActionLink("Details", "Details", new { id = item.bkdetail_id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.bkdetail_id })
+        </td>
+    </tr>
+}
+
+</table>

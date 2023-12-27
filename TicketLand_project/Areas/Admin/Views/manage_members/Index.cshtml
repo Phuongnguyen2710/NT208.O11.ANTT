@@ -1,0 +1,191 @@
+﻿<!-- Thêm thư viện -->
+@model PagedList.IPagedList<TicketLand_project.Models.member>
+@using PagedList.Mvc;
+<!-- Kết thúc-->
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+}
+<!DOCTYPE>
+
+<div class="container_custom">
+
+
+    <div class="custom_h1">
+        <h1><b>QUẢN LÝ TÀI KHOẢN</b></h1>
+    </div>
+    <div class="row">
+        <div class="col-md-10">
+            <p>
+                <button type="button" class="btn btn-success" onclick="location.href='@Url.Action("Create")'">Create New +</button>
+            </p>
+        </div>
+    </div>
+
+
+    <div class="box_shadow">
+        <table class="tableStyle">
+            <tr>
+                <!-- Các cột tiêu đề -->
+                <th>STT</th>
+                <th>Họ Tên</th>
+                <th>Username</th>
+                @*<th>Password</th>*@
+                <th>Giới Tính</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Avatar</th>
+                <th>Point</th>
+                <th>Vai trò</th>
+                <th>Action</th>
+            </tr>
+
+            @{
+                var count = 1;
+            }
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @count
+                        @{
+                            count++;
+                        }
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.member_name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.username)
+                    </td>
+
+                    <td>
+                        @{
+                            // Hiển thị "Nam" nếu giá trị là true, ngược lại hiển thị "Nữ"
+                            var genderDisplay = item.gender.HasValue ? (item.gender.Value ? "Nam" : "Nữ") : "Khác";
+                        }
+
+                        @Html.DisplayFor(modelItem => genderDisplay)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.email)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.phone)
+                    </td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.member_avatar))
+                        {
+                            <img src="@Url.Content(item.member_avatar)" style="width: 50px; height: 50px" />
+                        }
+                        else
+                        {
+                            <span>No image available</span>
+                        }
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.member_point)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ROLE.role_name)
+                    </td>
+                    <!-- Button Action -->
+                    <td>
+                        <button class="btn btn-xs btn-primary " onclick="location.href='@Url.Action("Edit", new { id = item.member_id })'">
+                            <i class="fa fa-edit custom_i"></i>
+                        </button>
+
+                        <button class="btn btn-xs btn-warning " onclick="location.href='@Url.Action("Details", new { id = item.member_id })'">
+                            <i class="fa fa-info-circle custom_i"></i>
+                        </button>
+
+                        <button class="btn btn-xs btn-danger" data-toggle="modal" data-target="#DeleteModal_@item.member_id">
+                            <i class="fa fa-trash custom_i"></i>
+                        </button>
+
+                        <!-- Delete Modal -->
+                        <div class="modal fade" id="DeleteModal_@item.member_id" tabindex="-1" role="dialog" aria-labelledby="DeleteLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="DeleteLabel">Xác nhận xóa</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Bạn có chắc chắn muốn xóa đối tượng này không?
+                                        <input type="hidden" id="deleteId" value="" />
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        @using (Html.BeginForm("Delete", "manage_members", FormMethod.Post, new { id = "confirmDelete" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" id="deleteId" name="id" value="@item.member_id" />
+                                            <div class="form-actions no-color text-center">
+                                                <input type="submit" value="Xóa" class="btn btn-danger" />
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </td>
+                </tr>
+            }
+        </table>
+
+    </div>
+    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+
+    <div class="d-flex justify-content-between align-items-center">
+
+        <div>
+            <div class="pagination custom-pagination" style="margin-right: 150px">
+                @if (Model.HasPreviousPage)
+                {
+                    <a href="@Url.Action("Index", new { page = Model.PageNumber - 1 })" class="page-link prev @(Model.PageNumber == 1 ? "current-page" : "")">&laquo; </a>
+                }
+                else
+                {
+                    <span class="page-link disabled">&laquo;</span>
+                }
+
+                @for (int i = 1; i <= Model.PageCount; i++)
+                {
+                    <a href="@Url.Action("Index", new { page = i })" class="page-link number @(i == Model.PageNumber ? "current-page" : "")">@i</a>
+                }
+
+                @if (Model.HasNextPage)
+                {
+                    <a href="@Url.Action("Index", new { page = Model.PageNumber + 1 })" class="page-link next">&raquo;</a>
+                }
+                else
+                {
+                    <span class="page-link disabled">&raquo;</span>
+                }
+            </div>
+        </div>
+
+        <!-- Kết thúc -->
+    </div>
+</div>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<!-- Popper.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+

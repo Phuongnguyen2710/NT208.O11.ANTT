@@ -1,0 +1,174 @@
+﻿@model TicketLand_project.Models.member
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+}
+
+
+
+@using (Html.BeginForm("Create", "manage_members", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <h1 class="custom_h1"><b>THÊM MỚI TÀI KHOẢN</b></h1>
+    <div class="container_custom">
+
+        <hr />
+
+        <div class="row" style="padding-left: 60px">
+            <div class="col-md-6">
+                <!--Tạo giá trị member_name-->
+                <div class="form-group">
+                    <div class="col-md-9">
+                        Tên thành viên
+                        @Html.EditorFor(model => model.member_name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.member_name, "", new { @class = "custom-validation-message" })
+                    </div>
+
+                </div>
+                <br />
+
+                <!--Tạo giá trị user_name-->
+                <div class="form-group">
+                    <div class="col-md-9">
+                        Tên tài khoản
+                        @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+                <br />
+
+                <!--Tạo giá trị password-->
+                <div class="form-group">
+                    <div class="col-md-9">
+                        Mật khẩu
+                        @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+                <br />
+
+                <!--Tạo giá trị giới tính-->
+                <div class="form-group">
+                    Giới tính
+                    <div class="col-md-9">
+                        <label class="form-check-label">
+                            @Html.RadioButtonFor(model => model.gender, true, new { @class = "form-check-input" })
+                            Nam
+                        </label>
+
+                        <label class="form-check-label">
+                            @Html.RadioButtonFor(model => model.gender, false, new { @class = "form-check-input" })
+                            Nữ
+                        </label>
+                        @Html.ValidationMessageFor(model => model.gender, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+                <br />
+
+                <!--Tạo giá trị ngày sinh-->
+                <div class="form-group">
+                    Ngày sinh
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.date_of_birth, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.date_of_birth, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <br />
+
+                <!--Tạo giá trị email-->
+                <div class="form-group">
+                    Email
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <br />
+
+            </div>
+
+            <div class="col-md-6">
+
+                <!--Tạo giá trị thành phố-->
+                <div class="form-group">
+                    Thành phố
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.city, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.city, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <br />
+
+                <!--Tạo giá trị số điện thoại-->
+                <div class="form-group">
+                    Số điện thoại
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.phone, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.phone, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <br />
+
+                <!--Tạo giá trị Role-->
+                <div class="form-group">
+                    Vai trò
+                    <div class="col-md-9">
+                        @Html.DropDownList("role_id", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.role_id, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <br />
+
+                <!--Tạo giá trị avatar-->
+                <div class="form-group">
+                    Avatar
+                    <div class="col-md-9">
+                        <input type="file"
+                               class="custom-file-input"
+                               name="imageFile"
+                               placeholder="Hình ảnh"
+                               accept=".png, .jpg, .jpeg" />
+                        @Html.ValidationMessageFor(model => model.member_avatar, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <br />
+
+                <!--Tạo giá trị điểm thành viên-->
+                <div class="form-group">
+                    Điểm thành viên
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.member_point, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.member_point, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <br />
+
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                    <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Index")'">Back to List</button>
+                </div>
+            </div>
+        </div>
+
+        <div>
+
+        </div>
+    </div>
+}
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<!-- Popper.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+

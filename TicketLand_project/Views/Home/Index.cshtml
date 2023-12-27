@@ -1,0 +1,549 @@
+﻿@model IEnumerable<TicketLand_project.Models.movy>
+@{
+    ViewBag.Title = "Home Page";
+
+}
+
+@{
+    List<int> movie_current = new List<int>();
+    List<int> movie_coming = new List<int>();
+
+    int postersPerRow = 4; // Số lượng poster trên mỗi dòng
+    int postersPerItem = 8; // Số lượng poster trên mỗi carousel-item
+    int itemIndex1 = 0; // Chỉ số của carousel-item
+
+    var availableTutorials = new List<string>();
+    //int movieClickBuy = 0;
+
+
+}
+@for (int i = 0; i < Model.Count(); i++)
+{
+    if (Model.ElementAt(i).movie_status == 1)
+    {
+        movie_current.Add(i);
+        availableTutorials.Add(Model.ElementAt(i).movie_name);
+    }
+    if (Model.ElementAt(i).movie_status == 2)
+    {
+        movie_coming.Add(i);
+    }
+}
+<!-- Banner Area -->
+<div class="banner-area" style="position:sticky; background-image:none;">
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <text>
+            <div class="carousel-inner">
+        </text>
+        @for (int i = 0; i < movie_current.Count(); i++)
+        {
+            <div class="carousel-item @(i == 0 ? "active" : "")">
+                @if (Model.ElementAt(movie_current[i]).movie_banner != null)
+                {
+                    <img class="d-block w-100" style="max-height: 500px; max-width: 100%; object-fit: cover;" src=@Model.ElementAt(movie_current[i]).movie_banner />
+                }
+            </div>
+        }
+
+        <text>
+    </div>
+    </text>
+    <a class=" carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+</div>
+<!-- Banner Area End -->
+<!-- Banner Form Area -->
+
+<div id="banner-head" class="containerbanner">
+    <div class="banner-head">
+        <form>
+            <div class="row justify-content-center align-items-center">
+                <div class="col-lg-3  mt-2 form-group d-flex justify-content-center align-items-center" style="padding-block-end:auto;">
+                    <div class="input-group">
+                        <span class="input-group-text border border-secondary rounded-start ui-widget"> <span class="fa-solid fa-magnifying-glass" style="margin-top:2px;"></span></span>
+                        <input id="tags" type="text" class="form-control border border-secondary rounded-end" placeholder="Tìm phim...">
+                    </div>
+                </div>
+                <div class="mt-2 col-lg-4 form-group">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="col-5 d-flex justify-content-lg-end pe-3">
+                            <label style="margin-bottom: 0; white-space: nowrap; font-weight:bold">Ngày chiếu</label>
+                        </div>
+                        <div class="col-7 input-group_1">
+                            @{
+                                DateTime currentDate = DateTime.Now;
+                                int year = currentDate.Year;
+                                int month = currentDate.Month;
+                                int day = currentDate.Day;
+
+                                // Lưu ngày tháng năm hiện tại vào các biến
+                                string currentDateString = currentDate.ToString();
+                            }
+                            <input id="datetimepicker-check" type="text" class="form-control d-flex justify-content-center align-items-center" placeholder=@currentDateString>
+                            <span class="input-group-addon"></span>
+                        </div>
+
+                    </div>
+                </div>
+                <div id="time-film" class="col-lg-3 mt-2">
+                    <div class="form-group d-flex justify-content-center align-items-center">
+                        <label class="pe-3" style="font-weight:bold;">Xuất chiếu</label>
+                        <select id="time-of-film" class="control" style="position: relative;">
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-12 col-sm-12 mt-2 form-group d-flex justify-content-center align-items-center">
+                    <button id="find-film" type="button" class="btn btn-success"> <span class="fa-solid fa-magnifying-glass" style="margin-top:2px;"> </span></button>
+                    <button id="load-film" class="btn btn-success" type="button" disabled>
+                        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="col-lg-1 col-md-12 col-sm-12 mt-2 form-group d-flex justify-content-center align-items-center">
+                    <button id="go-button" type="button" class="banner-button btn btn-danger">GO</button>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Banner Form Area End -->
+<!-- Film Area -->
+<div id="schedule-page" class="room-area pt-70 pb-20 section-bg">
+    <div class="container mt-5">
+        <div class="justify-content-between">
+            <div class="row justify-content-center">
+                @*Two tab Đang chiếu/ Sắp chiếu*@
+                <div class="col-4">
+                    <nav>
+                        <div class="text-header nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link active " id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Đang chiếu</a>
+                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Sắp chiếu</a>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+
+
+            <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <div class="room-area pt-20 pb-20 section-bg">
+                        <div class="container">
+                            <div class="row pt-10">
+                                <div id="carouselExample" class="carousel slide">
+                                    <div class="carousel-inner">
+
+                                        @{
+                                            var jsonAvailableTutorials = Newtonsoft.Json.JsonConvert.SerializeObject(availableTutorials);
+                                            var encodedJsonAvailableTutorials = jsonAvailableTutorials.Replace("'", "\\'");
+                                        }
+                                        @for (int i = 0; i < movie_current.Count(); i++)
+                                        {
+                                            if (i % postersPerItem == 0)
+                                            {
+                                                <text>
+                                                    <div class="carousel-item @(itemIndex1 == 0 ? "active" : "")">
+                                                        @{
+                                                            itemIndex1++;
+                                                        }
+                                                </text>
+                                            }
+                                            // Nếu là đầu dòng, tạo một row mới
+                                            if (i % postersPerRow == 0)
+                                            {
+                                                <text>
+                                                    <div class="row">
+                                                </text>
+                                            }
+                                            <text>
+                                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                                    <div class="room-card">
+                                                        <div id="poster">
+                                                            <a href="/@($"{@Model.ElementAt(movie_current[i]).slugMovieName}-p{@Model.ElementAt(movie_current[i]).movie_id}")">
+                                                                <img class="poster_film" src="@Model.ElementAt(movie_current[i]).movie_poster" alt="Images" />
+                                                            </a>
+                                                        </div>
+
+
+                                                        <div class="content" style="width: 100%; height: 100px;">
+                                                            <div class="text-age-name">
+                                                                @if (Model.ElementAt(movie_current[i]).movie_cens == "P")
+                                                                {
+                                                                    <div><button class="btn-age btn btn-success">P</button></div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div><button class="btn-age btn btn-danger">@Model.ElementAt(movie_current[i]).movie_cens</button></div>
+                                                                }
+
+                                                                <span><a class="text-name-film" href="@Url.Action("MovieDetail", "Movie", new { id = Model.ElementAt(movie_current[i]).movie_id })">@Model.ElementAt(movie_current[i]).movie_name</a></span>
+                                                            </div>
+                                                            <div class="text-time-rating">
+                                                                <div class="col-lg-6 text-poster">@Model.ElementAt(movie_current[i]).DurationInMinutes phút</div>
+                                                                <span class="col-lg-6 star-rating">
+                                                                    @{
+                                                                        double? temp = Model.ElementAt(movie_current[i]).rate;
+                                                                        int rate_overall = temp.HasValue ? (int)temp.Value : 0;
+                                                                    }
+                                                                    @for (int n = 0; n < rate_overall; n++)
+                                                                    {
+                                                                        <i class='bx bxs-star' style="color:orange;"></i>
+                                                                    }
+                                                                    @if (temp - rate_overall >= 0.5)
+                                                                    {
+                                                                        <i class='bx bxs-star-half' style="color:orange;"></i>
+                                                                    }
+                                                                </span>
+                                                            </div>
+                                                            <button onclick="scrollToPosition('home-page', '@Model.ElementAt(movie_current[i]).movie_name') " class="buy-ticket-button btn btn-warning centered-button">Mua vé</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </text>
+                                            // Nếu là cuối dòng hoặc cuối carousel-item, đóng row hoặc carousel-item
+                                            if (i % postersPerRow == postersPerRow - 1 || i == movie_current.Count() - 1)
+                                            {
+                                                @Html.Raw("</div>")
+                                            }
+                                            // Nếu là cuối carousel-item, đóng carousel-item
+                                            if (i % postersPerItem == postersPerItem - 1 || i == movie_current.Count() - 1)
+                                            {
+                                                @Html.Raw("</div>")
+                                            }
+                                        }
+                                    </div>
+
+                                    <button class="carousel-control-prev" style="left: -10%; color: brown; font-size:2rem;" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                                        <span class="fa-solid fa-circle-chevron-left" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" style="right: -10%; color: brown; font-size: 2rem;" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                                        <span class="fa-solid fa-circle-chevron-right" aria-hidden="true"></span>
+                                        <span class="visually-hidden" style="color:brown;">Next</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                    <div class="room-area pt-20 pb-20 section-bg">
+                        <div class="container">
+                            <div class="row pt-45">
+                                <div id="carouselExample2" class="carousel slide">
+                                    <div class="carousel-inner">
+                                        @{
+
+                                            int itemIndex2 = 0; // Chỉ số của carousel-item
+                                        }
+                                        @for (int i = 0; i < movie_coming.Count(); i++)
+                                        {
+
+                                            // Nếu là đầu carousel-item, đầu hàng hoặc đã đủ số lượng poster trên một item, tạo một carousel-item mới
+                                            if (i % postersPerItem == 0)
+                                            {
+                                                <text>
+                                                    <div class="carousel-item @(itemIndex2 == 0 ? "active" : "")">
+                                                        @{
+                                                            itemIndex2++;
+                                                        }
+                                                </text>
+                                            }
+                                            // Nếu là đầu dòng, tạo một row mới
+                                            if (i % postersPerRow == 0)
+                                            {
+                                                <text>
+                                                    <div class="row">
+                                                </text>
+                                            }
+                                            <text>
+                                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                                    <div class="room-card">
+                                                        <div>
+                                                            <a href="/@($"{@Model.ElementAt(movie_coming[i]).slugMovieName}-p{@Model.ElementAt(movie_coming[i]).movie_id}")">
+                                                                <img class="poster_film" src="@Model.ElementAt(movie_coming[i]).movie_poster" alt="Images" />
+                                                            </a>
+                                                        </div>
+                                                        <div class="content" style="width: 100%; height: 100px;">
+                                                            <div class="text-age-name2">
+                                                                @if (Model.ElementAt(movie_coming[i]).movie_cens == "P")
+                                                                {
+                                                                    <div><button class="btn-age btn btn-success">P</button></div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div><button class="btn-age btn btn-danger">@Model.ElementAt(movie_coming[i]).movie_cens</button></div>
+                                                                }
+                                                                <span><a class="text-name-film" href="@Url.Action("MovieDetail", "Home", new { id = Model.ElementAt(movie_coming[i]).movie_id })">@Model.ElementAt(movie_coming[i]).movie_name</a></span>
+                                                            </div>
+                                                            <div class="text-time-rating2">
+                                                                <div class="col-4 text-poster">@Model.ElementAt(movie_coming[i]).DurationInMinutes phút</div>
+                                                                <span class="col-8 text-poster" style="white-space: nowrap;">
+                                                                    Khởi chiếu  @DateTime.Parse((Model.ElementAt(movie_coming[i]).movie_release).ToString()).ToString("dd/MM/yyyy")
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </text>
+                                            // Nếu là cuối dòng hoặc cuối carousel-item, đóng row hoặc carousel-item
+                                            if (i % postersPerRow == postersPerRow - 1 || i == movie_coming.Count() - 1)
+                                            {
+                                                @Html.Raw("</div>")
+                                            }
+                                            // Nếu là cuối carousel-item, đóng carousel-item
+                                            if (i % postersPerItem == postersPerItem - 1 || i == movie_coming.Count() - 1)
+                                            {
+                                                @Html.Raw("</div>")
+                                            }
+                                        }
+                                    </div>
+
+                                    <button class="carousel-control-prev" style="left: -10%; color: brown; font-size:2rem;" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                                        <span class="fa-solid fa-circle-chevron-left" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" style="right: -10%; color: brown; font-size: 2rem;" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                                        <span class="fa-solid fa-circle-chevron-right" aria-hidden="true"></span>
+                                        <span class="visually-hidden" style="color:brown;">Next</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Film End Area-->
+        <!--News Start Area-->
+        <div class="container" id="news-page">
+            @*Header of News*@
+            <div class="text-header">
+                Tin tức - Ưu đãi
+            </div>
+            @*Body News*@
+            <div class="row mt-4">
+                <div class="col-lg-4 col-md-4 col-sm-4  news">
+                    <img id="img0" class="responsive-image  news" src="" alt="Images News">
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4  news">
+                    <img id="img1" class="responsive-image" src="" alt="Images News">
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4  news">
+                    <img id="img2" class="responsive-image" src="" alt="Images News">
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-lg-3 col-md-3 col-sm-3  news">
+                    <img id="img3" class="responsive-image  news" src="" alt="Images News">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3  news">
+                    <img id="img4" class="responsive-image" src="" alt="Images News">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3  news">
+                    <img id="img5" class="responsive-image" src="" alt="Images News">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3  news">
+                    <img id="img6" class="responsive-image" src="" alt="Images News">
+                </div>
+            </div>
+
+            <div class="row mt-4 mb-5">
+                <div class="col-lg-6 col-md-6 col-sm-6  news">
+                    <img id="img7" class="responsive-image  news" src="" alt="Images Events">
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6  news">
+                    <img id="img8" class="responsive-image" src="" alt="Images Events">
+                </div>
+            </div>
+
+        </div>
+        <!--News End Area-->
+        <!--Java Script-->
+
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script>
+  // Kiểm tra xem key "Username" đã tồn tại trong sessionStorage hay chưa
+    if (!sessionStorage.getItem("Username")) {
+        // Nếu không tồn tại, thực hiện AJAX để lấy thông tin đăng nhập từ máy chủ
+        $.ajax({
+            url: '@Url.Action("GetUserInfo", "Home")',
+            type: 'GET',
+            success: function (data) {
+                // Cập nhật sessionStorage với thông tin đăng nhập
+                sessionStorage.setItem("Username", data.Username);
+                sessionStorage.setItem("idMember", data.IdMember);
+                sessionStorage.setItem("isLogin", data.IsLogin);
+            },
+            error: function () {
+                console.log('Đây vẫn là Guest user');
+            }
+        });
+    } else if (sessionStorage.getItem("Username") != null) {
+        // Nếu tồn tại, thực hiện AJAX để lấy cập nhật đăng nhập từ máy chủ
+        $.ajax({
+            url: '@Url.Action("GetUserInfo", "Home")',
+            type: 'GET',
+            success: function (data) {
+                // Cập nhật sessionStorage với thông tin đăng nhập
+                sessionStorage.setItem("Username", data.Username);
+                sessionStorage.setItem("idMember", data.IdMember);
+                sessionStorage.setItem("isLogin", data.IsLogin);
+            },
+            error: function () {
+                console.log('Đây vẫn là Guest user');
+            }
+        });
+            }
+     
+
+    function convertTimeToMinutes(timeString) {
+        var timeParts = timeString.split(':');
+        var hours = parseInt(timeParts[0], 10);
+        var minutes = parseInt(timeParts[1], 10);
+        var seconds = parseInt(timeParts[2], 10);
+
+        var totalMinutes = (hours * 60) + minutes + Math.round(seconds / 60);
+
+        return totalMinutes;
+    }
+
+
+     $(document).ready(function () {
+         var availableTags = JSON.parse('@Html.Raw(encodedJsonAvailableTutorials)');
+         console.log(availableTags + "avai");
+     $('#tags').autocomplete({
+         source: availableTags
+     });
+ });
+            $(document).ready(function () {
+                $('#load-film').hide();
+                $('#find-film').click(function () {
+                    var movieName = $('#tags').val();
+                    var scheduleDate = $('#datetimepicker-check').val();
+                    console.log('movieName:', movieName);
+                    console.log('scheduleDate:', scheduleDate);
+
+                    //Ân hiện button
+                    $('#find-film').hide();
+                    $('#load-film').show();
+
+                    $.ajax({
+                        url: '/Home/GetMovieTimes',
+                        type: 'GET',
+                        data: { movieName: movieName, scheduleDate: scheduleDate },
+                        success: function (globalData) {
+                            console.log("global: " + globalData);
+                            $('#time-of-film').empty();
+                            // Xóa các option hiện tại trong #time-of-film
+                            if (globalData == null) {
+                                var optionText = "Không có lịch chiếu";
+                                var optionValue = optionText;
+                                $('#time-of-film').append($('<option>', {
+                                    value: optionValue,
+                                    text: optionText
+                                }));
+                            }
+                            else {
+                                $.each(globalData, function (index, item) {
+                                    console.log("Function called");
+                                    var optionText = item.time_start.Hours + ":" + item.time_start.Minutes;
+                                    var optionValue = optionText;
+                                    $('#time-of-film').append($('<option>', {
+                                        value: optionValue,
+                                        text: optionText
+                                    }));
+                                });
+                            }
+
+                            // Hiển thị #time-of-film sau khi đã thêm các option
+                            $('#time-of-film').show();
+                            $('#find-film').show();
+                            $('#load-film').hide();
+                        }
+                    });
+                });
+            });
+
+            $(document).ready(function () {
+                $(this).find('.buy-ticket-button').hide();
+                $('.content').hover(
+                    function () {
+                        $(this).find('.text-age-name, .text-time-rating').hide();
+                        $(this).find('.buy-ticket-button').show();
+                    },
+                    function () {
+                        $(this).find('.text-age-name, .text-time-rating').show();
+                        $(this).find('.buy-ticket-button').hide();
+                    }
+                );
+            });
+            $(document).ready(function () {
+    $('#go-button').click(function () {
+        var movieName = $('#tags').val();
+        var scheduleDate = $('#datetimepicker-check').val();
+        $.ajax({
+            url: '/Home/GetMovieTimes',
+            type: 'GET',
+            data: { movieName: movieName, scheduleDate: scheduleDate },
+            success: function (globalData) {
+                console.log("global: " + globalData);
+                //$('#time-of-film').empty();
+                // Xóa các option hiện tại trong #time-of-film
+                if (globalData == null) {
+                    var optionText = "Không có lịch chiếu";
+                    var optionValue = optionText;
+                    $('#time-of-film').append($('<option>', {
+                        value: optionValue,
+                        text: optionText
+                    }));
+                }
+                else {
+                    var timeOfFilm = document.getElementById("time-of-film").value;
+                    $.each(globalData, function (index, item) {
+                        console.log("Function called");
+                        if (timeOfFilm == (item.time_start.Hours + ":" + item.time_start.Minutes)) {
+                            scheduleID = item.schedule_id;
+                        }
+                    });
+                    console.log("schedule: " + scheduleID);
+                }
+                var url = '@Url.Action("SelectSeat", "Home")?scheduleId=' + scheduleID;
+                window.location.href = url;
+            }
+        });
+    });
+            });
+    $(document).ready(function () {
+                    $.ajax({
+                        url: '/Home/GetNews',
+                        type: 'GET',
+                        success: function (data) {
+                            console.log(data);
+                            $.each(data, function (index, item) {
+                                // Lấy giá trị news_img
+                                var newsImg = item.news_img;
+
+                                // Thay đổi thuộc tính src của thẻ img tương ứng
+                                $('#img' + index).attr('src', newsImg);
+                            });
+                        }
+                });
+             });
+
+        </script>

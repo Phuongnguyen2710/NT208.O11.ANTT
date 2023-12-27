@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d83e25e4d56b4fd0b3b40ad83b539a14" Name="Diagram1">
+        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.booking" Width="1.5" PointX="8.25" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.booking_detail" Width="1.5" PointX="10.5" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.comment" Width="1.5" PointX="3" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.member" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.movy" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.news" Width="1.5" PointX="3" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.ROLE" Width="1.5" PointX="1.5" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.room" Width="1.5" PointX="3.75" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.schedule" Width="1.5" PointX="6" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANLYXEMPHIMModel.seat" Width="1.5" PointX="8.25" PointY="2.375" IsExpanded="true" />
+        <AssociationConnector Association="QUANLYXEMPHIMModel.FK__booking__member___72C60C4A" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANLYXEMPHIMModel.FK__booking__schedul__73BA3083" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANLYXEMPHIMModel.FK__booking_d__booki__7F2BE32F" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANLYXEMPHIMModel.FK__booking_d__seat___00200768" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANLYXEMPHIMModel.FK__comment__member___76969D2E" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANLYXEMPHIMModel.FK__comment__movie_i__778AC167" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANLYXEMPHIMModel.FK__members__role_id__6EF57B66" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANLYXEMPHIMModel.FK__news__movie_id__797309D9" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANLYXEMPHIMModel.FK__schedule__movie___70DDC3D8" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANLYXEMPHIMModel.FK__schedule__room_i__71D1E811" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANLYXEMPHIMModel.FK__seats__room_id__6FE99F9F" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
