@@ -31,7 +31,7 @@
     }
 
     #infoScreen {
-        font-family:'UTM Avo';
+        font-family: 'UTM Avo';
         background-color: #f0f0f0;
         padding: 10px;
         margin-top: 20px;
@@ -130,7 +130,7 @@
                                 <p>Are you sure you want to confirm the booking?</p>
                             </div>
                             <div class="modal-footer">
-                                <button class="btn btn-primary"  onclick="submitForm()">Confirm</button>
+                                <button class="btn btn-primary" onclick="submitForm()">Confirm</button>
                                 <button class="btn" type="button" onclick="hideConfirmationModal()">Cancel</button>
                             </div>
                         </div>
@@ -233,7 +233,9 @@
                 function submitForm() {
                     // Submit the form
                     alert("Đặt vé thành công!");
-                    document.getElementById('seatForm').submit();
+                    //document.getElementById('seatForm').submit();
+
+                    
                 }
 
 
@@ -292,3 +294,23 @@
 
 
 </script>
+<script>
+    $(document).ready(function () {
+        const id = Session["idMember"];
+        var member;
+        //console.log(id);
+        if (id) {
+            $.ajax({
+                url: `https://apitikketland.azurewebsites.net/api/members/${id}`,
+                type: 'GET',
+                success: function () { },
+                error: function (xhr, status, error) {
+                    console.error('Lỗi khi gửi yêu cầu:', error);
+                }
+            });
+        }
+        else {
+            console.error('Không tìm thấy ID trong URL.');
+        }
+    });
+</script> 

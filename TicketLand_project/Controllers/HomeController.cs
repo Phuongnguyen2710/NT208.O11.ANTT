@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 using BotDetect.Web.Mvc;
 using Newtonsoft.Json;
 using Slugify;
+using TicketLand_project.Common;
 using TicketLand_project.Models;
 using TicketLand_project.ViewModels;
 
@@ -662,9 +663,18 @@ namespace TicketLand_project.Controllers
             // Hiển thị modal thành công và đếm ngược
             ViewBag.ShowSuccessModal = true;
 
+            var data = objModel.members.Where(s => s.member_id.Equals(memberId)).ToList();
+            var user = data.FirstOrDefault();
+
+            var content = System.IO.File.ReadAllText(Server.MapPath("~/Assets/mailTemplate/new_order.html"));
+            content = content.Replace("{{Time}}", booking.booking_date.ToString());
+            content = content.Replace("{{CustomerName}}", user.member_name);
+            content = content.Replace("{{Phone}}", user.phone);
+            content = content.Replace("{{Seats}}", string.Join(", ", selectedSeats)); 
+            content = content.Replace("{{Total}}", booking.total_price + " VNĐ");
+            new MailHelper().SendMail(user.email, "Ticket Land: Đặt vé thành công", content);
+
             return RedirectToAction("Index");
-
-
         }
 
 
@@ -724,7 +734,7 @@ namespace TicketLand_project.Controllers
             var user = data.FirstOrDefault();
             return View(user);
         }
-        
+
         public ActionResult EditProfile(int id)
         {
             var data = objModel.members.Where(s => s.member_id.Equals(id)).ToList();

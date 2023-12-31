@@ -180,6 +180,7 @@
     <Compile Include="Areas\Admin\Controllers\roomsController.cs" />
     <Compile Include="Areas\Admin\Controllers\schedulesController.cs" />
     <Compile Include="Areas\Admin\Controllers\seatsController.cs" />
+    <Compile Include="Common\MailHelper.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\moviesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -468,6 +469,7 @@
     <Content Include="Assets\js\owl.carousel.min.js" />
     <Content Include="Assets\js\popper.min.js" />
     <Content Include="Assets\js\wow.min.js" />
+    <Content Include="Assets\mailTemplate\new_order.html" />
     <Content Include="Assets\Register_css\Register.css" />
     <Content Include="Areas\Assets\css\Admin.css" />
     <Content Include="Content\bootstrap-grid.css" />
