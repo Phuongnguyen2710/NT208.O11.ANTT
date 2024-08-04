@@ -1,0 +1,9 @@
+Link drive báo cáo đồ án:
+https://drive.google.com/drive/folders/1XLf64FGFpxt3a8f1YMB1sLeCPuCwltB1?usp=drive_link
+
+
+
+Các tiêu chí chưa đánh giá:
+Phong cách lập trình : Trình bày mã, chú thích mã
+Tài liệu hướng dẫn, vận hành, kiểm thử
+Bổ sung: Gửi mail khi đặt vé             
